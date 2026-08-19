@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  background: #f7f9fc;
+  color: #191c1e;
+}
+
+* {
+  box-sizing: border-box;
+}
+

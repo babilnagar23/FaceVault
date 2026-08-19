@@ -1,0 +1,490 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Employee Directory - AttendanceAI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-variant": "#e0e3e6",
+                        "on-surface": "#191c1e",
+                        "inverse-primary": "#a0c9ff",
+                        "on-background": "#191c1e",
+                        "surface-container-highest": "#e0e3e6",
+                        "on-secondary": "#ffffff",
+                        "surface-container-low": "#f2f4f7",
+                        "tertiary-fixed": "#ffdcc4",
+                        "on-secondary-fixed-variant": "#004881",
+                        "on-error-container": "#93000a",
+                        "on-primary": "#ffffff",
+                        "primary-fixed": "#d2e4ff",
+                        "border-subtle": "#E0E5EB",
+                        "surface-tint": "#2d6197",
+                        "success": "#2E7D32",
+                        "on-primary-fixed-variant": "#07497d",
+                        "on-secondary-container": "#003663",
+                        "on-error": "#ffffff",
+                        "on-tertiary-fixed-variant": "#6f3800",
+                        "on-surface-variant": "#455A64",
+                        "secondary-fixed": "#d3e4ff",
+                        "on-tertiary": "#ffffff",
+                        "background": "#f7f9fc",
+                        "inverse-surface": "#2d3133",
+                        "inverse-on-surface": "#eff1f4",
+                        "warning": "#ED6C02",
+                        "tertiary-fixed-dim": "#ffb780",
+                        "secondary-container": "#47a1ff",
+                        "surface-container-high": "#e6e8eb",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed-dim": "#a0c9ff",
+                        "error": "#D32F2F",
+                        "on-primary-container": "#8ebdf9",
+                        "on-primary-fixed": "#001c37",
+                        "primary": "#00355f",
+                        "outline": "#727780",
+                        "surface-bright": "#f7f9fc",
+                        "tertiary": "#532800",
+                        "primary-container": "#0f4c81",
+                        "secondary-fixed-dim": "#a2c9ff",
+                        "on-tertiary-fixed": "#2f1400",
+                        "surface-dim": "#d8dadd",
+                        "surface": "#FFFFFF",
+                        "error-container": "#ffdad6",
+                        "secondary": "#0060a8",
+                        "on-secondary-fixed": "#001c38",
+                        "surface-container": "#eceef1",
+                        "on-tertiary-container": "#f9a767",
+                        "outline-variant": "#c2c7d1",
+                        "tertiary-container": "#743b00"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-sm": "8px",
+                        "gutter": "12px",
+                        "stack-lg": "24px",
+                        "baseline": "4px",
+                        "container-padding-mobile": "16px",
+                        "stack-md": "16px",
+                        "container-padding-desktop": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "title-md": ["Inter"],
+                        "display-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "label-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "title-md": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "display-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex antialiased">
+<!-- SideNavBar -->
+<nav class="h-screen w-64 flex flex-col fixed left-0 top-0 bottom-0 z-50 py-stack-md bg-surface dark:bg-inverse-surface border-r border-border-subtle dark:border-outline transition-all duration-200 ease-in-out hidden md:flex">
+<div class="px-container-padding-desktop mb-stack-lg">
+<div class="flex items-center gap-gutter">
+<div class="w-10 h-10 rounded-lg bg-primary-container text-on-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="hub">hub</span>
+</div>
+<div>
+<h1 class="font-headline-lg text-headline-lg font-bold text-primary dark:text-inverse-primary">Admin Console</h1>
+<p class="font-label-md text-label-md text-on-surface-variant">Enterprise Hub</p>
+</div>
+</div>
+</div>
+<ul class="flex-1 overflow-y-auto flex flex-col gap-baseline">
+<li class="">
+<a class="flex items-center gap-gutter px-4 py-2 mx-2 text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-all font-label-md text-label-md rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                    Dashboard
+                </a>
+</li>
+<li class="">
+<a class="flex items-center gap-gutter px-4 py-2 mx-2 bg-primary-container text-on-primary-container font-semibold rounded-lg font-label-md text-label-md transition-all" href="#">
+<span class="material-symbols-outlined fill" data-icon="badge">badge</span>
+                    Employees
+                </a>
+</li>
+<li class="">
+<a class="flex items-center gap-gutter px-4 py-2 mx-2 text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-all font-label-md text-label-md rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="event_available">event_available</span>
+                    Attendance
+                </a>
+</li>
+<li class="">
+<a class="flex items-center gap-gutter px-4 py-2 mx-2 text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-all font-label-md text-label-md rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="account_tree">account_tree</span>
+                    Projects
+                </a>
+</li>
+<li class="">
+<a class="flex items-center gap-gutter px-4 py-2 mx-2 text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-all font-label-md text-label-md rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="location_on">location_on</span>
+                    GeoFence
+                </a>
+</li>
+<li class="">
+<a class="flex items-center gap-gutter px-4 py-2 mx-2 text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-all font-label-md text-label-md rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+                    Community
+                </a>
+</li>
+<li class="">
+<a class="flex items-center gap-gutter px-4 py-2 mx-2 text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-all font-label-md text-label-md rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="verified_user">verified_user</span>
+                    Verification Queue
+                </a>
+</li>
+<li class="">
+<a class="flex items-center gap-gutter px-4 py-2 mx-2 text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-all font-label-md text-label-md rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="assessment">assessment</span>
+                    Reports
+                </a>
+</li>
+<li class="">
+<a class="flex items-center gap-gutter px-4 py-2 mx-2 text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-all font-label-md text-label-md rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="help_center">help_center</span>
+                    Help Requests
+                </a>
+</li>
+<li class="">
+<a class="flex items-center gap-gutter px-4 py-2 mx-2 text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-all font-label-md text-label-md rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+                    Settings
+                </a>
+</li>
+</ul>
+<div class="px-container-padding-desktop mt-auto pt-stack-md">
+<button class="w-full py-2 px-4 border border-outline text-primary font-label-md text-label-md rounded-lg hover:bg-surface-container-low transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]" data-icon="download">download</span>
+                Download Reports
+            </button>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 md:ml-64 flex flex-col min-w-0">
+<!-- TopNavBar -->
+<header class="w-full h-16 sticky top-0 right-0 z-40 flex items-center justify-between px-container-padding-desktop bg-surface dark:bg-inverse-surface border-b border-border-subtle dark:border-outline shadow-sm">
+<div class="flex items-center gap-4">
+<button class="md:hidden text-on-surface-variant hover:bg-surface-container-low p-2 rounded-full cursor-pointer active:scale-95 duration-200 transition-colors">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<div class="font-title-md text-title-md text-primary dark:text-inverse-primary hidden md:block"><h1 class="font-headline-lg text-headline-lg font-bold text-primary dark:text-inverse-primary cursor-text" spellcheck="false" data-stitch-added-classes="cursor-text" style="--tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / 0.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; --tw-contain-size: ; --tw-contain-layout: ; --tw-contain-paint: ; --tw-contain-style: ; --tw-text-opacity: 1; color: rgb(0, 53, 95); outline: none !important; box-shadow: none !important;">FaceVault</h1></div>
+</div>
+<div class="flex items-center gap-gutter">
+<button class="text-on-surface-variant hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-colors p-2 rounded-full cursor-pointer active:scale-95 duration-200">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-colors p-2 rounded-full cursor-pointer active:scale-95 duration-200">
+<span class="material-symbols-outlined" data-icon="sync">sync</span>
+</button>
+<button class="text-on-surface-variant hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-colors p-2 rounded-full cursor-pointer active:scale-95 duration-200">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-surface-variant overflow-hidden ml-2 border border-border-subtle">
+<img alt="Admin Profile Avatar" class="w-full h-full object-cover" data-alt="A professional headshot of an administrative user in a corporate setting. Clean lighting, modern office background slightly blurred. The user projects confidence and approachability, aligning with a high-stakes enterprise environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCs4hCajrw7LrDPoloLpT0tFOaVUCacJz-4zsz1SHuOQry6cKNlfDB2KdsYFYrfcJXuEoXFcwux_Wr_6RiX_IRMsZaeFvNO44td9ceUYlE0SUo98HkP8dV5RfNKGZQUm6J0d8am4-4ijcgJHPg00Js9xECYFDPRcCIfN_RgHCGW71n1KkTxqXLKB82eYvo7pSm06FDS9L1JzFWAdspd0YmsBygt_mLDk6Qx8XEnaDi6A1mKbZqZs5fd">
+</div>
+</div>
+</header>
+<!-- Page Content -->
+<div class="p-container-padding-mobile md:p-container-padding-desktop flex-1 overflow-y-auto">
+<!-- Breadcrumbs -->
+<nav aria-label="Breadcrumb" class="flex text-on-surface-variant font-body-md text-body-md mb-stack-md">
+<ol class="inline-flex items-center space-x-1 md:space-x-2">
+<li class="inline-flex items-center">
+<a class="inline-flex items-center hover:text-primary transition-colors" href="#">
+                            Home
+                        </a>
+</li>
+<li class="">
+<div class="flex items-center">
+<span class="material-symbols-outlined text-[16px] mx-1" data-icon="chevron_right">chevron_right</span>
+<a class="hover:text-primary transition-colors ml-1 md:ml-2" href="#">Workforce</a>
+</div>
+</li>
+<li aria-current="page" class="">
+<div class="flex items-center">
+<span class="material-symbols-outlined text-[16px] mx-1" data-icon="chevron_right">chevron_right</span>
+<span class="text-on-surface font-medium ml-1 md:ml-2">Employees</span>
+</div>
+</li>
+</ol>
+</nav>
+<!-- Header & Actions -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-stack-md mb-stack-lg">
+<div>
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface">Employee Directory</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Manage and view workforce details across all locations.</p>
+</div>
+<div class="flex items-center gap-gutter">
+<div class="relative">
+<button class="flex items-center gap-2 px-4 py-2 border border-border-subtle rounded-lg bg-surface text-on-surface font-label-md text-label-md hover:bg-surface-container-low transition-colors">
+                            Bulk Actions
+                            <span class="material-symbols-outlined text-[18px]" data-icon="arrow_drop_down">arrow_drop_down</span>
+</button>
+</div>
+<button class="flex items-center gap-2 px-4 py-2 bg-primary-container text-on-primary font-label-md text-label-md rounded-lg hover:bg-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]" data-icon="add">add</span>
+                        Add Employee
+                    </button>
+</div>
+</div>
+<!-- Filters Area -->
+<div class="bg-surface rounded-xl border border-border-subtle p-stack-md mb-stack-lg shadow-sm">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter">
+<!-- Search -->
+<div class="relative">
+<div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]" data-icon="search">search</span>
+</div>
+<input class="bg-surface border border-outline text-on-surface font-body-md text-body-md rounded-lg focus:ring-secondary focus:border-secondary block w-full pl-10 p-2.5 transition-colors" placeholder="Search employees..." type="text">
+</div>
+<!-- Department Filter -->
+<div class="relative">
+<select class="bg-surface border border-outline text-on-surface font-body-md text-body-md rounded-lg focus:ring-secondary focus:border-secondary block w-full p-2.5 appearance-none cursor-pointer">
+<option value="">All Departments</option>
+<option value="engineering">Engineering</option>
+<option value="hr">HR</option>
+<option value="finance">Finance</option>
+</select>
+<div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]" data-icon="arrow_drop_down">arrow_drop_down</span>
+</div>
+</div>
+<!-- Role Filter -->
+<div class="relative">
+<select class="bg-surface border border-outline text-on-surface font-body-md text-body-md rounded-lg focus:ring-secondary focus:border-secondary block w-full p-2.5 appearance-none cursor-pointer">
+<option value="">All Roles</option>
+<option value="lead">Lead</option>
+<option value="manager">Manager</option>
+<option value="analyst">Analyst</option>
+</select>
+<div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]" data-icon="arrow_drop_down">arrow_drop_down</span>
+</div>
+</div>
+<!-- Face Status Filter -->
+<div class="relative">
+<select class="bg-surface border border-outline text-on-surface font-body-md text-body-md rounded-lg focus:ring-secondary focus:border-secondary block w-full p-2.5 appearance-none cursor-pointer">
+<option value="">Face Status</option>
+<option value="enrolled">Enrolled</option>
+<option value="pending">Pending</option>
+<option value="failed">Failed</option>
+</select>
+<div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]" data-icon="arrow_drop_down">arrow_drop_down</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Directory Table -->
+<div class="bg-surface rounded-xl border border-border-subtle shadow-sm overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface-container-low text-on-surface-variant font-label-md text-label-md uppercase border-b border-border-subtle">
+<tr>
+<th class="px-6 py-4" scope="col">ID</th>
+<th class="px-6 py-4" scope="col">Employee</th>
+<th class="px-6 py-4" scope="col">Department &amp; Role</th>
+<th class="px-6 py-4" scope="col">Location</th>
+<th class="px-6 py-4" scope="col">Face Status</th>
+<th class="px-6 py-4" scope="col">Attendance %</th>
+<th class="px-6 py-4" scope="col">Status</th>
+<th class="px-6 py-4 text-right" scope="col">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-subtle">
+<!-- Employee 1 -->
+<tr class="hover:bg-surface-container-lowest transition-colors group">
+<td class="px-6 py-4 font-body-md text-body-md text-on-surface-variant">
+                                    EMP-0842
+                                </td>
+<td class="px-6 py-4 flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-variant overflow-hidden border border-border-subtle flex-shrink-0">
+<img alt="Aarav Sharma Photo" class="w-full h-full object-cover" data-alt="A professional headshot of Aarav Sharma, a male engineering lead in his 30s. He is wearing smart-casual attire. The background is a clean, modern office environment. The lighting is bright and clear, conveying a corporate aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAx9jrRyb80gyUrzZrsJKYMxQBOuoGc61F-PTtLOaG0atD9WUYQctLV9LdsrAGFEJSa9IctBxxA1YFfeDU_Bwm_qqYkXW6hi7o4Ounzrl0GceHN4ltnIG7GiM9IjuWATaE3EOZvdN9iFVeWvDcpk2tW7d_kEd-wWxkdhvo7nBuxkrVPE-wngBEPVX3tJ9OcPHY857K5TrUlCIU0c4LXUYiUyUwBRSITmHGY1AKEFqV560BuGfQ1bZ_Y">
+</div>
+<div>
+<div class="font-body-md text-body-md font-medium text-on-surface">Aarav Sharma</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant mt-0.5">aarav.s@attendanceai.com</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="font-body-md text-body-md text-on-surface">Engineering</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant mt-0.5">Senior Developer</div>
+</td>
+<td class="px-6 py-4 font-body-md text-body-md text-on-surface">
+                                    Bangalore HQ
+                                </td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-success/10 text-success font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]" data-icon="check_circle">check_circle</span>
+                                        Enrolled
+                                    </span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="w-full bg-surface-variant rounded-full h-1.5 max-w-[60px]">
+<div class="bg-success h-1.5 rounded-full" style="width: 98%"></div>
+</div>
+<span class="font-body-md text-body-md text-on-surface">98%</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2 py-1 rounded-full bg-surface-variant text-on-surface-variant font-label-sm text-label-sm">
+                                        Active
+                                    </span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-on-surface-variant hover:text-primary transition-colors p-1 rounded hover:bg-surface-container-low opacity-0 group-hover:opacity-100 focus:opacity-100">
+<span class="material-symbols-outlined text-[20px]" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Employee 2 -->
+<tr class="hover:bg-surface-container-lowest transition-colors group">
+<td class="px-6 py-4 font-body-md text-body-md text-on-surface-variant">
+                                    EMP-0911
+                                </td>
+<td class="px-6 py-4 flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-variant overflow-hidden border border-border-subtle flex-shrink-0">
+<img alt="Riya Patel Photo" class="w-full h-full object-cover" data-alt="A professional headshot of Riya Patel, a female HR manager in her late 20s. She is dressed in corporate business attire. The setting is a bright, minimalist office space with soft daylight. The image feels reliable and modern." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAvT6gsaOY_dc5s9js4XuEHw6yY3rttDgk-QQeGdHI06cQBxX9IGgfgG93wu9T4-VZWnKQFru9wWmA5jb23I7y7uHojqPbUYOFOBEh27nUOTmdbqHAqgxN4tS9U6KjsUqcMl6YolzI8kjHOCAYcWud2ZV88RcAZ9mdb1WbOHXNtAnZsL6i3sec3P8qr8SUL5ATd4cuJPlUiHoY9rf3oMEwLDL9dkRk-lE0ts7dyzLEB0lhtMe1jrZB_">
+</div>
+<div>
+<div class="font-body-md text-body-md font-medium text-on-surface">Riya Patel</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant mt-0.5">riya.p@attendanceai.com</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="font-body-md text-body-md text-on-surface">HR</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant mt-0.5">Talent Manager</div>
+</td>
+<td class="px-6 py-4 font-body-md text-body-md text-on-surface">
+                                    Mumbai Branch
+                                </td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-success/10 text-success font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]" data-icon="check_circle">check_circle</span>
+                                        Enrolled
+                                    </span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="w-full bg-surface-variant rounded-full h-1.5 max-w-[60px]">
+<div class="bg-success h-1.5 rounded-full" style="width: 100%"></div>
+</div>
+<span class="font-body-md text-body-md text-on-surface">100%</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2 py-1 rounded-full bg-surface-variant text-on-surface-variant font-label-sm text-label-sm">
+                                        Active
+                                    </span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-on-surface-variant hover:text-primary transition-colors p-1 rounded hover:bg-surface-container-low opacity-0 group-hover:opacity-100 focus:opacity-100">
+<span class="material-symbols-outlined text-[20px]" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Employee 3 -->
+<tr class="hover:bg-surface-container-lowest transition-colors group">
+<td class="px-6 py-4 font-body-md text-body-md text-on-surface-variant">
+                                    EMP-1055
+                                </td>
+<td class="px-6 py-4 flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-variant overflow-hidden border border-border-subtle flex-shrink-0">
+<img alt="Arjun Mehta Photo" class="w-full h-full object-cover" data-alt="A professional headshot of Arjun Mehta, a male finance analyst in his 40s. He is wearing a suit and tie. The background is slightly blurred but suggests a high-end corporate building. The portrait is crisp, clear, and formal." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAve6RKKOSeqfgv6h_PccycNz1qluu038ktFNdWYC3Z1v363i-gTRNzE3tr0LNQinXeNY4xpueZsauHE5T4NXLQtLLKD8Alpm_9LrvCqlIe_qQ0xJQ1GC2lBYTRX10Yq6Tht1-kqnv_PL6qnS2nW_EG_6kcXtGv1AwZx2kJkWwx_m6tTTrCBhiVPC81qXT779iOYYGHFMqK3_m_5ZlGgsLiLo85RbV6jRVRZdYPYTQY3F7rCVDCB1JC">
+</div>
+<div>
+<div class="font-body-md text-body-md font-medium text-on-surface">Arjun Mehta</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant mt-0.5">arjun.m@attendanceai.com</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="font-body-md text-body-md text-on-surface">Finance</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant mt-0.5">Financial Analyst</div>
+</td>
+<td class="px-6 py-4 font-body-md text-body-md text-on-surface">
+                                    Delhi Hub
+                                </td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-warning/10 text-warning font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]" data-icon="pending">pending</span>
+                                        Pending
+                                    </span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="w-full bg-surface-variant rounded-full h-1.5 max-w-[60px]">
+<div class="bg-warning h-1.5 rounded-full" style="width: 85%"></div>
+</div>
+<span class="font-body-md text-body-md text-on-surface">85%</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2 py-1 rounded-full bg-surface-variant text-on-surface-variant font-label-sm text-label-sm">
+                                        On Leave
+                                    </span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-on-surface-variant hover:text-primary transition-colors p-1 rounded hover:bg-surface-container-low opacity-0 group-hover:opacity-100 focus:opacity-100">
+<span class="material-symbols-outlined text-[20px]" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination Footer -->
+<div class="px-6 py-4 border-t border-border-subtle bg-surface flex items-center justify-between">
+<div class="font-body-md text-body-md text-on-surface-variant">
+                        Showing <span class="font-medium text-on-surface">1</span> to <span class="font-medium text-on-surface">3</span> of <span class="font-medium text-on-surface">142</span> employees
+                    </div>
+<div class="flex items-center gap-2">
+<button class="p-2 border border-outline rounded-md text-on-surface-variant hover:bg-surface-container-low disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+<span class="material-symbols-outlined text-[18px]" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="p-2 border border-outline rounded-md text-on-surface-variant hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-[18px]" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+
+
+</body></html>

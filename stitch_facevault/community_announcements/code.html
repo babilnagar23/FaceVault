@@ -1,0 +1,420 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Community Hub - WorkforceAI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "primary-container": "#0f4c81",
+                      "outline": "#727780",
+                      "on-primary-container": "#8ebdf9",
+                      "error": "#D32F2F",
+                      "on-surface-variant": "#42474f",
+                      "on-tertiary": "#ffffff",
+                      "success": "#2E7D32",
+                      "warning": "#ED6C02",
+                      "on-primary-fixed": "#001c37",
+                      "on-error": "#ffffff",
+                      "tertiary-fixed-dim": "#ffb780",
+                      "on-tertiary-fixed": "#2f1400",
+                      "on-primary": "#ffffff",
+                      "surface-container": "#eceef1",
+                      "on-secondary": "#ffffff",
+                      "on-error-container": "#93000a",
+                      "on-secondary-fixed": "#001c38",
+                      "on-surface": "#191c1e",
+                      "secondary-container": "#47a1ff",
+                      "on-tertiary-container": "#f9a767",
+                      "secondary-fixed-dim": "#a2c9ff",
+                      "on-tertiary-fixed-variant": "#6f3800",
+                      "error-container": "#ffdad6",
+                      "on-secondary-fixed-variant": "#004881",
+                      "on-primary-fixed-variant": "#07497d",
+                      "primary-fixed-dim": "#a0c9ff",
+                      "surface-container-low": "#f2f4f7",
+                      "border-subtle": "#E0E5EB",
+                      "surface-bright": "#f7f9fc",
+                      "inverse-primary": "#a0c9ff",
+                      "outline-variant": "#c2c7d1",
+                      "surface-container-lowest": "#ffffff",
+                      "surface": "#FFFFFF",
+                      "tertiary-container": "#743b00",
+                      "primary": "#00355f",
+                      "secondary-fixed": "#d3e4ff",
+                      "on-background": "#191c1e",
+                      "inverse-on-surface": "#eff1f4",
+                      "background": "#f7f9fc",
+                      "on-secondary-container": "#003663",
+                      "tertiary-fixed": "#ffdcc4",
+                      "surface-tint": "#2d6197",
+                      "surface-container-highest": "#e0e3e6",
+                      "surface-dim": "#d8dadd",
+                      "tertiary": "#532800",
+                      "primary-fixed": "#d2e4ff",
+                      "surface-variant": "#e0e3e6",
+                      "surface-container-high": "#e6e8eb",
+                      "inverse-surface": "#2d3133",
+                      "secondary": "#0060a8"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "gutter": "12px",
+                      "container-padding-mobile": "16px",
+                      "stack-sm": "8px",
+                      "stack-md": "16px",
+                      "stack-lg": "24px",
+                      "container-padding-desktop": "24px",
+                      "baseline": "4px"
+              },
+              "fontFamily": {
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "display-lg": [
+                              "Inter"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "label-md": [
+                              "Inter"
+                      ],
+                      "headline-lg-mobile": [
+                              "Inter"
+                      ],
+                      "title-md": [
+                              "Inter"
+                      ],
+                      "headline-lg": [
+                              "Inter"
+                      ],
+                      "label-sm": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "body-lg": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "display-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-md": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "20px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "title-md": [
+                              "18px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-sm": [
+                              "11px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.02em",
+                                      "fontWeight": "500"
+                              }
+                      ]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        body {
+            background-color: #F5F7FA;
+        }
+        /* Custom scrollbar for webkit */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #c2c7d1;
+            border-radius: 10px;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen pb-24 md:pb-0 pt-16 font-body-md">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface dark:bg-surface-dim border-b border-border-subtle dark:border-outline-variant shadow-sm flex justify-between items-center px-container-padding-mobile md:px-container-padding-desktop h-16 transition-colors duration-150 ease-in-out">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary text-2xl font-bold cursor-pointer hidden md:block">menu</span>
+<div class="font-display-lg text-display-lg text-primary-container dark:text-on-primary-container font-extrabold tracking-tight">FaceVault</div>
+</div>
+<!-- Desktop Navigation (Hidden on Mobile) -->
+<nav class="hidden md:flex items-center gap-8 h-full">
+<a class="h-full flex items-center text-on-surface-variant dark:text-outline hover:text-primary transition-colors font-body-md font-semibold" href="#">Home</a>
+<a class="h-full flex items-center text-on-surface-variant dark:text-outline hover:text-primary transition-colors font-body-md font-semibold" href="#">Attendance</a>
+<a class="h-full flex items-center text-primary dark:text-on-primary-container border-b-2 border-primary font-body-md font-semibold" href="#">Community</a>
+<a class="h-full flex items-center text-on-surface-variant dark:text-outline hover:text-primary transition-colors font-body-md font-semibold" href="#">Alerts</a>
+</nav>
+<div class="flex items-center gap-4">
+<div class="relative hidden md:block">
+<input class="pl-10 pr-4 py-2 bg-surface-container-low border border-border-subtle rounded-full text-body-md focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary w-64 transition-all" placeholder="Search community..." type="text">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline-variant text-sm">search</span>
+</div>
+<button class="w-10 h-10 rounded-full overflow-hidden border border-border-subtle hover:bg-surface-container-low transition-colors active:scale-95 duration-150 ease-in-out flex items-center justify-center">
+<img class="w-full h-full object-cover" data-alt="A professional corporate headshot of a smiling employee with short dark hair, wearing a navy blue blazer over a crisp white shirt, against a clean light grey studio background. The lighting is soft and flattering, suitable for a modern enterprise software profile picture." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4kesd1vb8jsWNZK2iE834AAySUYeXM5ppwlTM3_TFmCw0CEjT3JzHzjxE0zr7EdQMVWm4ffQDJI4IshdCeLIhQi1yZb2sXX0crbQcNayKIe9TviyHWCqXsDb0ldV2BqgZCGgmG4eCJ3kCUtJh7eTYC9X68ANX1cq62tRUvmIlAXEtcoSAVomhniqGKNyOla6bdoqMVSc7XlNmH1OdTAFgtLPRCvCLtSmi6RxYOfIRoCaWfITl7WuQ">
+</button>
+<button class="hidden md:flex text-on-surface-variant hover:text-primary active:scale-95 transition-all">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="max-w-7xl mx-auto px-container-padding-mobile md:px-container-padding-desktop py-stack-lg grid grid-cols-1 md:grid-cols-12 gap-stack-lg mt-4">
+<!-- Left Sidebar / Search (Mobile) -->
+<aside class="col-span-1 md:col-span-3 lg:col-span-3 flex flex-col gap-stack-md">
+<!-- Mobile Search -->
+<div class="relative md:hidden mb-stack-sm">
+<input class="w-full pl-10 pr-4 py-3 bg-surface border border-border-subtle rounded-lg text-body-lg focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary shadow-sm" placeholder="Search community..." type="text">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline-variant">search</span>
+</div>
+<!-- Contextual Navigation / Filters -->
+<div class="bg-surface rounded-xl border border-border-subtle shadow-sm p-4 hidden md:block">
+<h3 class="font-title-md text-title-md text-on-surface mb-4">Feed Filters</h3>
+<nav class="flex flex-col gap-2">
+<button class="flex items-center justify-between w-full p-2 bg-surface-container-low rounded-lg text-primary font-medium text-body-md">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">home</span>
+                            All Updates
+                        </div>
+<span class="bg-primary-container text-on-primary-container text-xs px-2 py-0.5 rounded-full">12</span>
+</button>
+<button class="flex items-center justify-between w-full p-2 hover:bg-surface-container-low rounded-lg text-on-surface-variant font-medium text-body-md transition-colors">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">warning</span>
+                            Urgent Alerts
+                        </div>
+<span class="bg-error text-on-error text-xs px-2 py-0.5 rounded-full">1</span>
+</button>
+<button class="flex items-center justify-between w-full p-2 hover:bg-surface-container-low rounded-lg text-on-surface-variant font-medium text-body-md transition-colors">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">campaign</span>
+                            Announcements
+                        </div>
+</button>
+<button class="flex items-center justify-between w-full p-2 hover:bg-surface-container-low rounded-lg text-on-surface-variant font-medium text-body-md transition-colors">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">event</span>
+                            Events
+                        </div>
+</button>
+</nav>
+</div>
+<!-- Key Contacts Mini Widget -->
+<div class="bg-surface rounded-xl border border-border-subtle shadow-sm p-4 hidden md:block">
+<h3 class="font-title-md text-title-md text-on-surface mb-3">Key Contacts</h3>
+<div class="flex flex-col gap-3">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container font-bold text-xs">HR</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface">HR Support Desk</p>
+<p class="font-label-sm text-label-sm text-outline">Available</p>
+</div>
+</div>
+</div>
+</div>
+</aside>
+<!-- Feed Column -->
+<section class="col-span-1 md:col-span-9 lg:col-span-9 flex flex-col gap-stack-lg">
+<!-- Section Header -->
+<div class="flex justify-between items-end border-b border-border-subtle pb-2">
+<div>
+<h1 class="font-display-lg text-display-lg text-on-surface">Company Feed</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Important updates, news, and policies.</p>
+</div>
+</div>
+<!-- Pinned Emergency Alert (High Visibility) -->
+<article class="bg-error-container border border-error/30 rounded-xl p-4 md:p-6 shadow-sm relative overflow-hidden flex flex-col md:flex-row gap-4 items-start">
+<div class="absolute top-0 left-0 w-1 h-full bg-error"></div>
+<div class="flex-shrink-0 bg-error text-on-error w-10 h-10 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" data-weight="fill">warning</span>
+</div>
+<div class="flex-grow">
+<div class="flex items-center gap-2 mb-1">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-error font-bold">Action Required</span>
+<span class="w-1 h-1 bg-error rounded-full"></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Today, 08:00 AM</span>
+</div>
+<h2 class="font-title-md text-title-md text-on-surface mb-2">Severe Weather Warning: Facility Operations</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4">Due to impending severe weather conditions, the North Wing facility will be closing at 2:00 PM today. All non-essential staff are required to work remotely for the remainder of the day. Please secure your workstations.</p>
+<div class="flex gap-3">
+<button class="bg-error text-on-error hover:bg-error/90 font-label-md text-label-md px-4 py-2 rounded flex items-center gap-2 transition-colors">
+<span class="material-symbols-outlined text-sm">check_circle</span>
+                            Acknowledge Alert
+                        </button>
+</div>
+</div>
+</article>
+<!-- Pinned Announcement (High Visibility) -->
+<article class="bg-surface-bright border border-secondary/30 rounded-xl p-4 md:p-6 shadow-sm relative overflow-hidden flex flex-col md:flex-row gap-4 items-start">
+<div class="absolute top-0 left-0 w-1 h-full bg-secondary"></div>
+<div class="flex-shrink-0 bg-secondary-container text-on-secondary-container w-10 h-10 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" data-weight="fill">push_pin</span>
+</div>
+<div class="flex-grow">
+<div class="flex items-center gap-2 mb-1">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-bold">Pinned Announcement</span>
+<span class="w-1 h-1 bg-secondary rounded-full"></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Yesterday, 10:30 AM</span>
+</div>
+<h2 class="font-title-md text-title-md text-on-surface mb-2">Q3 Compliance Training Deadline Approaching</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4">A reminder that all mandatory Q3 compliance modules must be completed by Friday. Failure to complete these modules will result in system access restrictions starting next Monday.</p>
+<div class="bg-surface border border-border-subtle rounded-lg p-3 flex items-center justify-between mb-4 max-w-md">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 bg-error/10 text-error rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">picture_as_pdf</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Q3_Training_Guide.pdf</p>
+<p class="font-label-sm text-label-sm text-outline">1.2 MB</p>
+</div>
+</div>
+<button class="text-secondary hover:text-primary p-2">
+<span class="material-symbols-outlined text-sm">download</span>
+</button>
+</div>
+<div class="flex gap-3">
+<button class="bg-primary text-on-primary hover:bg-primary/90 font-label-md text-label-md px-4 py-2 rounded flex items-center gap-2 transition-colors">
+<span class="material-symbols-outlined text-sm">done_all</span>
+                            Mark as Read
+                        </button>
+</div>
+</div>
+</article>
+<!-- Standard News Feed Card 1 -->
+<article class="bg-surface border border-border-subtle rounded-xl shadow-[0px_2px_8px_rgba(15,76,129,0.08)] overflow-hidden">
+<div class="p-4 md:p-6 pb-4">
+<div class="flex items-center gap-3 mb-4">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-surface-container-high">
+<img class="w-full h-full object-cover" data-alt="A smiling corporate executive, a middle-aged woman with glasses, standing in a bright modern office hallway. Soft natural light." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOBZtEj2PYld9Zjm9_zpDL707TAwJeGdWmlQjYCdMPv7mW_59YRDzHJfp006ASk_KD1RUJnCM9HfBUOyCAT-qAnNG2nWdJ3g9ZQXBb6UUd_prZNQkx6tptdGT5euVrKdKSaiLIsV_sBz-b1KV97lAl0fXelLmpGEX4GL8Mcc2s_TrML5JqrPEB0HidRvATSmUDmZHqP_RkCM-jZC2dFAia4k0GxC-DBDY2Jv3aUeyv6LPKH06OKTLY">
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Sarah Jenkins</p>
+<p class="font-label-sm text-label-sm text-outline">VP Operations • 2 hours ago</p>
+</div>
+</div>
+<h2 class="font-title-md text-title-md text-on-surface mb-2">New Office Layout Finalized</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4">We are excited to share the final floor plans for the upcoming Level 4 renovation. The new layout emphasizes collaborative spaces while maintaining quiet zones for focused work.</p>
+</div>
+<div class="w-full h-64 bg-surface-container-high border-y border-border-subtle">
+<img class="w-full h-full object-cover" data-alt="An architectural 3D rendering of a modern, open-plan corporate office space. It features ergonomic desks, glass-walled meeting rooms, and a central lounge area with indoor plants. Bright, professional lighting, clean minimal aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBkU-Exwq0nw4BRYUSXXrQUIdLNx8fsHtXYvkxYf9VZJ7PgEMWeVDKncyLbx9Mf_0am_7a0yRXDoOOAsM1ls9Nt8wEfz_YlQ715yZ0TEiqicJd_0xjLRycUdXLzEJ0PK3zlH1cdCnMSySSStfFw0zolPlb2fWTGFTYdya7nYVpFnaq9wOc5Cmh7zPWywi_IoCpzwf8jKzQE_8TGEfXs67RqomDjEBWf9GSP2g8CiVi6jUN5B_Vfd9tc">
+</div>
+<div class="p-4 bg-surface-bright flex justify-between items-center">
+<div class="flex items-center gap-4 text-on-surface-variant">
+<span class="flex items-center gap-1 font-label-sm text-label-sm"><span class="material-symbols-outlined text-sm">visibility</span> 245 Views</span>
+</div>
+<button class="border border-border-subtle text-primary hover:bg-surface-container-low font-label-md text-label-md px-4 py-2 rounded flex items-center gap-2 transition-colors">
+<span class="material-symbols-outlined text-sm">check</span>
+                        Acknowledge
+                    </button>
+</div>
+</article>
+<!-- Standard News Feed Card 2 (No Image) -->
+<article class="bg-surface border border-border-subtle rounded-xl shadow-[0px_2px_8px_rgba(15,76,129,0.08)] overflow-hidden p-4 md:p-6">
+<div class="flex items-center gap-3 mb-4">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-primary-container text-on-primary-container flex items-center justify-center font-bold">
+                        IT
+                    </div>
+<div>
+<p class="font-label-md text-label-md text-on-surface">IT Services</p>
+<p class="font-label-sm text-label-sm text-outline">System Update • 5 hours ago</p>
+</div>
+</div>
+<h2 class="font-title-md text-title-md text-on-surface mb-2">Scheduled Maintenance: Payroll System</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4">The core HR and payroll systems will undergo routine maintenance this Saturday from 02:00 AM to 06:00 AM EST. During this window, access to the portal will be temporarily unavailable.</p>
+<div class="flex justify-end pt-4 border-t border-border-subtle mt-4">
+<button class="bg-primary text-on-primary hover:bg-primary/90 font-label-md text-label-md px-4 py-2 rounded flex items-center gap-2 transition-colors">
+<span class="material-symbols-outlined text-sm">done</span>
+                        Mark as Read
+                    </button>
+</div>
+</article>
+</section>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 flex justify-around items-center h-20 px-gutter bg-surface dark:bg-surface-container-lowest border-t border-border-subtle shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline hover:text-primary dark:hover:text-primary-fixed w-16" href="#">
+<span class="material-symbols-outlined mb-1">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline hover:text-primary dark:hover:text-primary-fixed w-16" href="#">
+<span class="material-symbols-outlined mb-1">fingerprint</span>
+<span class="font-label-sm text-label-sm">Attendance</span>
+</a>
+<!-- Active Tab -->
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container dark:bg-secondary-container dark:text-on-secondary-container rounded-xl px-4 py-2 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined mb-1" data-weight="fill">groups</span>
+<span class="font-label-sm text-label-sm font-bold">Community</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline hover:text-primary dark:hover:text-primary-fixed w-16" href="#">
+<span class="material-symbols-outlined mb-1">notifications</span>
+<span class="font-label-sm text-label-sm">Alerts</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline hover:text-primary dark:hover:text-primary-fixed w-16" href="#">
+<span class="material-symbols-outlined mb-1">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</a>
+</nav>
+
+
+</body></html>

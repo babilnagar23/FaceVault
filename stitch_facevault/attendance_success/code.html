@@ -1,0 +1,223 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>WorkforceAI - Attendance Success</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                            "primary-container": "#0f4c81",
+                            "outline": "#727780",
+                            "on-primary-container": "#8ebdf9",
+                            "error": "#D32F2F",
+                            "on-surface-variant": "#42474f",
+                            "on-tertiary": "#ffffff",
+                            "success": "#2E7D32",
+                            "warning": "#ED6C02",
+                            "on-primary-fixed": "#001c37",
+                            "on-error": "#ffffff",
+                            "tertiary-fixed-dim": "#ffb780",
+                            "on-tertiary-fixed": "#2f1400",
+                            "on-primary": "#ffffff",
+                            "surface-container": "#eceef1",
+                            "on-secondary": "#ffffff",
+                            "on-error-container": "#93000a",
+                            "on-secondary-fixed": "#001c38",
+                            "on-surface": "#191c1e",
+                            "secondary-container": "#47a1ff",
+                            "on-tertiary-container": "#f9a767",
+                            "secondary-fixed-dim": "#a2c9ff",
+                            "on-tertiary-fixed-variant": "#6f3800",
+                            "error-container": "#ffdad6",
+                            "on-secondary-fixed-variant": "#004881",
+                            "on-primary-fixed-variant": "#07497d",
+                            "primary-fixed-dim": "#a0c9ff",
+                            "surface-container-low": "#f2f4f7",
+                            "border-subtle": "#E0E5EB",
+                            "surface-bright": "#f7f9fc",
+                            "inverse-primary": "#a0c9ff",
+                            "outline-variant": "#c2c7d1",
+                            "surface-container-lowest": "#ffffff",
+                            "surface": "#FFFFFF",
+                            "tertiary-container": "#743b00",
+                            "primary": "#00355f",
+                            "secondary-fixed": "#d3e4ff",
+                            "on-background": "#191c1e",
+                            "inverse-on-surface": "#eff1f4",
+                            "background": "#f7f9fc",
+                            "on-secondary-container": "#003663",
+                            "tertiary-fixed": "#ffdcc4",
+                            "surface-tint": "#2d6197",
+                            "surface-container-highest": "#e0e3e6",
+                            "surface-dim": "#d8dadd",
+                            "tertiary": "#532800",
+                            "primary-fixed": "#d2e4ff",
+                            "surface-variant": "#e0e3e6",
+                            "surface-container-high": "#e6e8eb",
+                            "inverse-surface": "#2d3133",
+                            "secondary": "#0060a8"
+                    },
+                    "borderRadius": {
+                            "DEFAULT": "0.25rem",
+                            "lg": "0.5rem",
+                            "xl": "0.75rem",
+                            "full": "9999px"
+                    },
+                    "spacing": {
+                            "gutter": "12px",
+                            "container-padding-mobile": "16px",
+                            "stack-sm": "8px",
+                            "stack-md": "16px",
+                            "stack-lg": "24px",
+                            "container-padding-desktop": "24px",
+                            "baseline": "4px"
+                    },
+                    "fontFamily": {
+                            "body-lg": ["Inter"],
+                            "display-lg": ["Inter"],
+                            "body-md": ["Inter"],
+                            "label-md": ["Inter"],
+                            "headline-lg-mobile": ["Inter"],
+                            "title-md": ["Inter"],
+                            "headline-lg": ["Inter"],
+                            "label-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                            "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                            "display-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                            "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                            "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                            "headline-lg-mobile": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                            "title-md": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                            "headline-lg": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                            "label-sm": ["11px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #F5F7FA; /* Level 0 (Background) */
+            font-family: 'Inter', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .filled-icon {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        /* Subtle elevation for cards */
+        .elevation-1 {
+            box-shadow: 0px 2px 8px rgba(15, 76, 129, 0.08);
+        }
+        .elevation-2 {
+            box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.12);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface h-screen flex flex-col antialiased">
+<!-- Header (Suppressed due to linear/transactional intent, but keeping a minimal back/close header for context if needed, though instructions say to hide shell if task-focused. "Success/Confirmation" splash screens usually hide main nav. We will keep a very minimal top bar just for structure). -->
+<header class="w-full h-16 flex items-center justify-between px-container-padding-mobile md:px-container-padding-desktop bg-surface border-b border-border-subtle shadow-sm flex-shrink-0">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer active:scale-95 transition-transform">close</span>
+</div>
+<span class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-primary font-semibold">FaceVault</span>
+<div class="w-6"></div> <!-- Spacer for balance -->
+</header>
+<!-- Main Canvas (Success Splash) -->
+<main class="flex-1 overflow-y-auto px-container-padding-mobile md:px-container-padding-desktop py-stack-lg flex flex-col items-center justify-center pb-24 md:pb-8">
+<div class="w-full max-w-md bg-surface rounded-xl border border-border-subtle elevation-2 p-container-padding-desktop flex flex-col items-center text-center">
+<!-- Success Icon -->
+<div class="w-20 h-20 bg-success/10 rounded-full flex items-center justify-center mb-stack-md">
+<span class="material-symbols-outlined filled-icon text-success text-5xl">check_circle</span>
+</div>
+<h1 class="font-display-lg text-display-lg text-on-surface mb-stack-sm">Attendance Marked</h1>
+<!-- Offline/Pending Badge -->
+<div class="inline-flex items-center gap-1.5 bg-warning/10 text-warning px-3 py-1 rounded-full mb-stack-lg">
+<span class="material-symbols-outlined text-sm">cloud_sync</span>
+<span class="font-label-md text-label-md">Offline Saved, Sync Pending</span>
+</div>
+<!-- Detail List (Data Table Style) -->
+<div class="w-full border-t border-border-subtle pt-stack-md flex flex-col gap-stack-sm text-left">
+<div class="flex justify-between items-center py-2 border-b border-border-subtle/50 last:border-0">
+<span class="font-body-md text-body-md text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">person</span>
+                        Employee
+                    </span>
+<span class="font-title-md text-title-md text-on-surface">Babil Nagar</span>
+</div>
+<div class="flex justify-between items-center py-2 border-b border-border-subtle/50 last:border-0">
+<span class="font-body-md text-body-md text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">schedule</span>
+                        Time
+                    </span>
+<span class="font-title-md text-title-md text-on-surface">09:48 AM</span>
+</div>
+<div class="flex justify-between items-center py-2 border-b border-border-subtle/50 last:border-0">
+<span class="font-body-md text-body-md text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">location_on</span>
+                        Location
+                    </span>
+<span class="font-title-md text-title-md text-on-surface">Sector 18</span>
+</div>
+<div class="flex justify-between items-center py-2 border-b border-border-subtle/50 last:border-0">
+<span class="font-body-md text-body-md text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">face</span>
+                        Face Match
+                    </span>
+<span class="font-title-md text-title-md text-success">99.2%</span>
+</div>
+<div class="flex justify-between items-center py-2 border-b border-border-subtle/50 last:border-0">
+<span class="font-body-md text-body-md text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">my_location</span>
+                        GPS Accuracy
+                    </span>
+<span class="font-title-md text-title-md text-success">4m</span>
+</div>
+</div>
+<!-- Primary Action -->
+<button class="w-full bg-[#0F4C81] hover:bg-primary-fixed-variant text-white font-title-md text-title-md py-3 px-6 rounded-lg mt-stack-lg transition-colors min-h-[48px] active:scale-95 duration-150 ease-in-out">
+                Done
+            </button>
+</div>
+</main>
+<!-- Bottom Navigation (Mobile Only) -->
+<!-- The prompt says "Bottom nav active", implying we should show it despite it being a success screen, perhaps it acts as the home/dashboard immediately after. Active tab logically is "Attendance". -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 flex justify-around items-center h-20 px-gutter bg-surface shadow-lg border-t border-border-subtle">
+<!-- Home (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary active:scale-90 transition-transform w-16" href="#">
+<span class="material-symbols-outlined mb-1">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</a>
+<!-- Attendance (Active) -->
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1 active:scale-90 transition-transform w-16 min-w-[72px]" href="#">
+<span class="material-symbols-outlined mb-1 filled-icon">fingerprint</span>
+<span class="font-label-sm text-label-sm">Attendance</span>
+</a>
+<!-- Community (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary active:scale-90 transition-transform w-16" href="#">
+<span class="material-symbols-outlined mb-1">groups</span>
+<span class="font-label-sm text-label-sm">Community</span>
+</a>
+<!-- Alerts (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary active:scale-90 transition-transform w-16" href="#">
+<span class="material-symbols-outlined mb-1">notifications</span>
+<span class="font-label-sm text-label-sm">Alerts</span>
+</a>
+<!-- Profile (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary active:scale-90 transition-transform w-16" href="#">
+<span class="material-symbols-outlined mb-1">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</a>
+</nav>
+
+
+</body></html>

@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+
+<html class="h-full bg-background dark:bg-inverse-surface" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Help Desk - WorkforceOS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-variant": "#e0e3e6",
+                      "on-surface": "#191c1e",
+                      "inverse-primary": "#a0c9ff",
+                      "on-background": "#191c1e",
+                      "surface-container-highest": "#e0e3e6",
+                      "on-secondary": "#ffffff",
+                      "surface-container-low": "#f2f4f7",
+                      "tertiary-fixed": "#ffdcc4",
+                      "on-secondary-fixed-variant": "#004881",
+                      "on-error-container": "#93000a",
+                      "on-primary": "#ffffff",
+                      "primary-fixed": "#d2e4ff",
+                      "border-subtle": "#E0E5EB",
+                      "surface-tint": "#2d6197",
+                      "success": "#2E7D32",
+                      "on-primary-fixed-variant": "#07497d",
+                      "on-secondary-container": "#003663",
+                      "on-error": "#ffffff",
+                      "on-tertiary-fixed-variant": "#6f3800",
+                      "on-surface-variant": "#455A64",
+                      "secondary-fixed": "#d3e4ff",
+                      "on-tertiary": "#ffffff",
+                      "background": "#f7f9fc",
+                      "inverse-surface": "#2d3133",
+                      "inverse-on-surface": "#eff1f4",
+                      "warning": "#ED6C02",
+                      "tertiary-fixed-dim": "#ffb780",
+                      "secondary-container": "#47a1ff",
+                      "surface-container-high": "#e6e8eb",
+                      "surface-container-lowest": "#ffffff",
+                      "primary-fixed-dim": "#a0c9ff",
+                      "error": "#D32F2F",
+                      "on-primary-container": "#8ebdf9",
+                      "on-primary-fixed": "#001c37",
+                      "primary": "#00355f",
+                      "outline": "#727780",
+                      "surface-bright": "#f7f9fc",
+                      "tertiary": "#532800",
+                      "primary-container": "#0f4c81",
+                      "secondary-fixed-dim": "#a2c9ff",
+                      "on-tertiary-fixed": "#2f1400",
+                      "surface-dim": "#d8dadd",
+                      "surface": "#FFFFFF",
+                      "error-container": "#ffdad6",
+                      "secondary": "#0060a8",
+                      "on-secondary-fixed": "#001c38",
+                      "surface-container": "#eceef1",
+                      "on-tertiary-container": "#f9a767",
+                      "outline-variant": "#c2c7d1",
+                      "tertiary-container": "#743b00"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "stack-sm": "8px",
+                      "gutter": "12px",
+                      "stack-lg": "24px",
+                      "baseline": "4px",
+                      "container-padding-mobile": "16px",
+                      "stack-md": "16px",
+                      "container-padding-desktop": "24px"
+              },
+              "fontFamily": {
+                      "headline-lg": ["Inter"],
+                      "label-md": ["Inter"],
+                      "label-sm": ["Inter"],
+                      "body-md": ["Inter"],
+                      "headline-lg-mobile": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "title-md": ["Inter"],
+                      "display-lg": ["Inter"]
+              },
+              "fontSize": {
+                      "headline-lg": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                      "label-sm": ["11px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                      "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "headline-lg-mobile": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "title-md": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                      "display-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+              }
+            },
+          }
+        }
+    </script>
+<style>
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .icon-fill { font-variation-settings: 'FILL' 1; }
+    </style>
+</head>
+<body class="flex h-full overflow-hidden text-on-surface">
+<!-- SideNavBar -->
+<nav class="bg-surface-container-lowest dark:bg-inverse-surface border-r border-border-subtle dark:border-outline fixed left-0 top-0 h-full w-64 flex flex-col py-stack-lg px-gutter z-50 hidden md:flex">
+<div class="mb-stack-lg flex items-center gap-stack-sm px-gutter">
+<img alt="Organization Logo" class="w-8 h-8 rounded-DEFAULT object-cover" data-alt="A clean, minimalist logo icon for an enterprise workforce management platform. The logo features abstract geometric shapes in shades of deep corporate blue (#0F4C81) and white, representing connectivity and organization. The style is flat, modern, and suitable for a high-tech dashboard application." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIjsIUTLUvwlovY12LtAdAkNj9fhH3ieUGwphwB9UcIq-SmUATjBvksF7yqPOvJFZ6IdlgirR-Rd8KveUQvhzbMTGDJQXqMaTPGuRDHek-yvONKfOsCfhu0ZVA-ufxPpptv-B4Lf1Pvog-MHbzKn62kBJl3uOnTCHlqhbfvhUdsBXqkpf-fuiaokXYHATymbHmGp4p-DDes3N9J6f-mlrt227EQPb0eP-pM5YwiXO3JlWhtOV43JW7"/>
+<div>
+<h1 class="text-title-md font-title-md text-primary dark:text-inverse-primary leading-tight">Enterprise Admin</h1>
+<p class="text-label-sm font-label-sm text-on-surface-variant">System Management</p>
+</div>
+</div>
+<ul class="flex-1 space-y-stack-sm">
+<li>
+<a class="flex items-center gap-stack-md px-gutter py-stack-sm text-label-md font-label-md text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container transition-all rounded-lg scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">group</span>
+                    Workforce
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-stack-md px-gutter py-stack-sm text-label-md font-label-md text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container transition-all rounded-lg scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">event_available</span>
+                    Attendance
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-stack-md px-gutter py-stack-sm text-label-md font-label-md bg-secondary-container text-on-secondary-container rounded-lg font-bold scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined icon-fill">settings_applications</span>
+                    Operations
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-stack-md px-gutter py-stack-sm text-label-md font-label-md text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container transition-all rounded-lg scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">analytics</span>
+                    Analytics
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-stack-md px-gutter py-stack-sm text-label-md font-label-md text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container transition-all rounded-lg scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">admin_panel_settings</span>
+                    Administration
+                </a>
+</li>
+</ul>
+<div class="mt-auto pt-stack-md border-t border-border-subtle">
+<button class="w-full bg-primary-container text-on-primary font-label-md text-label-md py-stack-sm rounded-lg mb-stack-sm hover:bg-primary transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">summarize</span>
+                Generate Report
+            </button>
+<ul class="space-y-baseline">
+<li>
+<a class="flex items-center gap-stack-md px-gutter py-stack-sm text-label-sm font-label-sm text-on-surface-variant hover:bg-surface-container-high transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined text-[18px]">contact_support</span>
+                        Support
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-stack-md px-gutter py-stack-sm text-label-sm font-label-sm text-on-surface-variant hover:bg-surface-container-high transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined text-[18px]">logout</span>
+                        Sign Out
+                    </a>
+</li>
+</ul>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 md:ml-64 flex flex-col h-full bg-background relative overflow-hidden">
+<!-- TopNavBar (Mobile Only) -->
+<header class="md:hidden bg-surface dark:bg-inverse-surface border-b border-border-subtle dark:border-outline shadow-sm w-full top-0 z-40 flex justify-between items-center px-container-padding-mobile h-16 shrink-0">
+<div class="text-title-md font-title-md text-primary dark:text-inverse-primary">WorkforceOS</div>
+<div class="flex items-center gap-stack-sm">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low transition-colors rounded-full"><span class="material-symbols-outlined">notifications</span></button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low transition-colors rounded-full"><span class="material-symbols-outlined">help</span></button>
+<img alt="Administrator Profile" class="w-8 h-8 rounded-full ml-2 object-cover border border-border-subtle" data-alt="A small circular profile picture of an administrator. A professional-looking person in business casual attire against a neutral gray background. Soft studio lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDtFZEzcBqlibA3VTrIUgvu6B9c6Rs4jdFS0p08AwOr33Rc1lryJENza7WogUBK8ZDm4dEucfZ4TRFPxsxCSXVdOFF_grFmb-W_YvPH6YI850BZjvBNdTfsXTqUTXpoRga0MDIqAPWalrX-uLoqFs4gIKqy-NaJsKq0qHZUkRIuKiGCwmhN6WXDSCWNMm0usxgcBV0PxUFrhTtQYUrUrHt73V_6UaQD5DQoLHFqeszcOQBD5P_nwUQ9"/>
+</div>
+</header>
+<!-- Page Header & Breadcrumbs -->
+<div class="px-container-padding-mobile md:px-container-padding-desktop pt-stack-lg pb-stack-md shrink-0">
+<nav aria-label="Breadcrumb" class="flex text-label-sm font-label-sm text-on-surface-variant mb-stack-sm">
+<ol class="inline-flex items-center space-x-1 md:space-x-2">
+<li class="inline-flex items-center">
+<a class="hover:text-primary transition-colors" href="#">Home</a>
+</li>
+<li>
+<div class="flex items-center">
+<span class="material-symbols-outlined text-[14px] mx-1">chevron_right</span>
+<a class="hover:text-primary transition-colors" href="#">Operations</a>
+</div>
+</li>
+<li aria-current="page">
+<div class="flex items-center">
+<span class="material-symbols-outlined text-[14px] mx-1">chevron_right</span>
+<span class="text-on-surface font-semibold">Help Desk</span>
+</div>
+</li>
+</ol>
+</nav>
+<div class="flex justify-between items-end">
+<div>
+<h2 class="text-headline-lg-mobile md:text-headline-lg font-headline-lg-mobile md:font-headline-lg text-on-surface">Ticket Management</h2>
+<p class="text-body-md font-body-md text-on-surface-variant mt-baseline">Manage and resolve attendance system anomalies.</p>
+</div>
+<div class="hidden sm:flex gap-stack-sm">
+<button class="flex items-center gap-2 px-4 py-2 border border-border-subtle bg-surface text-on-surface font-label-md text-label-md rounded-lg hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-[18px]">filter_list</span>
+                        Filter
+                    </button>
+<button class="flex items-center gap-2 px-4 py-2 bg-primary-container text-on-primary font-label-md text-label-md rounded-lg hover:bg-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                        New Ticket
+                    </button>
+</div>
+</div>
+</div>
+<!-- Content Split: Kanban & Detail View -->
+<div class="flex-1 flex overflow-hidden p-container-padding-mobile md:p-container-padding-desktop pt-0 gap-stack-lg">
+<!-- Kanban Column -->
+<div class="w-full lg:w-1/3 flex flex-col bg-surface border border-border-subtle rounded-xl overflow-hidden shadow-[0px_2px_8px_rgba(15,76,129,0.08)]">
+<div class="p-stack-md border-b border-border-subtle bg-surface-container-lowest flex justify-between items-center shrink-0">
+<h3 class="text-title-md font-title-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-warning">pending_actions</span>
+                        Active Queue
+                    </h3>
+<span class="bg-surface-container-high text-on-surface-variant px-2 py-1 rounded-full text-label-sm font-label-sm">12 Open</span>
+</div>
+<div class="flex-1 overflow-y-auto p-stack-sm space-y-stack-sm bg-background">
+<!-- Ticket Card 1 (Active) -->
+<div class="bg-surface border-2 border-primary p-stack-md rounded-lg shadow-sm cursor-pointer relative">
+<div class="flex justify-between items-start mb-stack-sm">
+<span class="px-2 py-1 bg-error-container text-on-error-container text-label-sm font-label-sm rounded-DEFAULT flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">face</span>
+                                Face Recognition
+                            </span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">#TK-4092</span>
+</div>
+<h4 class="text-body-md font-body-md font-semibold text-on-surface mb-baseline">Authentication Failure - Loading Dock C</h4>
+<p class="text-label-sm font-label-sm text-on-surface-variant mb-stack-sm line-clamp-2">System continuously rejects facial scan for employee despite clear lighting conditions.</p>
+<div class="flex justify-between items-center mt-stack-md pt-stack-sm border-t border-border-subtle">
+<div class="flex items-center gap-2">
+<img alt="User" class="w-6 h-6 rounded-full object-cover" data-alt="Small avatar of a male warehouse worker wearing a high visibility vest. Studio lighting, professional portrait." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwjPoS-63EgFb0jFPhoz-ikXNk-K1tgRnHKTDLkbWFyGAy-zmlhKL7gUYIPS7yEcbH4brY9iY3t0U5M0lfiGKdEjxaRg0w2dtp81LNk9W5VPUVF0ulIO8ZKeFghgIaTUCc1wRJpIICgmyA6TNJ8O_yil6WL-UVKeC_BAA9u9saPCZzL_8Gdkxh6RD5pJ3yBiyw2h18nRxY96V7VogkCDNdrNR_xybbk2ya5Yikqhf_qsWtZrT7r_VJ"/>
+<span class="text-label-sm font-label-sm text-on-surface">J. Smith</span>
+</div>
+<span class="text-label-sm font-label-sm text-warning font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">schedule</span>
+                                In Progress
+                            </span>
+</div>
+</div>
+<!-- Ticket Card 2 -->
+<div class="bg-surface border border-border-subtle p-stack-md rounded-lg shadow-sm cursor-pointer hover:border-outline-variant transition-colors">
+<div class="flex justify-between items-start mb-stack-sm">
+<span class="px-2 py-1 bg-surface-variant text-on-surface-variant text-label-sm font-label-sm rounded-DEFAULT flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">location_off</span>
+                                Location Error
+                            </span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">#TK-4091</span>
+</div>
+<h4 class="text-body-md font-body-md font-semibold text-on-surface mb-baseline">Geofence Boundary Issue</h4>
+<p class="text-label-sm font-label-sm text-on-surface-variant mb-stack-sm line-clamp-2">Mobile app shows user outside geofence while physically in the main office.</p>
+<div class="flex justify-between items-center mt-stack-md pt-stack-sm border-t border-border-subtle">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center text-label-sm font-label-sm">
+                                    AL
+                                </div>
+<span class="text-label-sm font-label-sm text-on-surface">A. Lee</span>
+</div>
+<span class="text-label-sm font-label-sm text-primary font-semibold">Open</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Detail View Column (Hidden on mobile unless active) -->
+<div class="hidden lg:flex flex-1 flex-col bg-surface border border-border-subtle rounded-xl overflow-hidden shadow-[0px_8px_24px_rgba(0,0,0,0.12)]">
+<!-- Ticket Header -->
+<div class="p-stack-lg border-b border-border-subtle bg-surface-container-lowest shrink-0">
+<div class="flex justify-between items-start mb-stack-sm">
+<div class="flex items-center gap-stack-md">
+<h2 class="text-headline-lg font-headline-lg text-on-surface">#TK-4092</h2>
+<span class="px-3 py-1 bg-error-container text-on-error-container text-label-sm font-label-sm rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">face</span>
+                                Face Recognition
+                            </span>
+</div>
+<div class="flex gap-stack-sm">
+<button class="px-3 py-1.5 border border-border-subtle text-on-surface font-label-md text-label-md rounded-DEFAULT hover:bg-surface-container-low transition-colors">Assign</button>
+<button class="px-3 py-1.5 bg-success text-white font-label-md text-label-md rounded-DEFAULT hover:opacity-90 transition-opacity">Resolve</button>
+</div>
+</div>
+<h3 class="text-title-md font-title-md text-on-surface mb-stack-md">Authentication Failure - Loading Dock C</h3>
+<div class="grid grid-cols-3 gap-stack-md bg-surface-container-low p-stack-md rounded-lg">
+<div>
+<span class="block text-label-sm font-label-sm text-on-surface-variant mb-1">Employee</span>
+<div class="flex items-center gap-2">
+<img alt="User" class="w-8 h-8 rounded-full object-cover" data-alt="Small avatar of a male warehouse worker wearing a high visibility vest. Studio lighting, professional portrait." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAxfP9m42yjk_lnYlKn-RdSOZC-dtKFgDON145jZRTpDZ4fJkZ8yKGkwRDKtJOSIIQWPuv62KuF7LneWdRTqKKmHrdfxv2VJJCn6FBvTD56Dg30oqIQT53DLDDdqJLcv_ty-GIFuUunMJnvmmvseTr4f6mzP3y84OgUhoBR0Y_Gl7RwbpoEhQJIAbPbY7YqBjDlOklTTidht7DmSSrLeBMiBkGvzLbDh7isHlC1GNIT6Y-918FnvhPn"/>
+<span class="text-body-md font-body-md text-on-surface font-medium">John Smith</span>
+</div>
+</div>
+<div>
+<span class="block text-label-sm font-label-sm text-on-surface-variant mb-1">Device/Terminal</span>
+<span class="text-body-md font-body-md text-on-surface">Terminal K-09 (Dock C)</span>
+</div>
+<div>
+<span class="block text-label-sm font-label-sm text-on-surface-variant mb-1">Time Logged</span>
+<span class="text-body-md font-body-md text-on-surface">Oct 24, 07:15 AM</span>
+</div>
+</div>
+</div>
+<!-- Ticket Body & Thread -->
+<div class="flex-1 overflow-y-auto p-stack-lg flex gap-stack-lg bg-surface">
+<!-- Left: Description & Attachments -->
+<div class="w-2/3 space-y-stack-lg">
+<div>
+<h4 class="text-label-md font-label-md text-on-surface-variant uppercase tracking-wider mb-stack-sm">Description</h4>
+<p class="text-body-md font-body-md text-on-surface leading-relaxed">
+                                Employee repeatedly attempted to clock in at Terminal K-09. The system prompts "Face Not Recognized" despite multiple attempts. The employee states they are not wearing hats or glasses, and the lighting in Dock C appears normal. Requesting override or biometric reset.
+                            </p>
+</div>
+<div>
+<h4 class="text-label-md font-label-md text-on-surface-variant uppercase tracking-wider mb-stack-sm">Attachments (1)</h4>
+<div class="border border-border-subtle rounded-lg overflow-hidden max-w-sm inline-block group relative">
+<img alt="Error Screenshot" class="w-full h-40 object-cover" data-alt="A screenshot of a tablet interface showing an error message 'Face Not Recognized'. The UI is dark mode with a blurry silhouette of a person in the background. A red error icon is prominent." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIYsg15_H8Uct_JKFJXrXqbMzE9zyE9f5tf2yCEynl9n45uNuaP9vPJFhYb0ecG1CtP2a_kml_6cqHds64OvTCXV139ea9JWRhL37Yr2AsnOJV3QY6kdprYJNY28LLxBWK2ZOgm7ns2RTCj8I403kkwvoky3NB96JppRbIDT4IHGw-YxIlys_nVDxf2ae-e2joCfs7zpd47A4XkGKGHvWCrpFRv5LLofEhuxKt4clxhxlnf_5U_L8P"/>
+<div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity cursor-pointer">
+<span class="material-symbols-outlined text-white text-[32px]">zoom_in</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Right: Activity Thread -->
+<div class="w-1/3 border-l border-border-subtle pl-stack-lg flex flex-col">
+<h4 class="text-label-md font-label-md text-on-surface-variant uppercase tracking-wider mb-stack-md shrink-0">Activity log</h4>
+<div class="flex-1 overflow-y-auto space-y-stack-md pr-2">
+<!-- Log Item 1 -->
+<div class="flex gap-stack-sm">
+<div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center shrink-0 mt-1">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">person_add</span>
+</div>
+<div>
+<div class="flex items-baseline gap-2">
+<span class="text-label-md font-label-md text-on-surface">System</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">07:16 AM</span>
+</div>
+<p class="text-body-md font-body-md text-on-surface-variant mt-1">Ticket auto-created from Terminal K-09 anomaly report.</p>
+</div>
+</div>
+<!-- Log Item 2 -->
+<div class="flex gap-stack-sm">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center text-label-md font-label-md shrink-0 mt-1">
+                                    SA
+                                </div>
+<div>
+<div class="flex items-baseline gap-2">
+<span class="text-label-md font-label-md text-on-surface">SysAdmin</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">07:45 AM</span>
+</div>
+<div class="bg-surface-container-low p-3 rounded-r-lg rounded-bl-lg mt-1 border border-border-subtle">
+<p class="text-body-md font-body-md text-on-surface">Checked terminal logs. Camera sensor might need recalibration. Sending a reset command now.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Reply Box -->
+<div class="pt-stack-md border-t border-border-subtle mt-stack-md shrink-0">
+<textarea class="w-full border border-border-subtle rounded-lg p-2 text-body-md font-body-md focus:ring-2 focus:ring-primary focus:border-primary resize-none" placeholder="Add a note..." rows="2"></textarea>
+<div class="flex justify-end mt-2">
+<button class="px-4 py-2 bg-surface-container-high text-on-surface font-label-md text-label-md rounded-lg hover:bg-surface-variant transition-colors">Post Note</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

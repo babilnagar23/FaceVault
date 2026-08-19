@@ -1,0 +1,320 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>WorkforceAI - Device Registration</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "primary-container": "#0f4c81",
+                      "outline": "#727780",
+                      "on-primary-container": "#8ebdf9",
+                      "error": "#D32F2F",
+                      "on-surface-variant": "#42474f",
+                      "on-tertiary": "#ffffff",
+                      "success": "#2E7D32",
+                      "warning": "#ED6C02",
+                      "on-primary-fixed": "#001c37",
+                      "on-error": "#ffffff",
+                      "tertiary-fixed-dim": "#ffb780",
+                      "on-tertiary-fixed": "#2f1400",
+                      "on-primary": "#ffffff",
+                      "surface-container": "#eceef1",
+                      "on-secondary": "#ffffff",
+                      "on-error-container": "#93000a",
+                      "on-secondary-fixed": "#001c38",
+                      "on-surface": "#191c1e",
+                      "secondary-container": "#47a1ff",
+                      "on-tertiary-container": "#f9a767",
+                      "secondary-fixed-dim": "#a2c9ff",
+                      "on-tertiary-fixed-variant": "#6f3800",
+                      "error-container": "#ffdad6",
+                      "on-secondary-fixed-variant": "#004881",
+                      "on-primary-fixed-variant": "#07497d",
+                      "primary-fixed-dim": "#a0c9ff",
+                      "surface-container-low": "#f2f4f7",
+                      "border-subtle": "#E0E5EB",
+                      "surface-bright": "#f7f9fc",
+                      "inverse-primary": "#a0c9ff",
+                      "outline-variant": "#c2c7d1",
+                      "surface-container-lowest": "#ffffff",
+                      "surface": "#FFFFFF",
+                      "tertiary-container": "#743b00",
+                      "primary": "#00355f",
+                      "secondary-fixed": "#d3e4ff",
+                      "on-background": "#191c1e",
+                      "inverse-on-surface": "#eff1f4",
+                      "background": "#f7f9fc",
+                      "on-secondary-container": "#003663",
+                      "tertiary-fixed": "#ffdcc4",
+                      "surface-tint": "#2d6197",
+                      "surface-container-highest": "#e0e3e6",
+                      "surface-dim": "#d8dadd",
+                      "tertiary": "#532800",
+                      "primary-fixed": "#d2e4ff",
+                      "surface-variant": "#e0e3e6",
+                      "surface-container-high": "#e6e8eb",
+                      "inverse-surface": "#2d3133",
+                      "secondary": "#0060a8"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "gutter": "12px",
+                      "container-padding-mobile": "16px",
+                      "stack-sm": "8px",
+                      "stack-md": "16px",
+                      "stack-lg": "24px",
+                      "container-padding-desktop": "24px",
+                      "baseline": "4px"
+              },
+              "fontFamily": {
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "display-lg": [
+                              "Inter"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "label-md": [
+                              "Inter"
+                      ],
+                      "headline-lg-mobile": [
+                              "Inter"
+                      ],
+                      "title-md": [
+                              "Inter"
+                      ],
+                      "headline-lg": [
+                              "Inter"
+                      ],
+                      "label-sm": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "body-lg": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "display-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-md": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "20px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "title-md": [
+                              "18px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-sm": [
+                              "11px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.02em",
+                                      "fontWeight": "500"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background min-h-screen font-body-md antialiased flex flex-col">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-surface-dim font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg docked full-width top-0 border-b border-border-subtle dark:border-outline-variant shadow-sm flex justify-between items-center px-container-padding-mobile md:px-container-padding-desktop h-16 w-full z-10 sticky">
+<div class="flex items-center gap-4">
+<!-- Back Action for linear flow -->
+<button class="text-on-surface-variant hover:bg-surface-container-low active:scale-95 duration-150 ease-in-out p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h1 class="font-display-lg text-display-lg text-primary-container dark:text-on-primary-container tracking-tight"><h1 class="font-display-lg text-display-lg text-primary-container tracking-tight cursor-text" spellcheck="false" data-stitch-added-classes="cursor-text" style="--tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / 0.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; --tw-contain-size: ; --tw-contain-layout: ; --tw-contain-paint: ; --tw-contain-style: ; --tw-text-opacity: 1; color: rgb(15, 76, 129); text-align: center; outline: none !important; box-shadow: none !important;">FaceVault</h1></h1>
+</div>
+<div class="flex items-center">
+<img alt="Employee Profile Picture" class="w-8 h-8 rounded-full object-cover border border-border-subtle" data-alt="A professional headshot of a corporate employee in a well-lit office setting. The lighting is soft and natural, casting gentle shadows. The person is wearing business casual attire. The background is slightly blurred, showing a modern office environment. High resolution, corporate aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxEK6Oei77BqT6EWC74TTys-czMXjxo5Tn7nClhtThoYOIQEYwnKAM3SosUjYI4EvH5vLQDdk40javpNsORsx1pwyGx1cVzu9mQIdEvjKXJLO1xzZwrowVJfa6bYiHB1Q72MeHbcCEdSQgHWbkc6L86isDvHeR2Wp6uF1dJDHSZXkVZv0_w7hjRhCtoxwX2BBjyZfxaQLsn5ZlkfY2DuUVtyLTru0CA5CrISatW4lQe2KDvlMDqjiN">
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow flex flex-col items-center justify-start p-container-padding-mobile md:p-container-padding-desktop max-w-4xl mx-auto w-full gap-stack-lg mt-8">
+<!-- Header Section -->
+<div class="w-full text-center space-y-stack-sm mb-4">
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Register Device</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Review the detected device specifications before finalizing registration.</p>
+</div>
+<!-- Stepper (2 of 5) -->
+<div class="w-full max-w-2xl flex items-center justify-between mb-stack-lg relative">
+<div class="absolute left-0 top-1/2 -translate-y-1/2 w-full h-[2px] bg-surface-container-high -z-10"></div>
+<!-- Step 1: Completed -->
+<div class="flex flex-col items-center gap-2 bg-background px-2">
+<div class="w-8 h-8 rounded-full bg-success text-on-primary flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 1;">check</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Scan</span>
+</div>
+<!-- Step 2: Active -->
+<div class="flex flex-col items-center gap-2 bg-background px-2">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary flex items-center justify-center shadow-md ring-4 ring-primary-container/20">
+<span class="font-label-md text-label-md">2</span>
+</div>
+<span class="font-label-sm text-label-sm text-primary-container font-semibold">Details</span>
+</div>
+<!-- Step 3: Pending -->
+<div class="flex flex-col items-center gap-2 bg-background px-2">
+<div class="w-8 h-8 rounded-full bg-surface-container-high text-outline flex items-center justify-center border border-border-subtle">
+<span class="font-label-md text-label-md">3</span>
+</div>
+<span class="font-label-sm text-label-sm text-outline">Policy</span>
+</div>
+<!-- Step 4: Pending -->
+<div class="flex flex-col items-center gap-2 bg-background px-2">
+<div class="w-8 h-8 rounded-full bg-surface-container-high text-outline flex items-center justify-center border border-border-subtle">
+<span class="font-label-md text-label-md">4</span>
+</div>
+<span class="font-label-sm text-label-sm text-outline">Assign</span>
+</div>
+<!-- Step 5: Pending -->
+<div class="flex flex-col items-center gap-2 bg-background px-2">
+<div class="w-8 h-8 rounded-full bg-surface-container-high text-outline flex items-center justify-center border border-border-subtle">
+<span class="font-label-md text-label-md">5</span>
+</div>
+<span class="font-label-sm text-label-sm text-outline">Confirm</span>
+</div>
+</div>
+<!-- Device Details Bento Grid -->
+<div class="w-full grid grid-cols-1 md:grid-cols-2 gap-gutter md:gap-stack-md">
+<!-- Primary Device Identity Card -->
+<div class="bg-surface rounded-xl border border-border-subtle p-stack-md flex flex-col justify-center shadow-[0px_2px_8px_rgba(15,76,129,0.08)] col-span-1 md:col-span-2 relative overflow-hidden">
+<div class="absolute right-0 top-0 opacity-5 w-48 h-48 -mr-8 -mt-8">
+<span class="material-symbols-outlined text-[200px]" style="font-variation-settings: &quot;FILL&quot; 1;">smartphone</span>
+</div>
+<div class="flex items-start gap-4 relative z-10">
+<div class="p-3 bg-surface-container-low rounded-lg text-primary-container">
+<span class="material-symbols-outlined text-3xl">developer_board</span>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-outline uppercase tracking-wider mb-1">Device Name</p>
+<h3 class="font-title-md text-title-md text-on-surface">Samsung Galaxy Tab Active3</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">badge</span>
+                            ID: WAI-TAB-8842-A
+                        </p>
+</div>
+</div>
+</div>
+<!-- Specs Grid -->
+<div class="bg-surface rounded-xl border border-border-subtle p-stack-md shadow-[0px_2px_8px_rgba(15,76,129,0.08)] flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">android</span>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-outline mb-1">OS Version</p>
+<p class="font-body-lg text-body-lg text-on-surface font-medium">Android 13 (API 33)</p>
+</div>
+</div>
+<div class="bg-surface rounded-xl border border-border-subtle p-stack-md shadow-[0px_2px_8px_rgba(15,76,129,0.08)] flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">memory</span>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-outline mb-1">Device Model</p>
+<p class="font-body-lg text-body-lg text-on-surface font-medium">SM-T575</p>
+</div>
+</div>
+<!-- Status Grid -->
+<div class="bg-surface rounded-xl border border-border-subtle p-stack-md shadow-[0px_2px_8px_rgba(15,76,129,0.08)] flex justify-between items-center">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center text-success">
+<span class="material-symbols-outlined">battery_charging_full</span>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-outline mb-1">Battery Policy</p>
+<p class="font-body-lg text-body-lg text-on-surface font-medium">Optimized</p>
+</div>
+</div>
+<div class="px-3 py-1 bg-success/10 rounded-full border border-success/20 flex items-center gap-1">
+<div class="w-2 h-2 rounded-full bg-success"></div>
+<span class="font-label-sm text-label-sm text-success">Compliant</span>
+</div>
+</div>
+<div class="bg-surface rounded-xl border border-border-subtle p-stack-md shadow-[0px_2px_8px_rgba(15,76,129,0.08)] flex justify-between items-center">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center text-success">
+<span class="material-symbols-outlined">wifi</span>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-outline mb-1">Network Status</p>
+<p class="font-body-lg text-body-lg text-on-surface font-medium">Connected (Corp-Net)</p>
+</div>
+</div>
+<div class="px-3 py-1 bg-success/10 rounded-full border border-success/20 flex items-center gap-1">
+<div class="w-2 h-2 rounded-full bg-success"></div>
+<span class="font-label-sm text-label-sm text-success">Secure</span>
+</div>
+</div>
+</div>
+<!-- Action Area -->
+<div class="w-full max-w-md mt-stack-lg flex flex-col gap-stack-sm">
+<button class="w-full bg-[#0F4C81] text-white h-12 rounded-lg font-label-md text-label-md flex items-center justify-center gap-2 hover:bg-primary-fixed-variant transition-colors shadow-sm active:scale-[0.98]">
+<span class="">Register Device</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+<button class="w-full bg-transparent text-outline h-12 rounded-lg font-label-md text-label-md hover:bg-surface-container-low transition-colors">
+                Cancel Registration
+            </button>
+</div>
+</main>
+<!-- Navigation Suppressed: Transactional/Linear Flow -->
+
+
+</body></html>

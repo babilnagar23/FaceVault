@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Device Registration - Face Enrollment</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-container": "#0f4c81",
+                        "outline": "#727780",
+                        "on-primary-container": "#8ebdf9",
+                        "error": "#D32F2F",
+                        "on-surface-variant": "#42474f",
+                        "on-tertiary": "#ffffff",
+                        "success": "#2E7D32",
+                        "warning": "#ED6C02",
+                        "on-primary-fixed": "#001c37",
+                        "on-error": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb780",
+                        "on-tertiary-fixed": "#2f1400",
+                        "on-primary": "#ffffff",
+                        "surface-container": "#eceef1",
+                        "on-secondary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "on-secondary-fixed": "#001c38",
+                        "on-surface": "#191c1e",
+                        "secondary-container": "#47a1ff",
+                        "on-tertiary-container": "#f9a767",
+                        "secondary-fixed-dim": "#a2c9ff",
+                        "on-tertiary-fixed-variant": "#6f3800",
+                        "error-container": "#ffdad6",
+                        "on-secondary-fixed-variant": "#004881",
+                        "on-primary-fixed-variant": "#07497d",
+                        "primary-fixed-dim": "#a0c9ff",
+                        "surface-container-low": "#f2f4f7",
+                        "border-subtle": "#E0E5EB",
+                        "surface-bright": "#f7f9fc",
+                        "inverse-primary": "#a0c9ff",
+                        "outline-variant": "#c2c7d1",
+                        "surface-container-lowest": "#ffffff",
+                        "surface": "#FFFFFF",
+                        "tertiary-container": "#743b00",
+                        "primary": "#00355f",
+                        "secondary-fixed": "#d3e4ff",
+                        "on-background": "#191c1e",
+                        "inverse-on-surface": "#eff1f4",
+                        "background": "#f7f9fc",
+                        "on-secondary-container": "#003663",
+                        "tertiary-fixed": "#ffdcc4",
+                        "surface-tint": "#2d6197",
+                        "surface-container-highest": "#e0e3e6",
+                        "surface-dim": "#d8dadd",
+                        "tertiary": "#532800",
+                        "primary-fixed": "#d2e4ff",
+                        "surface-variant": "#e0e3e6",
+                        "surface-container-high": "#e6e8eb",
+                        "inverse-surface": "#2d3133",
+                        "secondary": "#0060a8"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "12px",
+                        "container-padding-mobile": "16px",
+                        "stack-sm": "8px",
+                        "stack-md": "16px",
+                        "stack-lg": "24px",
+                        "container-padding-desktop": "24px",
+                        "baseline": "4px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "title-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "label-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "display-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "title-md": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "label-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1;
+        }
+        
+        .scanning-ring {
+            animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        @keyframes pulse-ring {
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 0.2; }
+            100% { transform: scale(1); opacity: 0.8; }
+        }
+
+        .progress-circle {
+            transition: stroke-dashoffset 0.5s ease-in-out;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background min-h-screen flex flex-col font-body-md text-on-surface">
+<!-- Header (Transactional Context - No Global Nav) -->
+<header class="bg-surface border-b border-border-subtle h-16 flex items-center px-container-padding-mobile md:px-container-padding-desktop justify-between shadow-sm">
+<div class="flex items-center gap-stack-sm text-primary">
+<span class="material-symbols-outlined cursor-pointer hover:bg-surface-container-low p-2 rounded-full transition-colors">arrow_back</span>
+<span class="font-title-md text-title-md">Device Registration</span>
+</div>
+<div class="text-on-surface-variant font-label-md text-label-md flex items-center gap-2">
+<span>Step 4 of 5</span>
+<div class="flex gap-1">
+<div class="w-8 h-1 bg-primary rounded-full"></div>
+<div class="w-8 h-1 bg-primary rounded-full"></div>
+<div class="w-8 h-1 bg-primary rounded-full"></div>
+<div class="w-8 h-1 bg-primary rounded-full"></div>
+<div class="w-8 h-1 bg-surface-variant rounded-full"></div>
+</div>
+</div>
+</header>
+<main class="flex-1 flex flex-col items-center justify-center p-container-padding-mobile md:p-container-padding-desktop gap-stack-lg max-w-4xl mx-auto w-full">
+<div class="text-center space-y-stack-sm max-w-md">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-on-surface">Face Enrollment</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Position your face within the frame and follow the instructions to capture your biometric profile.</p>
+</div>
+<!-- Camera Area -->
+<div class="relative w-72 h-72 md:w-96 md:h-96 flex items-center justify-center mt-stack-md">
+<!-- SVG Progress Ring -->
+<svg class="absolute inset-0 w-full h-full -rotate-90 pointer-events-none" viewbox="0 0 100 100">
+<circle class="text-surface-variant" cx="50" cy="50" fill="none" r="48" stroke="currentColor" stroke-width="2"></circle>
+<circle class="text-primary progress-circle" cx="50" cy="50" fill="none" r="48" stroke="currentColor" stroke-dasharray="301.59" stroke-dashoffset="75.39" stroke-linecap="round" stroke-width="2"></circle>
+</svg>
+<!-- Scanning Animation Ring -->
+<div class="absolute inset-2 border-4 border-secondary-container rounded-full scanning-ring opacity-50 pointer-events-none"></div>
+<!-- Camera Feed Placeholder -->
+<div class="w-[calc(100%-16px)] h-[calc(100%-16px)] rounded-full overflow-hidden bg-surface-container-high relative shadow-sm border border-border-subtle">
+<img class="w-full h-full object-cover filter brightness-110 contrast-125" data-alt="A front-facing, well-lit view of a professional adult looking directly at the camera. The setting is a clean, modern corporate office with soft, diffuse lighting and a neutral background. The aesthetic is corporate minimalism, with high-key lighting, cool tones, and a sharp focus on the face for biometric enrollment. The person appears calm and focused." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNVwkqkONesG7ymRFi4zclkoZAjqisnMIyp3wiMTDhT3SZY0WssYsnsVNmbk3pZnXzUwOmwGVZ0q9d_uDRPzdi9pEpGg4vgenXnauXS3h-xspH8LMVzWyZB3-2fkCR8z6dDCAeU3V7y4XyoIe9wtGANeOD5Ifh4xmqVEz3ytf9tiArLCBnFiVBDSwGMuQFltV4rVxDKaeioyqmO599p_-_K1Ui0fjwpx2cMeP9Jucz1wIcXYDL5PUt"/>
+<!-- Overlay Grid/Guides -->
+<div class="absolute inset-0 border border-white/20 rounded-full m-8"></div>
+</div>
+<!-- Quality Score Badge -->
+<div class="absolute -bottom-4 bg-surface px-4 py-2 rounded-full border border-border-subtle shadow-lg flex items-center gap-2">
+<span class="material-symbols-outlined text-success text-[18px]">verified</span>
+<span class="font-label-md text-label-md text-success">Quality: 98%</span>
+</div>
+</div>
+<!-- Instructions Card -->
+<div class="bg-surface w-full max-w-md rounded-xl p-stack-md border border-border-subtle shadow-sm flex flex-col gap-stack-md mt-stack-lg">
+<div class="flex items-center justify-between">
+<span class="font-title-md text-title-md text-on-surface">Current Instruction</span>
+<span class="bg-surface-container-low text-on-surface-variant px-2 py-1 rounded font-label-sm text-label-sm uppercase tracking-wider">Step 2 of 4</span>
+</div>
+<div class="flex items-center justify-center p-stack-lg bg-surface-bright rounded-lg border border-surface-variant text-center">
+<div class="flex flex-col items-center gap-2">
+<span class="material-symbols-outlined text-4xl text-primary mb-2">turn_right</span>
+<span class="font-headline-lg-mobile text-headline-lg-mobile text-primary">Slowly Turn Right</span>
+</div>
+</div>
+<div class="grid grid-cols-4 gap-2 mt-stack-sm">
+<div class="flex flex-col items-center gap-1 opacity-50">
+<span class="material-symbols-outlined text-success">check_circle</span>
+<span class="font-label-sm text-label-sm text-center">Look Straight</span>
+</div>
+<div class="flex flex-col items-center gap-1">
+<span class="material-symbols-outlined text-primary">radio_button_checked</span>
+<span class="font-label-sm text-label-sm text-center text-primary">Turn Right</span>
+</div>
+<div class="flex flex-col items-center gap-1 opacity-30">
+<span class="material-symbols-outlined">radio_button_unchecked</span>
+<span class="font-label-sm text-label-sm text-center">Turn Left</span>
+</div>
+<div class="flex flex-col items-center gap-1 opacity-30">
+<span class="material-symbols-outlined">radio_button_unchecked</span>
+<span class="font-label-sm text-label-sm text-center">Blink</span>
+</div>
+</div>
+</div>
+<!-- Actions -->
+<div class="w-full max-w-md flex gap-stack-md mt-stack-sm">
+<button class="flex-1 bg-surface border-2 border-border-subtle text-on-surface-variant font-label-md text-label-md h-12 rounded-lg hover:bg-surface-container-low transition-colors flex items-center justify-center">
+                Cancel
+            </button>
+<button class="flex-1 bg-primary text-on-primary font-label-md text-label-md h-12 rounded-lg hover:bg-primary-container transition-colors flex items-center justify-center shadow-sm opacity-50 cursor-not-allowed">
+                Next Step
+            </button>
+</div>
+</main>
+</body></html>

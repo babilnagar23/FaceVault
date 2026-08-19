@@ -1,0 +1,169 @@
+<!DOCTYPE html><html class="h-full bg-background" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>SecureAI Attendance - Login</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-variant": "#e0e3e6",
+                        "on-surface": "#191c1e",
+                        "inverse-primary": "#a0c9ff",
+                        "on-background": "#191c1e",
+                        "surface-container-highest": "#e0e3e6",
+                        "on-secondary": "#ffffff",
+                        "surface-container-low": "#f2f4f7",
+                        "tertiary-fixed": "#ffdcc4",
+                        "on-secondary-fixed-variant": "#004881",
+                        "on-error-container": "#93000a",
+                        "on-primary": "#ffffff",
+                        "primary-fixed": "#d2e4ff",
+                        "border-subtle": "#E0E5EB",
+                        "surface-tint": "#2d6197",
+                        "success": "#2E7D32",
+                        "on-primary-fixed-variant": "#07497d",
+                        "on-secondary-container": "#003663",
+                        "on-error": "#ffffff",
+                        "on-tertiary-fixed-variant": "#6f3800",
+                        "on-surface-variant": "#455A64",
+                        "secondary-fixed": "#d3e4ff",
+                        "on-tertiary": "#ffffff",
+                        "background": "#f7f9fc",
+                        "inverse-surface": "#2d3133",
+                        "inverse-on-surface": "#eff1f4",
+                        "warning": "#ED6C02",
+                        "tertiary-fixed-dim": "#ffb780",
+                        "secondary-container": "#47a1ff",
+                        "surface-container-high": "#e6e8eb",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed-dim": "#a0c9ff",
+                        "error": "#D32F2F",
+                        "on-primary-container": "#8ebdf9",
+                        "on-primary-fixed": "#001c37",
+                        "primary": "#00355f",
+                        "outline": "#727780",
+                        "surface-bright": "#f7f9fc",
+                        "tertiary": "#532800",
+                        "primary-container": "#0f4c81",
+                        "secondary-fixed-dim": "#a2c9ff",
+                        "on-tertiary-fixed": "#2f1400",
+                        "surface-dim": "#d8dadd",
+                        "surface": "#FFFFFF",
+                        "error-container": "#ffdad6",
+                        "secondary": "#0060a8",
+                        "on-secondary-fixed": "#001c38",
+                        "surface-container": "#eceef1",
+                        "on-tertiary-container": "#f9a767",
+                        "outline-variant": "#c2c7d1",
+                        "tertiary-container": "#743b00"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-sm": "8px",
+                        "gutter": "12px",
+                        "stack-lg": "24px",
+                        "baseline": "4px",
+                        "container-padding-mobile": "16px",
+                        "stack-md": "16px",
+                        "container-padding-desktop": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "title-md": ["Inter"],
+                        "display-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "label-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "title-md": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "display-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .shadow-elevation-1 {
+            box-shadow: 0px 2px 8px rgba(15, 76, 129, 0.08);
+        }
+    </style>
+</head>
+<body class="h-full bg-background flex flex-col items-center justify-center p-container-padding-mobile md:p-container-padding-desktop font-body-md text-on-surface">
+<main class="w-full max-w-[440px] flex flex-col gap-stack-lg">
+<!-- Logo Header -->
+<div class="flex flex-col items-center gap-stack-sm text-center">
+<div class="w-16 h-16 rounded-xl overflow-hidden shadow-elevation-1 bg-surface border border-border-subtle flex items-center justify-center p-2 mb-2">
+<img alt="SecureAI Attendance Logo" class="w-full h-full object-contain" src="https://lh3.googleusercontent.com/aida/AP1WRLu3qfLOLZoD31IRTOrTWSzPGJux_05Qb08M82YkT2vcRJju-kkdKIJZR2-2cMDcTxzLd-aPuq2AA1Hw7P3aZf6RXRhOWH4W6XJlH298EEEOkx9EYTajttGSWZBujVR4xXa58gpduv05nN8kHMYF21tcjVTEJS6_LyMIzfeCoSsb7MzkiyeybUYkWb2cdkZxOSx2oi6jva1GZzvkNA_gM_otxeEKaWbAf7x3YgYt_HIdcvEXS0OTsVCzvQ">
+</div>
+<h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface">FaceVault</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Enterprise Authentication</p>
+</div>
+<!-- Login Card -->
+<div class="bg-surface rounded-xl border border-border-subtle shadow-elevation-1 p-stack-lg flex flex-col gap-stack-lg">
+<form action="#" class="flex flex-col gap-stack-md" method="POST">
+<!-- Admin ID Field -->
+<div class="flex flex-col gap-baseline">
+<label class="font-label-md text-label-md text-on-surface" for="admin-id">Admin ID</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" style="font-variation-settings: &quot;FILL&quot; 0;">badge</span>
+<input class="w-full h-12 pl-10 pr-4 bg-surface border border-border-subtle rounded-lg font-body-md text-body-md text-on-surface placeholder:text-outline-variant focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition-colors" id="admin-id" name="admin-id" placeholder="Enter your Admin ID" type="text">
+</div>
+</div>
+<!-- Password Field -->
+<div class="flex flex-col gap-baseline">
+<label class="font-label-md text-label-md text-on-surface" for="password">Password</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" style="font-variation-settings: &quot;FILL&quot; 0;">lock</span>
+<input class="w-full h-12 pl-10 pr-10 bg-surface border border-border-subtle rounded-lg font-body-md text-body-md text-on-surface placeholder:text-outline-variant focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition-colors" id="password" name="password" placeholder="Enter your password" type="password">
+<button class="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-on-surface transition-colors focus:outline-none" type="button">
+<span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 0;">visibility</span>
+</button>
+</div>
+</div>
+<!-- Options Row -->
+<div class="flex items-center justify-between mt-baseline">
+<label class="flex items-center gap-2 cursor-pointer group">
+<div class="relative flex items-center justify-center">
+<input class="w-4 h-4 border-border-subtle rounded text-primary-container focus:ring-primary-container focus:ring-offset-0 bg-surface cursor-pointer peer appearance-none checked:bg-primary-container checked:border-primary-container transition-all" type="checkbox">
+<span class="material-symbols-outlined absolute text-on-primary text-[14px] pointer-events-none opacity-0 peer-checked:opacity-100 transition-opacity" style="font-variation-settings: &quot;wght&quot; 600;">check</span>
+</div>
+<span class="font-body-md text-body-md text-on-surface-variant group-hover:text-on-surface transition-colors">Remember me</span>
+</label>
+<a class="font-label-md text-label-md text-secondary hover:text-primary-container transition-colors focus:outline-none focus:underline underline-offset-4" href="#">Forgot Password?</a>
+</div>
+<!-- Submit Button -->
+<button class="mt-stack-sm w-full h-12 bg-primary-container hover:bg-primary text-on-primary font-label-md text-label-md rounded-lg shadow-sm transition-colors flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-container active:scale-[0.98]" type="submit">
+                    Sign In
+                    <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: &quot;FILL&quot; 0;">arrow_forward</span>
+</button>
+</form>
+</div>
+<!-- Footer Note -->
+<div class="flex items-center justify-center gap-2 text-on-surface-variant opacity-80">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: &quot;FILL&quot; 0;">wifi_off</span>
+<span class="font-label-sm text-label-sm">Offline Login Supported</span>
+</div>
+</main>
+
+
+</body></html>

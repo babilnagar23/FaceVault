@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Help Center</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "primary-container": "#0f4c81",
+                      "outline": "#727780",
+                      "on-primary-container": "#8ebdf9",
+                      "error": "#D32F2F",
+                      "on-surface-variant": "#42474f",
+                      "on-tertiary": "#ffffff",
+                      "success": "#2E7D32",
+                      "warning": "#ED6C02",
+                      "on-primary-fixed": "#001c37",
+                      "on-error": "#ffffff",
+                      "tertiary-fixed-dim": "#ffb780",
+                      "on-tertiary-fixed": "#2f1400",
+                      "on-primary": "#ffffff",
+                      "surface-container": "#eceef1",
+                      "on-secondary": "#ffffff",
+                      "on-error-container": "#93000a",
+                      "on-secondary-fixed": "#001c38",
+                      "on-surface": "#191c1e",
+                      "secondary-container": "#47a1ff",
+                      "on-tertiary-container": "#f9a767",
+                      "secondary-fixed-dim": "#a2c9ff",
+                      "on-tertiary-fixed-variant": "#6f3800",
+                      "error-container": "#ffdad6",
+                      "on-secondary-fixed-variant": "#004881",
+                      "on-primary-fixed-variant": "#07497d",
+                      "primary-fixed-dim": "#a0c9ff",
+                      "surface-container-low": "#f2f4f7",
+                      "border-subtle": "#E0E5EB",
+                      "surface-bright": "#f7f9fc",
+                      "inverse-primary": "#a0c9ff",
+                      "outline-variant": "#c2c7d1",
+                      "surface-container-lowest": "#ffffff",
+                      "surface": "#FFFFFF",
+                      "tertiary-container": "#743b00",
+                      "primary": "#00355f",
+                      "secondary-fixed": "#d3e4ff",
+                      "on-background": "#191c1e",
+                      "inverse-on-surface": "#eff1f4",
+                      "background": "#f7f9fc",
+                      "on-secondary-container": "#003663",
+                      "tertiary-fixed": "#ffdcc4",
+                      "surface-tint": "#2d6197",
+                      "surface-container-highest": "#e0e3e6",
+                      "surface-dim": "#d8dadd",
+                      "tertiary": "#532800",
+                      "primary-fixed": "#d2e4ff",
+                      "surface-variant": "#e0e3e6",
+                      "surface-container-high": "#e6e8eb",
+                      "inverse-surface": "#2d3133",
+                      "secondary": "#0060a8"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "gutter": "12px",
+                      "container-padding-mobile": "16px",
+                      "stack-sm": "8px",
+                      "stack-md": "16px",
+                      "stack-lg": "24px",
+                      "container-padding-desktop": "24px",
+                      "baseline": "4px"
+              },
+              "fontFamily": {
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "display-lg": [
+                              "Inter"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "label-md": [
+                              "Inter"
+                      ],
+                      "headline-lg-mobile": [
+                              "Inter"
+                      ],
+                      "title-md": [
+                              "Inter"
+                      ],
+                      "headline-lg": [
+                              "Inter"
+                      ],
+                      "label-sm": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "body-lg": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "display-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-md": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "20px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "title-md": [
+                              "18px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-sm": [
+                              "11px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.02em",
+                                      "fontWeight": "500"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #f7f9fc; color: #191c1e; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .filled-icon { font-variation-settings: 'FILL' 1; }
+        .hide-scroll::-webkit-scrollbar { display: none; }
+        .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="h-full flex flex-col font-body-lg text-body-lg bg-background text-on-background">
+<!-- TopAppBar -->
+<header class="docked full-width top-0 shadow-sm border-b border-border-subtle bg-surface flex justify-between items-center px-container-padding-mobile md:px-container-padding-desktop h-16 w-full sticky z-50">
+<div class="flex items-center gap-4">
+<img alt="Employee Profile Picture" class="w-10 h-10 rounded-full object-cover" data-alt="A professional corporate headshot of a diverse female employee in business casual attire against a clean, well-lit white studio background. The lighting is soft and flattering, creating a premium corporate identity aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6DCT4NhCydv61fS_jzhwH4yV7pXl8E4Kr1mVtylLN7yvDOCIbRCVpH51-rgv99ls0ao57GSJ5u9YR0VuzjAbSW7VsPtig9ukFSy3o953GI-l1oTXR8ugrD_voiUSOV9HHHxn0QwC-X6o3yq_DQz7oOuPPmOkp4a2ppmU7ei__0ByJWrYnKVcbnHMtMzWd6S5a8Wx6ms-6-nDQCxsV6zl0Ww8K-xApIOXh66htA9HsF0ZubL4UHKes"/>
+<span class="font-display-lg text-display-lg text-primary-container hidden md:block">WorkforceAI</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-primary">Help Center</span>
+</div>
+<button class="p-2 hover:bg-surface-container-low transition-colors active:scale-95 duration-150 ease-in-out rounded-full text-primary">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 overflow-y-auto px-container-padding-mobile md:px-container-padding-desktop py-stack-lg pb-32">
+<div class="max-w-4xl mx-auto space-y-stack-lg">
+<!-- Hero Section -->
+<section class="bg-surface rounded-xl p-stack-lg shadow-sm border border-border-subtle text-center">
+<span class="material-symbols-outlined text-4xl text-primary mb-stack-sm">support_agent</span>
+<h1 class="font-headline-lg text-headline-lg mb-stack-sm">How can we help you today?</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Select an issue category below to get started, or describe your problem.</p>
+</section>
+<!-- Grid Layout for Categories -->
+<section class="grid grid-cols-2 md:grid-cols-4 gap-gutter transition-all duration-300" id="category-selection">
+<button class="bg-surface p-stack-md rounded-lg shadow-sm border border-border-subtle hover:border-secondary-container flex flex-col items-center justify-center gap-stack-sm transition-colors group" onclick="selectCategory('Location Error')">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center group-hover:bg-primary-container group-hover:text-on-primary-container transition-colors">
+<span class="material-symbols-outlined">location_off</span>
+</div>
+<span class="font-title-md text-title-md text-on-surface text-center">Location Error</span>
+</button>
+<button class="bg-surface p-stack-md rounded-lg shadow-sm border border-border-subtle hover:border-secondary-container flex flex-col items-center justify-center gap-stack-sm transition-colors group">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center group-hover:bg-primary-container group-hover:text-on-primary-container transition-colors">
+<span class="material-symbols-outlined">face</span>
+</div>
+<span class="font-title-md text-title-md text-on-surface text-center">Face Failed</span>
+</button>
+<button class="bg-surface p-stack-md rounded-lg shadow-sm border border-border-subtle hover:border-secondary-container flex flex-col items-center justify-center gap-stack-sm transition-colors group">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center group-hover:bg-primary-container group-hover:text-on-primary-container transition-colors">
+<span class="material-symbols-outlined">satellite_alt</span>
+</div>
+<span class="font-title-md text-title-md text-on-surface text-center">GPS Error</span>
+</button>
+<button class="bg-surface p-stack-md rounded-lg shadow-sm border border-border-subtle hover:border-secondary-container flex flex-col items-center justify-center gap-stack-sm transition-colors group">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center group-hover:bg-primary-container group-hover:text-on-primary-container transition-colors">
+<span class="material-symbols-outlined">schedule</span>
+</div>
+<span class="font-title-md text-title-md text-on-surface text-center">Timesheet Issue</span>
+</button>
+</section>
+<!-- Details Form (Initially Hidden, shown after selection) -->
+<section class="hidden bg-surface rounded-xl p-stack-lg shadow-sm border border-border-subtle space-y-stack-md transition-all duration-300 transform translate-y-4 opacity-0" id="issue-details">
+<div class="flex justify-between items-center border-b border-border-subtle pb-stack-sm">
+<h2 class="font-title-md text-title-md flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">arrow_forward</span>
+                        Reporting: <span class="font-semibold" id="selected-category-name">Location Error</span>
+</h2>
+<button class="text-secondary hover:underline font-body-md text-body-md" onclick="backToCategories()">Change Category</button>
+</div>
+<div class="space-y-stack-sm">
+<label class="block font-label-md text-label-md text-on-surface-variant" for="issue-description">Describe the problem in detail</label>
+<textarea class="w-full rounded-md border-border-subtle bg-surface focus:border-secondary-container focus:ring-1 focus:ring-secondary-container text-body-md" id="issue-description" placeholder="E.g., The app says I'm outside the geofence, but I am in the office building." rows="4"></textarea>
+</div>
+<div class="space-y-stack-sm">
+<span class="block font-label-md text-label-md text-on-surface-variant">Attachments (Optional)</span>
+<button class="w-full md:w-auto px-6 py-3 border border-secondary text-secondary rounded flex items-center justify-center gap-2 hover:bg-secondary hover:text-white transition-colors duration-200">
+<span class="material-symbols-outlined">add_photo_alternate</span>
+                        Upload Screenshot
+                    </button>
+<p class="font-label-sm text-label-sm text-outline">Max file size: 5MB. Formats: JPG, PNG.</p>
+</div>
+<div class="pt-stack-md border-t border-border-subtle flex justify-end">
+<button class="w-full md:w-auto px-8 py-3 bg-[#0F4C81] text-white rounded font-title-md text-title-md hover:bg-primary-container-dark transition-colors flex items-center justify-center gap-2 shadow-sm">
+                         Submit Request
+                         <span class="material-symbols-outlined">send</span>
+</button>
+</div>
+</section>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 flex justify-around items-center h-20 px-gutter bg-surface shadow-lg border-t border-border-subtle md:hidden">
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-transform active:scale-90 w-16 h-full">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-md text-label-md mt-1">Home</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-transform active:scale-90 w-16 h-full">
+<span class="material-symbols-outlined">fingerprint</span>
+<span class="font-label-md text-label-md mt-1">Attendance</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-transform active:scale-90 w-16 h-full">
+<span class="material-symbols-outlined">groups</span>
+<span class="font-label-md text-label-md mt-1">Community</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-transform active:scale-90 w-16 h-full">
+<span class="material-symbols-outlined">notifications</span>
+<span class="font-label-md text-label-md mt-1">Alerts</span>
+</button>
+<button class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1 transition-transform active:scale-90 h-14">
+<span class="material-symbols-outlined filled-icon">support_agent</span>
+<span class="font-label-md text-label-md mt-1">Support</span>
+</button>
+</nav>
+<script>
+        function selectCategory(categoryName) {
+            document.getElementById('selected-category-name').innerText = categoryName;
+            
+            const grid = document.getElementById('category-selection');
+            const details = document.getElementById('issue-details');
+            
+            // Fade out grid
+            grid.classList.add('opacity-50', 'scale-95');
+            setTimeout(() => {
+                grid.classList.add('hidden');
+                grid.classList.remove('opacity-50', 'scale-95');
+                
+                // Show details
+                details.classList.remove('hidden');
+                setTimeout(() => {
+                    details.classList.remove('opacity-0', 'translate-y-4');
+                }, 50);
+            }, 300);
+        }
+
+        function backToCategories() {
+            const grid = document.getElementById('category-selection');
+            const details = document.getElementById('issue-details');
+            
+            // Fade out details
+            details.classList.add('opacity-0', 'translate-y-4');
+            setTimeout(() => {
+                details.classList.add('hidden');
+                
+                // Show grid
+                grid.classList.remove('hidden');
+                setTimeout(() => {
+                    // trigger reflow
+                }, 50);
+            }, 300);
+        }
+    </script>
+</body></html>

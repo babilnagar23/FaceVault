@@ -1,0 +1,330 @@
+<!DOCTYPE html><html class="h-full" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>WorkforceAI - Attendance</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-container": "#0f4c81",
+                        "outline": "#727780",
+                        "on-primary-container": "#8ebdf9",
+                        "error": "#D32F2F",
+                        "on-surface-variant": "#42474f",
+                        "on-tertiary": "#ffffff",
+                        "success": "#2E7D32",
+                        "warning": "#ED6C02",
+                        "on-primary-fixed": "#001c37",
+                        "on-error": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb780",
+                        "on-tertiary-fixed": "#2f1400",
+                        "on-primary": "#ffffff",
+                        "surface-container": "#eceef1",
+                        "on-secondary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "on-secondary-fixed": "#001c38",
+                        "on-surface": "#191c1e",
+                        "secondary-container": "#47a1ff",
+                        "on-tertiary-container": "#f9a767",
+                        "secondary-fixed-dim": "#a2c9ff",
+                        "on-tertiary-fixed-variant": "#6f3800",
+                        "error-container": "#ffdad6",
+                        "on-secondary-fixed-variant": "#004881",
+                        "on-primary-fixed-variant": "#07497d",
+                        "primary-fixed-dim": "#a0c9ff",
+                        "surface-container-low": "#f2f4f7",
+                        "border-subtle": "#E0E5EB",
+                        "surface-bright": "#f7f9fc",
+                        "inverse-primary": "#a0c9ff",
+                        "outline-variant": "#c2c7d1",
+                        "surface-container-lowest": "#ffffff",
+                        "surface": "#FFFFFF",
+                        "tertiary-container": "#743b00",
+                        "primary": "#00355f",
+                        "secondary-fixed": "#d3e4ff",
+                        "on-background": "#191c1e",
+                        "inverse-on-surface": "#eff1f4",
+                        "background": "#f7f9fc",
+                        "on-secondary-container": "#003663",
+                        "tertiary-fixed": "#ffdcc4",
+                        "surface-tint": "#2d6197",
+                        "surface-container-highest": "#e0e3e6",
+                        "surface-dim": "#d8dadd",
+                        "tertiary": "#532800",
+                        "primary-fixed": "#d2e4ff",
+                        "surface-variant": "#e0e3e6",
+                        "surface-container-high": "#e6e8eb",
+                        "inverse-surface": "#2d3133",
+                        "secondary": "#0060a8"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "12px",
+                        "container-padding-mobile": "16px",
+                        "stack-sm": "8px",
+                        "stack-md": "16px",
+                        "stack-lg": "24px",
+                        "container-padding-desktop": "24px",
+                        "baseline": "4px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "title-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "label-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "display-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "title-md": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "label-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .pipeline-line {
+            transition: height 0.5s ease-in-out;
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(0.8); opacity: 0.5; }
+            100% { transform: scale(1.3); opacity: 0; }
+        }
+        .animate-pulse-ring::before {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            background-color: inherit;
+            animation: pulse-ring 1.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md h-full flex flex-col antialiased">
+<!-- TopAppBar (Hidden on Mobile, Visible on Desktop) -->
+<header class="hidden md:flex justify-between items-center px-container-padding-desktop h-16 w-full bg-surface dark:bg-surface-dim shadow-sm docked full-width top-0 z-40 relative">
+<div class="flex items-center gap-4">
+<div class="font-display-lg text-display-lg text-primary-container dark:text-on-primary-container">WorkforceAI</div>
+</div>
+<nav class="flex gap-6">
+<a class="text-on-surface-variant dark:text-outline font-label-md text-label-md hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-colors px-3 py-2 rounded-md" href="#">Home</a>
+<a class="text-primary dark:text-on-primary-container font-semibold font-label-md text-label-md hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-colors px-3 py-2 rounded-md border-b-2 border-primary" href="#">Attendance</a>
+<a class="text-on-surface-variant dark:text-outline font-label-md text-label-md hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-colors px-3 py-2 rounded-md" href="#">Community</a>
+<a class="text-on-surface-variant dark:text-outline font-label-md text-label-md hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-colors px-3 py-2 rounded-md" href="#">Alerts</a>
+</nav>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed-dim cursor-pointer hover:bg-surface-container-low p-2 rounded-full transition-colors active:scale-95 duration-150 ease-in-out">settings</span>
+<div class="w-8 h-8 rounded-full bg-surface-container-highest overflow-hidden border border-border-subtle">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a corporate employee in a brightly lit modern office setting, looking directly at the camera with a neutral expression. High resolution, clear lighting, realistic style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9R2YmeipsIc8qGv2FH3pfWXlvWFAm4fZbg81eIsLIvIwvPCKDrEKrnoEYC7CAjy6s3boUfinTGWN_kGk47ygjnclpLO1thPxHBzv8GevWQ6vI014QmgAUKJ7-kVTdCtY6r5nHQajzBUtvv8cV8ruLqpneKbKdXSHYdGzS6B6exR9dby5lGiEO97c_603QFvRjz2h480jIxdXO-1-Sd84MEBM7uF-ia0qjlicdUVqoru7FS9h3TY4s">
+</div>
+</div>
+</header>
+<!-- Mobile Top Header -->
+<header class="md:hidden flex justify-between items-center px-container-padding-mobile h-16 w-full bg-surface shadow-sm z-40 relative">
+<div class="font-headline-lg-mobile text-headline-lg-mobile font-semibold text-primary">FaceVault</div>
+<div class="w-8 h-8 rounded-full bg-surface-container-highest overflow-hidden border border-border-subtle">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a corporate employee in a brightly lit modern office setting, looking directly at the camera with a neutral expression. High resolution, clear lighting, realistic style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgziWu0rVT_KjGaBKI5EsTDd0zsfg5A-lY6rjXrqDznKBqaWh_MYaZa6VjxpNjko5t3lJXZI_bd7VgikwTWO3B9AHOWerAh7EP9eMy-utVrs00Gwb6U52VCWIL6E7HrWTGYgTNQIzlTqQR1BqGba0_KCCWOMK-RzYG0GLFNoEVZ_QKMMjKUw4n1Qo6iGPR-KJ5CNRzI96RDnXE5PqJWAdCAD8uR8TxiUdfTTY4v8ruLN9mD4mKkdjt">
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 overflow-y-auto pb-24 md:pb-8 pt-stack-md px-container-padding-mobile md:px-container-padding-desktop flex flex-col items-center">
+<div class="w-full max-w-2xl flex flex-col gap-stack-lg">
+<!-- Context Header -->
+<div class="text-center md:text-left flex flex-col gap-stack-sm">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-primary">Today's Attendance</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Secure biometric verification required for clock-in.</p>
+</div>
+<!-- Primary Action & Status -->
+<div class="bg-surface rounded-xl shadow-[0px_2px_8px_rgba(15,76,129,0.08)] border border-border-subtle p-stack-lg flex flex-col items-center gap-stack-md text-center relative overflow-hidden">
+<div class="w-24 h-24 rounded-full bg-surface-container-low flex items-center justify-center border-4 border-surface-container relative z-10">
+<span class="material-symbols-outlined text-[48px] text-primary" style="font-variation-settings: 'FILL' 0;">fingerprint</span>
+</div>
+<h2 class="font-title-md text-title-md text-on-surface z-10">Ready to Scan</h2>
+<p class="font-body-md text-body-md text-on-surface-variant z-10 max-w-sm">Ensure your face is well-lit and clearly visible before starting the scan.</p>
+<button class="mt-stack-sm bg-primary-container text-on-tertiary font-label-md text-label-md h-12 px-8 rounded-full flex items-center gap-2 hover:bg-primary transition-colors active:scale-95 z-10 shadow-md" id="start-scan-btn">
+<span class="material-symbols-outlined text-[20px]">play_arrow</span>
+                    Start Attendance Scan
+                </button>
+<!-- Subtle background pattern -->
+<div class="absolute inset-0 opacity-5 pointer-events-none" style="background-image: radial-gradient(#0f4c81 1px, transparent 1px); background-size: 20px 20px;"></div>
+</div>
+<!-- AI Pipeline View (Initial State) -->
+<div class="bg-surface rounded-xl shadow-[0px_2px_8px_rgba(15,76,129,0.08)] border border-border-subtle p-stack-md">
+<h3 class="font-title-md text-title-md text-on-surface mb-stack-md border-b border-border-subtle pb-stack-sm">Verification Pipeline</h3>
+<div class="flex flex-col gap-4 relative pl-4">
+<!-- Vertical connecting line -->
+<div class="absolute left-[27px] top-[24px] bottom-[24px] w-[2px] bg-surface-container-highest z-0"></div>
+<div class="absolute left-[27px] top-[24px] w-[2px] bg-success z-0 pipeline-line h-0" id="pipeline-progress"></div>
+<!-- Pipeline Steps -->
+<div class="pipeline-step flex items-start gap-stack-md relative z-10 opacity-60" data-step="1">
+<div class="step-icon w-7 h-7 rounded-full bg-surface-container-highest border-2 border-surface flex items-center justify-center mt-1">
+<span class="material-symbols-outlined text-[14px] text-outline">photo_camera</span>
+</div>
+<div class="flex-1 pb-4">
+<div class="font-label-md text-label-md text-on-surface">Camera Preview</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Waiting for feed...</div>
+</div>
+</div>
+<div class="pipeline-step flex items-start gap-stack-md relative z-10 opacity-60" data-step="2">
+<div class="step-icon w-7 h-7 rounded-full bg-surface-container-highest border-2 border-surface flex items-center justify-center mt-1">
+<span class="material-symbols-outlined text-[14px] text-outline">face</span>
+</div>
+<div class="flex-1 pb-4">
+<div class="font-label-md text-label-md text-on-surface">Face Detection</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Locating features...</div>
+</div>
+</div>
+<div class="pipeline-step flex items-start gap-stack-md relative z-10 opacity-60" data-step="3">
+<div class="step-icon w-7 h-7 rounded-full bg-surface-container-highest border-2 border-surface flex items-center justify-center mt-1">
+<span class="material-symbols-outlined text-[14px] text-outline">align_horizontal_center</span>
+</div>
+<div class="flex-1 pb-4">
+<div class="font-label-md text-label-md text-on-surface">Face Alignment</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Normalizing geometry...</div>
+</div>
+</div>
+<div class="pipeline-step flex items-start gap-stack-md relative z-10 opacity-60" data-step="4">
+<div class="step-icon w-7 h-7 rounded-full bg-surface-container-highest border-2 border-surface flex items-center justify-center mt-1">
+<span class="material-symbols-outlined text-[14px] text-outline">vital_signs</span>
+</div>
+<div class="flex-1 pb-4">
+<div class="font-label-md text-label-md text-on-surface">Liveness Detection</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Anti-spoofing check...</div>
+</div>
+</div>
+<div class="pipeline-step flex items-start gap-stack-md relative z-10 opacity-60" data-step="5">
+<div class="step-icon w-7 h-7 rounded-full bg-surface-container-highest border-2 border-surface flex items-center justify-center mt-1">
+<span class="material-symbols-outlined text-[14px] text-outline">verified</span>
+</div>
+<div class="flex-1 pb-4">
+<div class="font-label-md text-label-md text-on-surface">Matching</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Comparing with DB...</div>
+</div>
+</div>
+<div class="pipeline-step flex items-start gap-stack-md relative z-10 opacity-60" data-step="6">
+<div class="step-icon w-7 h-7 rounded-full bg-surface-container-highest border-2 border-surface flex items-center justify-center mt-1">
+<span class="material-symbols-outlined text-[14px] text-outline">location_on</span>
+</div>
+<div class="flex-1">
+<div class="font-label-md text-label-md text-on-surface">GPS Validation</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Checking geofence...</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 flex justify-around items-center h-20 px-gutter bg-surface dark:bg-surface-container-lowest border-t border-border-subtle shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline hover:text-primary active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined text-[24px]">home</span>
+<span class="font-label-md text-label-md mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container dark:bg-secondary-container dark:text-on-secondary-container rounded-full px-4 py-1 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">fingerprint</span>
+<span class="font-label-md text-label-md mt-1">Attendance</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline hover:text-primary active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined text-[24px]">groups</span>
+<span class="font-label-md text-label-md mt-1">Community</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline hover:text-primary active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined text-[24px]">notifications</span>
+<span class="font-label-md text-label-md mt-1">Alerts</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline hover:text-primary active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined text-[24px]">person</span>
+<span class="font-label-md text-label-md mt-1">Profile</span>
+</a>
+</nav>
+<script>
+        // Simple demonstration of the pipeline animation logic
+        document.getElementById('start-scan-btn').addEventListener('click', function() {
+            const btn = this;
+            btn.innerHTML = '<span class="material-symbols-outlined text-[20px] animate-spin">sync</span> Scanning...';
+            btn.disabled = true;
+            btn.classList.replace('bg-primary-container', 'bg-surface-variant');
+            btn.classList.replace('text-on-tertiary', 'text-on-surface-variant');
+
+            const steps = document.querySelectorAll('.pipeline-step');
+            const progressLine = document.getElementById('pipeline-progress');
+            let currentStep = 0;
+
+            function animateStep() {
+                if (currentStep < steps.length) {
+                    const step = steps[currentStep];
+                    
+                    // Mark previous step as done
+                    if (currentStep > 0) {
+                        const prevStep = steps[currentStep - 1];
+                        const prevIcon = prevStep.querySelector('.step-icon');
+                        prevIcon.classList.replace('bg-secondary-container', 'bg-success');
+                        prevIcon.classList.remove('animate-pulse-ring');
+                        prevIcon.innerHTML = '<span class="material-symbols-outlined text-[14px] text-on-primary">check</span>';
+                        prevStep.querySelector('.font-label-sm').textContent = 'Completed';
+                        prevStep.querySelector('.font-label-sm').classList.replace('text-secondary', 'text-success');
+                    }
+
+                    // Set current step as active
+                    step.classList.remove('opacity-60');
+                    const icon = step.querySelector('.step-icon');
+                    icon.classList.replace('bg-surface-container-highest', 'bg-secondary-container');
+                    icon.classList.add('animate-pulse-ring');
+                    
+                    const iconSpan = icon.querySelector('span');
+                    iconSpan.classList.replace('text-outline', 'text-on-primary-container');
+                    
+                    step.querySelector('.font-label-sm').textContent = 'Processing...';
+                    step.querySelector('.font-label-sm').classList.replace('text-on-surface-variant', 'text-secondary');
+
+                    // Update progress line height
+                    const heightPercent = ((currentStep) / (steps.length - 1)) * 100;
+                    progressLine.style.height = `${heightPercent}%`;
+
+                    currentStep++;
+                    setTimeout(animateStep, 800 + Math.random() * 500); // Randomize duration slightly
+                } else {
+                    // Finish
+                    const lastStep = steps[steps.length - 1];
+                    const lastIcon = lastStep.querySelector('.step-icon');
+                    lastIcon.classList.replace('bg-secondary-container', 'bg-success');
+                    lastIcon.classList.remove('animate-pulse-ring');
+                    lastIcon.innerHTML = '<span class="material-symbols-outlined text-[14px] text-on-primary">check</span>';
+                    lastStep.querySelector('.font-label-sm').textContent = 'Completed';
+                    lastStep.querySelector('.font-label-sm').classList.replace('text-secondary', 'text-success');
+                    
+                    progressLine.style.height = '100%';
+
+                    btn.innerHTML = '<span class="material-symbols-outlined text-[20px]">check_circle</span> Verification Complete';
+                    btn.classList.replace('bg-surface-variant', 'bg-success');
+                    btn.classList.replace('text-on-surface-variant', 'text-on-primary');
+                }
+            }
+            
+            // Start the sequence
+            animateStep();
+        });
+    </script>
+
+
+</body></html>

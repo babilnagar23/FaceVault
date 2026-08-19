@@ -1,0 +1,166 @@
+<!DOCTYPE html><html class="h-full" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>SecureAI Attendance - Splash Screen</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-container": "#0f4c81",
+                        "outline": "#727780",
+                        "on-primary-container": "#8ebdf9",
+                        "error": "#D32F2F",
+                        "on-surface-variant": "#42474f",
+                        "on-tertiary": "#ffffff",
+                        "success": "#2E7D32",
+                        "warning": "#ED6C02",
+                        "on-primary-fixed": "#001c37",
+                        "on-error": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb780",
+                        "on-tertiary-fixed": "#2f1400",
+                        "on-primary": "#ffffff",
+                        "surface-container": "#eceef1",
+                        "on-secondary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "on-secondary-fixed": "#001c38",
+                        "on-surface": "#191c1e",
+                        "secondary-container": "#47a1ff",
+                        "on-tertiary-container": "#f9a767",
+                        "secondary-fixed-dim": "#a2c9ff",
+                        "on-tertiary-fixed-variant": "#6f3800",
+                        "error-container": "#ffdad6",
+                        "on-secondary-fixed-variant": "#004881",
+                        "on-primary-fixed-variant": "#07497d",
+                        "primary-fixed-dim": "#a0c9ff",
+                        "surface-container-low": "#f2f4f7",
+                        "border-subtle": "#E0E5EB",
+                        "surface-bright": "#f7f9fc",
+                        "inverse-primary": "#a0c9ff",
+                        "outline-variant": "#c2c7d1",
+                        "surface-container-lowest": "#ffffff",
+                        "surface": "#FFFFFF",
+                        "tertiary-container": "#743b00",
+                        "primary": "#00355f",
+                        "secondary-fixed": "#d3e4ff",
+                        "on-background": "#191c1e",
+                        "inverse-on-surface": "#eff1f4",
+                        "background": "#f7f9fc",
+                        "on-secondary-container": "#003663",
+                        "tertiary-fixed": "#ffdcc4",
+                        "surface-tint": "#2d6197",
+                        "surface-container-highest": "#e0e3e6",
+                        "surface-dim": "#d8dadd",
+                        "tertiary": "#532800",
+                        "primary-fixed": "#d2e4ff",
+                        "surface-variant": "#e0e3e6",
+                        "surface-container-high": "#e6e8eb",
+                        "inverse-surface": "#2d3133",
+                        "secondary": "#0060a8"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "12px",
+                        "container-padding-mobile": "16px",
+                        "stack-sm": "8px",
+                        "stack-md": "16px",
+                        "stack-lg": "24px",
+                        "container-padding-desktop": "24px",
+                        "baseline": "4px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "title-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "label-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "display-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "title-md": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "label-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .loading-pulse {
+            animation: pulse-ring 1.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(.8); opacity: 0.5; }
+            50% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(.8); opacity: 0.5; }
+        }
+        
+        .fade-in-up {
+            animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body class="h-full bg-surface text-on-surface antialiased flex flex-col items-center justify-center relative overflow-hidden">
+<!-- Background Ambient Element (Subtle) -->
+<div class="absolute inset-0 bg-gradient-to-b from-surface to-surface-bright pointer-events-none z-0"></div>
+<div class="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none z-0">
+<span class="material-symbols-outlined text-[40vw] text-primary-container">shield_person</span>
+</div>
+<!-- Main Content Container -->
+<main class="relative z-10 flex flex-col items-center justify-center w-full max-w-md px-container-padding-mobile md:px-container-padding-desktop">
+<!-- Logo Area -->
+<div class="mb-stack-lg flex flex-col items-center fade-in-up" style="animation-delay: 0.1s;">
+<div class="w-32 h-32 md:w-40 md:h-40 bg-surface rounded-3xl shadow-sm border border-border-subtle flex items-center justify-center mb-stack-md overflow-hidden relative group transition-transform duration-500 hover:scale-105">
+<!-- Using provided image placeholder -->
+<img alt="SecureAI Attendance Logo" class="w-full h-full object-contain p-4 z-10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDC0nsJqp-Z_eN34bIwMzpBsDOnybAlHIjt070w9InhiMEUaSxI6A0fF9U8CXL5jZI6yjsv27uBjma3XFfkZFUnEMSqVLO_9mHQKF4GyCZxs5RYIULPynmoRNwsihnLlOh72L24z3_QtFWXN_tQVMQTQW-1Hji4vXykVSSixD1VSB-fv7Ae4u8urEJrJ46B3QIwqV0ON9tRpw_-IyALVri08wCf-4v7Fs1SJnZtiaJtInSDiTfwzgBq">
+<!-- Decorative subtle glow behind logo -->
+<div class="absolute inset-0 bg-primary-container/5 rounded-3xl blur-xl z-0"></div>
+</div>
+</div>
+<!-- Typography Area -->
+<div class="text-center fade-in-up flex flex-col items-center space-y-stack-sm" style="animation-delay: 0.3s;">
+<h1 class="font-display-lg text-display-lg text-primary-container tracking-tight">
+                FaceVault</h1>
+<p class="font-body-md text-body-md text-outline max-w-[280px]">
+                Secure Offline Attendance System
+            </p>
+</div>
+</main>
+<!-- Bottom Loading Indicator Area -->
+<div class="absolute bottom-12 md:bottom-16 w-full flex flex-col items-center justify-center fade-in-up" style="animation-delay: 0.6s;">
+<div class="flex items-center space-x-2 bg-surface-container-lowest px-4 py-2 rounded-full border border-border-subtle shadow-sm">
+<div class="w-2 h-2 rounded-full bg-primary-container loading-pulse" style="animation-delay: 0s;"></div>
+<div class="w-2 h-2 rounded-full bg-primary-container loading-pulse" style="animation-delay: 0.2s;"></div>
+<div class="w-2 h-2 rounded-full bg-primary-container loading-pulse" style="animation-delay: 0.4s;"></div>
+<span class="font-label-sm text-label-sm text-outline ml-2">Initializing System...</span>
+</div>
+</div>
+
+
+</body></html>
