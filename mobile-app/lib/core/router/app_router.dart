@@ -13,6 +13,7 @@ import '../../features/help_center/presentation/help_center_screen.dart';
 import '../../features/help_center/presentation/help_create_screen.dart';
 import '../../features/help_center/presentation/help_detail_screen.dart';
 import '../../features/notifications/presentation/notifications_screen.dart';
+import '../../features/offline_sync/presentation/offline_data_screen.dart';
 import '../../features/onboarding/presentation/device_registration_screen.dart';
 import '../../features/onboarding/presentation/permissions_screen.dart';
 import '../../features/onboarding/presentation/registration_success_screen.dart';
@@ -40,6 +41,10 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/onboarding/device',
       builder: (context, state) => const DeviceRegistrationScreen(),
+    ),
+    GoRoute(
+      path: '/onboarding/offline',
+      builder: (context, state) => const OfflineDataScreen(),
     ),
     GoRoute(
       path: '/onboarding/face',

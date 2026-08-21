@@ -27,7 +27,7 @@ class _DeviceRegistrationScreenState extends ConsumerState<DeviceRegistrationScr
     });
     await Future<void>.delayed(const Duration(milliseconds: 600));
     if (!mounted) return;
-    context.go('/onboarding/face');
+    context.go('/onboarding/offline');
   }
 
   @override

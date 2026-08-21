@@ -1,3 +1,3 @@
 import { SettingsPage } from '@/components/admin-pages';
-export default SettingsPage;
+export default function Page() { return <SettingsPage />; }
 
