@@ -231,9 +231,9 @@ class _DataItemTile extends StatelessWidget {
         borderRadius: BorderRadius.circular(AppRadius.md),
         border: Border.all(
           color: item.done
-              ? AppColors.success.withOpacity(0.3)
+              ? AppColors.success.withValues(alpha: 0.3)
               : isActive
-                  ? AppColors.secondary.withOpacity(0.4)
+                  ? AppColors.secondary.withValues(alpha: 0.4)
                   : AppColors.borderSubtle,
         ),
       ),
@@ -244,9 +244,9 @@ class _DataItemTile extends StatelessWidget {
             height: 36,
             decoration: BoxDecoration(
               color: item.done
-                  ? AppColors.success.withOpacity(0.12)
+                  ? AppColors.success.withValues(alpha: 0.12)
                   : isActive
-                      ? AppColors.primary.withOpacity(0.08)
+                      ? AppColors.primary.withValues(alpha: 0.08)
                       : AppColors.surfaceContainerLow,
               borderRadius: BorderRadius.circular(AppRadius.sm),
             ),
