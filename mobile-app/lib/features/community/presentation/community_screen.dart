@@ -157,7 +157,7 @@ class _AnnouncementCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(AppRadius.lg),
           border: Border.all(
             color: announcement.urgent
-                ? AppColors.error.withOpacity(0.4)
+                ? AppColors.error.withValues(alpha: 0.4)
                 : AppColors.borderSubtle,
           ),
         ),
@@ -173,7 +173,7 @@ class _AnnouncementCard extends StatelessWidget {
                 ],
                 if (announcement.urgent) ...[
                   const SizedBox(width: 6),
-                  StatusChip(label: 'URGENT', color: AppColors.error),
+                  const StatusChip(label: 'URGENT', color: AppColors.error),
                 ],
                 const Spacer(),
                 if (!announcement.read)
@@ -268,7 +268,7 @@ class CommunityDetailScreen extends ConsumerWidget {
                             StatusChip(label: a.category, color: AppColors.primary),
                             if (a.urgent) ...[
                               const SizedBox(width: 8),
-                              StatusChip(label: 'URGENT', color: AppColors.error),
+                              const StatusChip(label: 'URGENT', color: AppColors.error),
                             ],
                           ],
                         ),

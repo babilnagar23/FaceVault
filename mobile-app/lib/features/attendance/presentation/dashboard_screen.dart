@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 
 import '../../../core/providers/app_providers.dart';
 import '../../../core/theme/app_theme.dart';
@@ -210,11 +209,11 @@ class _IdentityRow extends StatelessWidget {
           decoration: BoxDecoration(
             color: AppColors.successSurface,
             borderRadius: BorderRadius.circular(AppRadius.full),
-            border: Border.all(color: AppColors.success.withOpacity(0.3)),
+            border: Border.all(color: AppColors.success.withValues(alpha: 0.3)),
           ),
-          child: Row(
+          child: const Row(
             mainAxisSize: MainAxisSize.min,
-            children: const [
+            children: [
               StatusDot(label: '', color: AppColors.success),
               SizedBox(width: 2),
               Text(
@@ -254,10 +253,10 @@ class _MetricGrid extends ConsumerWidget {
       childAspectRatio: 1.1,
       children: [
         // Today's hours
-        _GridCard(
+        const _GridCard(
           icon: Icons.schedule_outlined,
           title: "Today's Hours",
-          child: const Row(
+          child: Row(
             crossAxisAlignment: CrossAxisAlignment.baseline,
             textBaseline: TextBaseline.alphabetic,
             children: [
@@ -321,11 +320,11 @@ class _MetricGrid extends ConsumerWidget {
             ),
           )
         else
-          _GridCard(
+          const _GridCard(
             icon: Icons.check_circle_outline,
             title: 'Sync Status',
             iconColor: AppColors.success,
-            child: const Text(
+            child: Text(
               'All synced',
               style: TextStyle(
                 fontSize: 15,
@@ -343,7 +342,7 @@ class _MetricGrid extends ConsumerWidget {
               borderRadius: BorderRadius.circular(AppRadius.lg),
               boxShadow: [
                 BoxShadow(
-                  color: AppColors.primary.withOpacity(0.3),
+                  color: AppColors.primary.withValues(alpha: 0.3),
                   blurRadius: 12,
                   offset: const Offset(0, 4),
                 ),
@@ -534,18 +533,18 @@ class _TodayLogCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(AppSpacing.md, AppSpacing.md, AppSpacing.md, 0),
+          const Padding(
+            padding: EdgeInsets.fromLTRB(AppSpacing.md, AppSpacing.md, AppSpacing.md, 0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
+                Text(
                   "Today's Log",
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: AppColors.onSurface),
                 ),
                 Text(
                   'Last updated 5m ago',
-                  style: const TextStyle(fontSize: 12, color: AppColors.onSurfaceVariant),
+                  style: TextStyle(fontSize: 12, color: AppColors.onSurfaceVariant),
                 ),
               ],
             ),
@@ -566,15 +565,15 @@ class _TodayLogCard extends StatelessWidget {
                   child: const Icon(Icons.login, color: AppColors.success, size: 18),
                 ),
                 const SizedBox(width: AppSpacing.md),
-                Expanded(
+                const Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
+                      Text(
                         'Check In',
                         style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                       ),
-                      const Text(
+                      Text(
                         'Biometric • Verified',
                         style: TextStyle(fontSize: 12, color: AppColors.onSurfaceVariant),
                       ),
@@ -608,10 +607,10 @@ class _TodayLogCard extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: AppSpacing.md),
-                Expanded(
+                const Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
+                    children: [
                       Text(
                         'Check Out',
                         style: TextStyle(

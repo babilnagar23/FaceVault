@@ -19,25 +19,25 @@ class _PermissionsScreenState extends State<PermissionsScreen> {
   };
 
   final _permissions = [
-    _PermissionDef(
+    const _PermissionDef(
       key: 'Camera',
       icon: Icons.photo_camera_outlined,
       title: 'Camera Access',
       description: 'Required for facial recognition check-ins and document scanning.',
     ),
-    _PermissionDef(
+    const _PermissionDef(
       key: 'Location',
       icon: Icons.location_on_outlined,
       title: 'Location Services',
       description: 'Ensures check-ins occur within designated geofenced areas.',
     ),
-    _PermissionDef(
+    const _PermissionDef(
       key: 'Local Storage',
       icon: Icons.folder_outlined,
       title: 'Local Storage',
       description: 'Allows temporary offline data storage during network interruptions.',
     ),
-    _PermissionDef(
+    const _PermissionDef(
       key: 'Notifications',
       icon: Icons.notifications_outlined,
       title: 'Push Notifications',
@@ -72,9 +72,9 @@ class _PermissionsScreenState extends State<PermissionsScreen> {
         child: Column(
           children: [
             // Step bar
-            Padding(
-              padding: const EdgeInsets.fromLTRB(AppSpacing.md, AppSpacing.md, AppSpacing.md, 0),
-              child: const OnboardingStepBar(
+            const Padding(
+              padding: EdgeInsets.fromLTRB(AppSpacing.md, AppSpacing.md, AppSpacing.md, 0),
+              child: OnboardingStepBar(
                 current: 1,
                 total: 5,
                 label: 'Permissions',
@@ -122,7 +122,7 @@ class _PermissionsScreenState extends State<PermissionsScreen> {
                       decoration: BoxDecoration(
                         color: AppColors.warningSurface,
                         borderRadius: BorderRadius.circular(AppRadius.sm),
-                        border: Border.all(color: AppColors.warning.withOpacity(0.3)),
+                        border: Border.all(color: AppColors.warning.withValues(alpha: 0.3)),
                       ),
                       child: const Row(
                         children: [
@@ -188,7 +188,7 @@ class _PermissionCard extends StatelessWidget {
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(AppRadius.lg),
         border: Border.all(
-          color: granted ? AppColors.primary.withOpacity(0.3) : AppColors.borderSubtle,
+          color: granted ? AppColors.primary.withValues(alpha: 0.3) : AppColors.borderSubtle,
         ),
       ),
       child: Row(
@@ -234,7 +234,7 @@ class _PermissionCard extends StatelessWidget {
               Switch(
                 value: granted,
                 onChanged: onToggle,
-                activeColor: AppColors.primary,
+                activeThumbColor: AppColors.primary,
               ),
               if (granted)
                 Positioned(

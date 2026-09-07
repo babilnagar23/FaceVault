@@ -68,14 +68,6 @@ class _TodayAttendanceScreenState extends ConsumerState<TodayAttendanceScreen> {
     });
   }
 
-  PipelineStepStatus _stepStatus(_ScanState scan, _ScanState activeOn, _ScanState successOn) {
-    if (scan.index < activeOn.index) return PipelineStepStatus.waiting;
-    if (scan == activeOn) return PipelineStepStatus.active;
-    if (scan.index > successOn.index || scan == _ScanState.success || scan == _ScanState.failed) {
-      return PipelineStepStatus.success;
-    }
-    return PipelineStepStatus.waiting;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -107,7 +99,7 @@ class _TodayAttendanceScreenState extends ConsumerState<TodayAttendanceScreen> {
             width: 36,
             height: 36,
             margin: const EdgeInsets.only(right: 12, top: 4, bottom: 4),
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: AppColors.primary,
               shape: BoxShape.circle,
             ),
@@ -165,7 +157,7 @@ class _TodayAttendanceScreenState extends ConsumerState<TodayAttendanceScreen> {
                     decoration: BoxDecoration(
                       color: _state == _ScanState.ready
                           ? AppColors.surfaceContainerLow
-                          : AppColors.primary.withOpacity(0.12),
+                          : AppColors.primary.withValues(alpha: 0.12),
                       shape: BoxShape.circle,
                     ),
                     child: Icon(
@@ -333,7 +325,7 @@ class _SuccessView extends StatelessWidget {
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
-                          color: AppColors.success.withOpacity(0.3),
+                          color: AppColors.success.withValues(alpha: 0.3),
                           blurRadius: 20,
                           offset: const Offset(0, 6),
                         ),
@@ -353,9 +345,9 @@ class _SuccessView extends StatelessWidget {
                       color: AppColors.warningSurface,
                       borderRadius: BorderRadius.circular(AppRadius.full),
                     ),
-                    child: Row(
+                    child: const Row(
                       mainAxisSize: MainAxisSize.min,
-                      children: const [
+                      children: [
                         Icon(Icons.cloud_upload_outlined, color: AppColors.warning, size: 14),
                         SizedBox(width: 6),
                         Text(
@@ -371,13 +363,13 @@ class _SuccessView extends StatelessWidget {
                   ),
                   const SizedBox(height: AppSpacing.md),
                   const Divider(),
-                  InfoRow(
+                  const InfoRow(
                     icon: Icons.person_outline,
                     label: 'Employee',
                     value: 'Aarav Mehta',
                   ),
                   const Divider(height: 1),
-                  InfoRow(
+                  const InfoRow(
                     icon: Icons.schedule,
                     label: 'Time',
                     value: '09:48 AM',

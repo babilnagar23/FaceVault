@@ -67,9 +67,9 @@ class _TicketBody extends StatelessWidget {
         Container(
           padding: const EdgeInsets.all(AppSpacing.md),
           decoration: BoxDecoration(
-            color: statusColor.withOpacity(0.08),
+            color: statusColor.withValues(alpha: 0.08),
             borderRadius: BorderRadius.circular(AppRadius.lg),
-            border: Border.all(color: statusColor.withOpacity(0.25)),
+            border: Border.all(color: statusColor.withValues(alpha: 0.25)),
           ),
           child: Row(
             children: [
@@ -132,7 +132,7 @@ class _TicketBody extends StatelessWidget {
                   isFirst: true,
                 ),
                 if (ticket.status == 'In Progress' || ticket.status == 'Resolved' || ticket.status == 'Urgent')
-                  _TimelineItem(
+                  const _TimelineItem(
                     icon: Icons.pending_outlined,
                     label: 'Under review by support team',
                     time: 'Approx. 30 minutes later',
@@ -140,7 +140,7 @@ class _TicketBody extends StatelessWidget {
                     isFirst: false,
                   ),
                 if (ticket.status == 'Resolved')
-                  _TimelineItem(
+                  const _TimelineItem(
                     icon: Icons.check_circle,
                     label: 'Resolved by support team',
                     time: 'Within 24 hours',
@@ -149,7 +149,7 @@ class _TicketBody extends StatelessWidget {
                     isLast: true,
                   )
                 else
-                  _TimelineItem(
+                  const _TimelineItem(
                     icon: Icons.hourglass_top_outlined,
                     label: 'Awaiting response',
                     time: 'Expected within 24 hours',

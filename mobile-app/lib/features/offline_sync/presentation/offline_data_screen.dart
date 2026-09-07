@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/providers/app_providers.dart';
 import '../../../core/theme/app_theme.dart';
-import '../../../data/models/app_models.dart';
 import '../../../shared/widgets/app_widgets.dart';
 
 /// Offline data preparation — first-time onboarding step.
@@ -19,12 +18,12 @@ class OfflineDataScreen extends ConsumerStatefulWidget {
 
 class _OfflineDataScreenState extends ConsumerState<OfflineDataScreen> {
   final List<_DataItem> _items = [
-    _DataItem(label: 'Employee Profile', icon: Icons.person_outline, done: false),
-    _DataItem(label: 'Project Details', icon: Icons.work_outline, done: false),
-    _DataItem(label: 'Assigned Site & GeoFence', icon: Icons.location_on_outlined, done: false),
-    _DataItem(label: 'Attendance Rules', icon: Icons.rule_outlined, done: false),
-    _DataItem(label: 'Shift Configuration', icon: Icons.schedule_outlined, done: false),
-    _DataItem(label: 'Face Configuration', icon: Icons.face_retouching_natural, done: false),
+    const _DataItem(label: 'Employee Profile', icon: Icons.person_outline, done: false),
+    const _DataItem(label: 'Project Details', icon: Icons.work_outline, done: false),
+    const _DataItem(label: 'Assigned Site & GeoFence', icon: Icons.location_on_outlined, done: false),
+    const _DataItem(label: 'Attendance Rules', icon: Icons.rule_outlined, done: false),
+    const _DataItem(label: 'Shift Configuration', icon: Icons.schedule_outlined, done: false),
+    const _DataItem(label: 'Face Configuration', icon: Icons.face_retouching_natural, done: false),
   ];
 
   bool _started = false;
@@ -72,7 +71,7 @@ class _OfflineDataScreenState extends ConsumerState<OfflineDataScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            OnboardingStepBar(current: 3, total: 5, label: 'Offline Setup'),
+            const OnboardingStepBar(current: 3, total: 5, label: 'Offline Setup'),
             Expanded(
               child: ListView(
                 padding: const EdgeInsets.all(AppSpacing.md),
@@ -92,7 +91,7 @@ class _OfflineDataScreenState extends ConsumerState<OfflineDataScreen> {
                           width: 64,
                           height: 64,
                           decoration: BoxDecoration(
-                            color: AppColors.primary.withOpacity(0.1),
+                            color: AppColors.primary.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(AppRadius.xl),
                           ),
                           child: const Icon(
@@ -160,7 +159,7 @@ class _OfflineDataScreenState extends ConsumerState<OfflineDataScreen> {
                     decoration: BoxDecoration(
                       color: const Color(0xFFE3EDF7),
                       borderRadius: BorderRadius.circular(AppRadius.md),
-                      border: Border.all(color: AppColors.primary.withOpacity(0.2)),
+                      border: Border.all(color: AppColors.primary.withValues(alpha: 0.2)),
                     ),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,

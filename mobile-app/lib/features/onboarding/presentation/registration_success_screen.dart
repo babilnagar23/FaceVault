@@ -46,7 +46,7 @@ class RegistrationSuccessScreen extends StatelessWidget {
                         shape: BoxShape.circle,
                         boxShadow: [
                           BoxShadow(
-                            color: AppColors.success.withOpacity(0.3),
+                            color: AppColors.success.withValues(alpha: 0.3),
                             blurRadius: 24,
                             offset: const Offset(0, 8),
                           ),
@@ -80,8 +80,8 @@ class RegistrationSuccessScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(AppRadius.lg),
                         border: Border.all(color: AppColors.borderSubtle),
                       ),
-                      child: Column(
-                        children: const [
+                      child: const Column(
+                        children: [
                           _CheckItem(label: 'Permissions granted'),
                           Divider(height: 16),
                           _CheckItem(label: 'Device registered'),

@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/providers/app_providers.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../../data/models/app_models.dart';
 import '../../../shared/widgets/app_widgets.dart';
 
 class HelpCenterScreen extends ConsumerWidget {
@@ -147,7 +148,7 @@ class _TicketList extends ConsumerWidget {
 class _TicketTile extends StatelessWidget {
   const _TicketTile({required this.ticket});
 
-  final ticket;
+  final HelpTicket ticket;
 
   @override
   Widget build(BuildContext context) {

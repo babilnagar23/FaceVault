@@ -71,7 +71,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                       borderRadius: BorderRadius.circular(AppRadius.xl),
                       boxShadow: [
                         BoxShadow(
-                          color: AppColors.primary.withOpacity(0.3),
+                          color: AppColors.primary.withValues(alpha: 0.3),
                           blurRadius: 24,
                           offset: const Offset(0, 8),
                         ),
@@ -151,7 +151,7 @@ class _DotLoaderState extends State<_DotLoader> with SingleTickerProviderStateMi
               height: 8,
               margin: const EdgeInsets.symmetric(horizontal: 4),
               decoration: BoxDecoration(
-                color: AppColors.primary.withOpacity(0.2 + opacity * 0.8),
+                color: AppColors.primary.withValues(alpha: 0.2 + opacity * 0.8),
                 shape: BoxShape.circle,
               ),
             );

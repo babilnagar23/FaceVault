@@ -108,6 +108,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               loading = true;
               error = null;
             });
+            final router = context.go;
             final result = await ref.read(authApiProvider).login(employeeId.text, password.text);
             if (!mounted) return;
             setState(() => loading = false);
@@ -115,7 +116,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               setState(() => error = result.message ?? 'Unable to login.');
               return;
             }
-            context.go(result.firstDeviceLogin ? '/onboarding/permissions' : '/dashboard');
+            router(result.firstDeviceLogin ? '/onboarding/permissions' : '/dashboard');
           },
         ),
         TextButton(onPressed: () {}, child: const Text('Forgot password')),
@@ -309,7 +310,7 @@ class DashboardScreen extends ConsumerWidget {
           const MetricCard(title: "Today's Attendance", value: 'Not Marked', icon: Icons.how_to_reg, subtitle: 'Start when you reach your assigned location.'),
           MetricCard(title: 'Assigned Project', value: employee.project, icon: Icons.work, subtitle: employee.location),
           MetricCard(title: 'Shift', value: employee.shift, icon: Icons.schedule, subtitle: 'Shift Start 09:00 • Shift End 18:00'),
-          Wrap(
+          const Wrap(
             spacing: AppSpacing.sm,
             runSpacing: AppSpacing.sm,
             children: [
@@ -345,7 +346,7 @@ class AttendanceScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppScaffold(
+    return const AppScaffold(
       title: 'Attendance',
       children: [
         _NavTile(title: "Today's Attendance", subtitle: 'Face, liveness, location', route: '/attendance/today', icon: Icons.today),
@@ -552,7 +553,7 @@ class _HelpCreateScreenState extends ConsumerState<HelpCreateScreen> {
       title: 'Create Help Request',
       children: [
         DropdownButtonFormField<String>(
-          value: issueType,
+          initialValue: issueType,
           items: ['Location Error', 'Face Recognition Failed', 'GPS Problem', 'Camera Problem', 'Other']
               .map((type) => DropdownMenuItem(value: type, child: Text(type)))
               .toList(),
@@ -640,7 +641,7 @@ class NotificationsScreen extends ConsumerWidget {
           data: (items) => Column(
             children: [
               for (final item in items)
-                Card(child: ListTile(leading: const Icon(Icons.notifications_active), title: Text(item))),
+                Card(child: ListTile(leading: const Icon(Icons.notifications_active), title: Text(item.title))),
             ],
           ),
         ),

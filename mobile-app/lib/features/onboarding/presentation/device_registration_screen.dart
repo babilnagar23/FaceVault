@@ -47,14 +47,14 @@ class _DeviceRegistrationScreenState extends ConsumerState<DeviceRegistrationScr
           builder: (context, snapshot) {
             return Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(
+                const Padding(
+                  padding: EdgeInsets.fromLTRB(
                     AppSpacing.md,
                     AppSpacing.md,
                     AppSpacing.md,
                     0,
                   ),
-                  child: const OnboardingStepBar(
+                  child: OnboardingStepBar(
                     current: 2,
                     total: 5,
                     label: 'Device',
@@ -112,7 +112,7 @@ class _DeviceRegistrationScreenState extends ConsumerState<DeviceRegistrationScr
                             borderRadius: BorderRadius.circular(AppRadius.md),
                             border: Border.all(
                               color: _registered
-                                  ? AppColors.success.withOpacity(0.3)
+                                  ? AppColors.success.withValues(alpha: 0.3)
                                   : AppColors.borderSubtle,
                             ),
                           ),

@@ -59,9 +59,9 @@ class _DetailBody extends StatelessWidget {
         Container(
           padding: const EdgeInsets.all(AppSpacing.md),
           decoration: BoxDecoration(
-            color: statusColor.withOpacity(0.08),
+            color: statusColor.withValues(alpha: 0.08),
             borderRadius: BorderRadius.circular(AppRadius.lg),
-            border: Border.all(color: statusColor.withOpacity(0.25)),
+            border: Border.all(color: statusColor.withValues(alpha: 0.25)),
           ),
           child: Row(
             children: [

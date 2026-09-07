@@ -120,7 +120,7 @@ class _RecordListState extends State<_RecordList> {
                       }
                     });
                   },
-                  selectedColor: AppColors.primary.withOpacity(0.12),
+                  selectedColor: AppColors.primary.withValues(alpha: 0.12),
                   checkmarkColor: AppColors.primary,
                   labelStyle: TextStyle(
                     color: selected ? AppColors.primary : AppColors.onSurfaceVariant,

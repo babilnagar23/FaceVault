@@ -116,13 +116,13 @@ class _FaceEnrollmentScreenState extends ConsumerState<FaceEnrollmentScreen>
           icon: const Icon(Icons.arrow_back),
           onPressed: () => context.go('/onboarding/device'),
         ),
-        title: Column(
+        title: const Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Device Registration', style: TextStyle(fontSize: 16)),
+            Text('Device Registration', style: TextStyle(fontSize: 16)),
             Text(
               'Step 4 of 5',
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 11,
                 color: AppColors.onSurfaceVariant,
                 fontWeight: FontWeight.w400,
@@ -202,7 +202,7 @@ class _FaceEnrollmentScreenState extends ConsumerState<FaceEnrollmentScreen>
                                         )
                                       : Icon(
                                           Icons.face,
-                                          color: AppColors.primary.withOpacity(0.3),
+                                          color: AppColors.primary.withValues(alpha: 0.3),
                                           size: 72,
                                         ),
                                 ),
@@ -220,7 +220,7 @@ class _FaceEnrollmentScreenState extends ConsumerState<FaceEnrollmentScreen>
                                         borderRadius:
                                             BorderRadius.circular(AppRadius.full),
                                         border: Border.all(
-                                          color: AppColors.success.withOpacity(0.3),
+                                          color: AppColors.success.withValues(alpha: 0.3),
                                         ),
                                         boxShadow: AppShadows.card,
                                       ),
@@ -381,7 +381,7 @@ class _FaceEnrollmentScreenState extends ConsumerState<FaceEnrollmentScreen>
                       decoration: BoxDecoration(
                         color: AppColors.successSurface,
                         borderRadius: BorderRadius.circular(AppRadius.lg),
-                        border: Border.all(color: AppColors.success.withOpacity(0.3)),
+                        border: Border.all(color: AppColors.success.withValues(alpha: 0.3)),
                       ),
                       child: const Column(
                         children: [

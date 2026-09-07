@@ -23,7 +23,7 @@ class SettingsScreen extends ConsumerWidget {
       body: SafeArea(
         child: ListView(
           children: [
-            _SectionLabel('Account'),
+            const _SectionLabel('Account'),
             _SettingsTile(
               icon: Icons.person_outline,
               title: 'Employee Profile',
@@ -37,7 +37,7 @@ class SettingsScreen extends ConsumerWidget {
               ),
             ),
             const Divider(height: 1, indent: 16, endIndent: 16),
-            _SectionLabel('Security & Biometric'),
+            const _SectionLabel('Security & Biometric'),
             _SettingsTile(
               icon: Icons.face,
               title: 'Re-enroll Face',
@@ -50,14 +50,14 @@ class SettingsScreen extends ConsumerWidget {
               onTap: () {},
             ),
             const Divider(height: 1, indent: 16, endIndent: 16),
-            _SectionLabel('Notifications'),
+            const _SectionLabel('Notifications'),
             _SettingsTile(
               icon: Icons.notifications_outlined,
               title: 'Push Notifications',
               trailing: Switch(
                 value: true,
                 onChanged: (_) {},
-                activeColor: AppColors.primary,
+                activeThumbColor: AppColors.primary,
               ),
             ),
             _SettingsTile(
@@ -66,11 +66,11 @@ class SettingsScreen extends ConsumerWidget {
               trailing: Switch(
                 value: true,
                 onChanged: (_) {},
-                activeColor: AppColors.primary,
+                activeThumbColor: AppColors.primary,
               ),
             ),
             const Divider(height: 1, indent: 16, endIndent: 16),
-            _SectionLabel('Offline & Sync'),
+            const _SectionLabel('Offline & Sync'),
             _SettingsTile(
               icon: Icons.cloud_sync_outlined,
               title: 'Sync Pending Records',
@@ -84,17 +84,17 @@ class SettingsScreen extends ConsumerWidget {
                 }
               },
             ),
-            _SettingsTile(
+            const _SettingsTile(
               icon: Icons.wifi_off,
               title: 'Offline Mode',
               subtitle: 'Current: Enabled when offline',
             ),
             const Divider(height: 1, indent: 16, endIndent: 16),
-            _SectionLabel('About'),
-            _SettingsTile(
+            const _SectionLabel('About'),
+            const _SettingsTile(
               icon: Icons.info_outline,
               title: 'App Version',
-              trailing: const Text(
+              trailing: Text(
                 '1.0.0 Enterprise',
                 style: TextStyle(fontSize: 13, color: AppColors.onSurfaceVariant),
               ),

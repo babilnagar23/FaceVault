@@ -156,7 +156,7 @@ class _NavItem extends StatelessWidget {
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
                       decoration: BoxDecoration(
-                        color: AppColors.primary.withOpacity(0.1),
+                        color: AppColors.primary.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(AppRadius.full),
                       ),
                       child: Icon(activeIcon, color: color, size: 22),
@@ -425,7 +425,7 @@ class MetricCard extends StatelessWidget {
               width: 44,
               height: 44,
               decoration: BoxDecoration(
-                color: ic.withOpacity(0.1),
+                color: ic.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(AppRadius.md),
               ),
               child: Icon(icon, color: ic, size: 22),
@@ -466,7 +466,7 @@ class StatusChip extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.12),
+        color: color.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(AppRadius.full),
       ),
       child: Text(
@@ -883,7 +883,7 @@ class PipelineStep extends StatelessWidget {
                     child: Container(
                       width: 2,
                       margin: const EdgeInsets.symmetric(vertical: 4),
-                      color: color.withOpacity(0.2),
+                      color: color.withValues(alpha: 0.2),
                     ),
                   ),
               ],
@@ -1010,9 +1010,9 @@ class MapPlaceholder extends StatelessWidget {
               width: 80,
               height: 80,
               decoration: BoxDecoration(
-                color: AppColors.secondary.withOpacity(0.12),
+                color: AppColors.secondary.withValues(alpha: 0.12),
                 shape: BoxShape.circle,
-                border: Border.all(color: AppColors.secondary.withOpacity(0.5), width: 2),
+                border: Border.all(color: AppColors.secondary.withValues(alpha: 0.5), width: 2),
               ),
             ),
           ),
@@ -1052,7 +1052,7 @@ class _MapGridPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = AppColors.secondary.withOpacity(0.07)
+      ..color = AppColors.secondary.withValues(alpha: 0.07)
       ..strokeWidth = 1;
     const step = 24.0;
     for (double x = 0; x < size.width; x += step) {

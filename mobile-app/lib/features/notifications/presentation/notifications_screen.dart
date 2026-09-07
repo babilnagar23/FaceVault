@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 import '../../../core/providers/app_providers.dart';
@@ -102,10 +101,10 @@ class _NotificationList extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.all(AppSpacing.md),
             decoration: BoxDecoration(
-              color: n.read ? AppColors.surface : AppColors.primary.withOpacity(0.04),
+              color: n.read ? AppColors.surface : AppColors.primary.withValues(alpha: 0.04),
               borderRadius: BorderRadius.circular(AppRadius.lg),
               border: Border.all(
-                color: n.read ? AppColors.borderSubtle : AppColors.primary.withOpacity(0.2),
+                color: n.read ? AppColors.borderSubtle : AppColors.primary.withValues(alpha: 0.2),
               ),
             ),
             child: Row(
@@ -115,7 +114,7 @@ class _NotificationList extends StatelessWidget {
                   width: 40,
                   height: 40,
                   decoration: BoxDecoration(
-                    color: color.withOpacity(0.12),
+                    color: color.withValues(alpha: 0.12),
                     borderRadius: BorderRadius.circular(AppRadius.md),
                   ),
                   child: Icon(_typeIcon(n.type), color: color, size: 20),
