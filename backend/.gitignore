@@ -1,0 +1,50 @@
+# ─── Environment ────────────────────────────────
+.env
+.env.*
+!.env.example
+
+# ─── Python ─────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+env/
+ENV/
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+
+# ─── Testing ─────────────────────────────────────
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# ─── Mypy / Ruff / Type checkers ─────────────────
+.mypy_cache/
+.ruff_cache/
+
+# ─── Alembic auto-generated ──────────────────────
+# (keep versions/ tracked, but exclude local pycache)
+alembic/versions/__pycache__/
+
+# ─── IDE / OS ────────────────────────────────────
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+
+# ─── Docker volumes ──────────────────────────────
+postgres_data/
+redis_data/
+minio_data/
+
+# ─── Logs ────────────────────────────────────────
+*.log
+logs/
