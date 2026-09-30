@@ -3,11 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/providers/app_providers.dart';
+import '../../../core/services/real/attendance_pipeline_coordinator.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../data/models/app_models.dart';
 import '../../../shared/widgets/app_widgets.dart';
 
-enum _ScanState { ready, scanning, stepFace, stepLiveness, stepLocation, success, failed }
+enum _ScanState { ready, stepFace, stepLiveness, stepLocation, stepSync, success, failed }
 
 class TodayAttendanceScreen extends ConsumerStatefulWidget {
   const TodayAttendanceScreen({super.key});
@@ -19,55 +20,54 @@ class TodayAttendanceScreen extends ConsumerStatefulWidget {
 class _TodayAttendanceScreenState extends ConsumerState<TodayAttendanceScreen> {
   _ScanState _state = _ScanState.ready;
   AttendanceVerificationResult? _result;
+  String? _errorMessage;
 
   Future<void> _startScan() async {
-    setState(() => _state = _ScanState.scanning);
-    await Future<void>.delayed(const Duration(milliseconds: 600));
-
-    setState(() => _state = _ScanState.stepFace);
-    final faceResult = await ref.read(faceRecognitionServiceProvider).verifyLiveFace();
-
-    if (!faceResult.verified) {
-      setState(() => _state = _ScanState.failed);
-      return;
-    }
-
-    setState(() => _state = _ScanState.stepLiveness);
-    final livenessResult = await ref.read(livenessServiceProvider).checkLiveness();
-
-    if (!livenessResult.passed) {
-      setState(() => _state = _ScanState.failed);
-      return;
-    }
-
-    setState(() => _state = _ScanState.stepLocation);
-    final locationResult = await ref.read(locationServiceProvider).verify();
-
-    final verifyResult = AttendanceVerificationResult(
-      faceVerified: faceResult.verified,
-      faceScore: faceResult.score,
-      livenessVerified: livenessResult.passed,
-      livenessScore: livenessResult.score,
-      locationVerified: locationResult.verified,
-      distanceMeters: locationResult.distanceMeters,
-      gpsAccuracyMeters: locationResult.gpsAccuracyMeters,
-      assignedSite: locationResult.assignedSite,
-      timestamp: DateTime.now(),
-      attendanceStatus: locationResult.verified
-          ? AttendanceStatus.present
-          : AttendanceStatus.locationError,
-      syncStatus: SyncState.synced,
-    );
-
-    await ref.read(attendanceApiProvider).markAttendance();
-    if (!mounted) return;
-
     setState(() {
-      _result = verifyResult;
-      _state = _ScanState.success;
+      _state = _ScanState.stepFace;
+      _errorMessage = null;
     });
-  }
 
+    try {
+      // The coordinator sequences face → liveness → location → sync
+      // with real service results — no hardcoded scores.
+      final coordinator = ref.read(attendancePipelineProvider);
+
+      final result = await coordinator.run(
+        onStep: (step) {
+          if (!mounted) return;
+          setState(() {
+            _state = switch (step) {
+              AttendancePipelineStep.face => _ScanState.stepFace,
+              AttendancePipelineStep.liveness => _ScanState.stepLiveness,
+              AttendancePipelineStep.location => _ScanState.stepLocation,
+              AttendancePipelineStep.sync => _ScanState.stepSync,
+            };
+          });
+        },
+      );
+
+      if (!mounted) return;
+
+      // Consider verification successful if face + liveness passed,
+      // even if location check failed (location error shown in result).
+      final overallSuccess = result.faceVerified && result.livenessVerified;
+
+      setState(() {
+        _result = result;
+        _state = overallSuccess ? _ScanState.success : _ScanState.failed;
+        if (!overallSuccess) {
+          _errorMessage = result.failureReason;
+        }
+      });
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _state = _ScanState.failed;
+        _errorMessage = 'An unexpected error occurred: $e';
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,8 +75,16 @@ class _TodayAttendanceScreenState extends ConsumerState<TodayAttendanceScreen> {
       return _SuccessView(result: _result!);
     }
     if (_state == _ScanState.failed) {
-      return _FailedView(onRetry: () => setState(() => _state = _ScanState.ready));
+      return _FailedView(
+        reason: _errorMessage,
+        onRetry: () => setState(() {
+          _state = _ScanState.ready;
+          _errorMessage = null;
+        }),
+      );
     }
+
+    final isScanning = _state != _ScanState.ready;
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -149,28 +157,27 @@ class _TodayAttendanceScreenState extends ConsumerState<TodayAttendanceScreen> {
               ),
               child: Column(
                 children: [
-                  // Fingerprint circle
                   AnimatedContainer(
                     duration: const Duration(milliseconds: 400),
                     width: 84,
                     height: 84,
                     decoration: BoxDecoration(
-                      color: _state == _ScanState.ready
-                          ? AppColors.surfaceContainerLow
-                          : AppColors.primary.withValues(alpha: 0.12),
+                      color: isScanning
+                          ? AppColors.primary.withValues(alpha: 0.12)
+                          : AppColors.surfaceContainerLow,
                       shape: BoxShape.circle,
                     ),
                     child: Icon(
                       Icons.fingerprint,
                       size: 46,
-                      color: _state == _ScanState.ready
-                          ? AppColors.onSurfaceVariant
-                          : AppColors.primary,
+                      color: isScanning
+                          ? AppColors.primary
+                          : AppColors.onSurfaceVariant,
                     ),
                   ),
                   const SizedBox(height: AppSpacing.md),
                   Text(
-                    _state == _ScanState.ready ? 'Ready to Scan' : 'Scanning...',
+                    _stepLabel,
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
@@ -178,17 +185,21 @@ class _TodayAttendanceScreenState extends ConsumerState<TodayAttendanceScreen> {
                     ),
                   ),
                   const SizedBox(height: 6),
-                  const Text(
-                    'Ensure your face is well-lit and clearly visible\nbefore starting the scan.',
+                  Text(
+                    _stepSubtitle,
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 13, color: AppColors.onSurfaceVariant, height: 1.4),
+                    style: const TextStyle(
+                      fontSize: 13,
+                      color: AppColors.onSurfaceVariant,
+                      height: 1.4,
+                    ),
                   ),
                   const SizedBox(height: AppSpacing.lg),
                   PrimaryActionButton(
-                    label: _state == _ScanState.ready ? 'Start Attendance Scan' : 'Scanning...',
+                    label: isScanning ? 'Verifying...' : 'Start Attendance Scan',
                     icon: Icons.play_arrow,
-                    loading: _state != _ScanState.ready,
-                    onPressed: _state == _ScanState.ready ? _startScan : null,
+                    loading: isScanning,
+                    onPressed: isScanning ? null : _startScan,
                   ),
                 ],
               ),
@@ -222,52 +233,56 @@ class _TodayAttendanceScreenState extends ConsumerState<TodayAttendanceScreen> {
                   ),
                   PipelineStep(
                     icon: Icons.face,
-                    label: 'Face Detection',
-                    subtitle: 'Locating features...',
+                    label: 'Face Detection & Quality',
+                    subtitle: 'Locating and checking face...',
                     status: switch (_state) {
                       _ScanState.ready => PipelineStepStatus.waiting,
-                      _ScanState.scanning => PipelineStepStatus.active,
-                      _ => PipelineStepStatus.success,
-                    },
-                  ),
-                  PipelineStep(
-                    icon: Icons.grid_on,
-                    label: 'Face Alignment',
-                    subtitle: 'Normalising geometry...',
-                    status: switch (_state) {
-                      _ScanState.scanning => PipelineStepStatus.waiting,
                       _ScanState.stepFace => PipelineStepStatus.active,
-                      _ScanState.ready => PipelineStepStatus.waiting,
                       _ => PipelineStepStatus.success,
                     },
                   ),
                   PipelineStep(
                     icon: Icons.monitor_heart_outlined,
                     label: 'Liveness Detection',
-                    subtitle: 'Anti-spoofing check...',
+                    subtitle: 'Anti-spoofing check (on-device)...',
                     status: switch (_state) {
                       _ScanState.stepLiveness => PipelineStepStatus.active,
+                      _ScanState.stepLocation ||
+                      _ScanState.stepSync ||
                       _ScanState.success => PipelineStepStatus.success,
                       _ScanState.failed => PipelineStepStatus.failed,
-                      _ScanState.stepLocation => PipelineStepStatus.success,
                       _ => PipelineStepStatus.waiting,
                     },
                   ),
                   PipelineStep(
                     icon: Icons.shield_outlined,
-                    label: 'Matching',
-                    subtitle: 'Comparing with DB...',
+                    label: 'Face Matching',
+                    subtitle: 'Comparing with enrolled template...',
                     status: switch (_state) {
-                      _ScanState.stepLocation => PipelineStepStatus.active,
+                      _ScanState.stepLocation ||
+                      _ScanState.stepSync ||
                       _ScanState.success => PipelineStepStatus.success,
+                      _ScanState.stepFace => PipelineStepStatus.active,
                       _ => PipelineStepStatus.waiting,
                     },
                   ),
                   PipelineStep(
                     icon: Icons.location_on_outlined,
                     label: 'GPS Validation',
-                    subtitle: 'Checking geofence...',
+                    subtitle: 'Checking geofence (offline)...',
                     status: switch (_state) {
+                      _ScanState.stepLocation => PipelineStepStatus.active,
+                      _ScanState.stepSync ||
+                      _ScanState.success => PipelineStepStatus.success,
+                      _ => PipelineStepStatus.waiting,
+                    },
+                  ),
+                  PipelineStep(
+                    icon: Icons.cloud_upload_outlined,
+                    label: 'Sync / Queue',
+                    subtitle: 'Submit or store offline...',
+                    status: switch (_state) {
+                      _ScanState.stepSync => PipelineStepStatus.active,
                       _ScanState.success => PipelineStepStatus.success,
                       _ => PipelineStepStatus.waiting,
                     },
@@ -276,9 +291,76 @@ class _TodayAttendanceScreenState extends ConsumerState<TodayAttendanceScreen> {
                 ],
               ),
             ),
+
+            // ── Offline badge ──
+            const SizedBox(height: AppSpacing.sm),
+            _OfflineBadge(),
           ],
         ),
       ),
+    );
+  }
+
+  String get _stepLabel => switch (_state) {
+        _ScanState.ready => 'Ready to Scan',
+        _ScanState.stepFace => 'Detecting Face...',
+        _ScanState.stepLiveness => 'Liveness Check...',
+        _ScanState.stepLocation => 'GPS Verification...',
+        _ScanState.stepSync => 'Saving Result...',
+        _ => 'Processing...',
+      };
+
+  String get _stepSubtitle => switch (_state) {
+        _ScanState.ready =>
+          'Ensure your face is well-lit and clearly visible\nbefore starting the scan.',
+        _ScanState.stepFace =>
+          'Face detection and quality checks in progress.\nLook directly at the camera.',
+        _ScanState.stepLiveness =>
+          'Anti-spoofing model running on-device.\nPlease remain still.',
+        _ScanState.stepLocation =>
+          'Reading GPS and computing geofence.\nThis works offline.',
+        _ScanState.stepSync =>
+          'Submitting attendance event or\nqueueing for later sync.',
+        _ => '',
+      };
+}
+
+// ── Offline indicator ──
+
+class _OfflineBadge extends ConsumerWidget {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final pendingAsync = ref.watch(offlinePendingCountProvider);
+    return pendingAsync.when(
+      data: (count) {
+        if (count == 0) return const SizedBox.shrink();
+        return Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          decoration: BoxDecoration(
+            color: AppColors.warningSurface,
+            borderRadius: BorderRadius.circular(AppRadius.md),
+            border: Border.all(color: AppColors.warning.withValues(alpha: 0.3)),
+          ),
+          child: Row(
+            children: [
+              const Icon(Icons.wifi_off, color: AppColors.warning, size: 16),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  '$count attendance event${count > 1 ? 's' : ''} pending sync.',
+                  style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.warning,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+      loading: () => const SizedBox.shrink(),
+      error: (_, __) => const SizedBox.shrink(),
     );
   }
 }
@@ -292,6 +374,28 @@ class _SuccessView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final syncLabel = result.syncStatus == SyncState.synced
+        ? 'Synced to Server'
+        : 'Offline Saved, Sync Pending';
+    final syncIcon = result.syncStatus == SyncState.synced
+        ? Icons.cloud_done_outlined
+        : Icons.cloud_upload_outlined;
+    final syncColor = result.syncStatus == SyncState.synced
+        ? AppColors.success
+        : AppColors.warning;
+    final syncBg = result.syncStatus == SyncState.synced
+        ? AppColors.successSurface
+        : AppColors.warningSurface;
+
+    final livenessLabel = switch (result.livenessStatus) {
+      LivenessStatus.passed => 'Passed',
+      LivenessStatus.failed => 'Failed',
+      LivenessStatus.timeout => 'Timed out',
+      LivenessStatus.unsupported => 'Unsupported',
+      LivenessStatus.error => 'Error',
+      LivenessStatus.checking => 'Checking',
+    };
+
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
@@ -336,26 +440,30 @@ class _SuccessView extends StatelessWidget {
                   const SizedBox(height: AppSpacing.md),
                   const Text(
                     'Attendance Marked',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.w800, color: AppColors.onSurface),
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w800,
+                      color: AppColors.onSurface,
+                    ),
                   ),
                   const SizedBox(height: AppSpacing.sm),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                     decoration: BoxDecoration(
-                      color: AppColors.warningSurface,
+                      color: syncBg,
                       borderRadius: BorderRadius.circular(AppRadius.full),
                     ),
-                    child: const Row(
+                    child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(Icons.cloud_upload_outlined, color: AppColors.warning, size: 14),
-                        SizedBox(width: 6),
+                        Icon(syncIcon, color: syncColor, size: 14),
+                        const SizedBox(width: 6),
                         Text(
-                          'Offline Saved, Sync Pending',
+                          syncLabel,
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w700,
-                            color: AppColors.warning,
+                            color: syncColor,
                           ),
                         ),
                       ],
@@ -363,29 +471,33 @@ class _SuccessView extends StatelessWidget {
                   ),
                   const SizedBox(height: AppSpacing.md),
                   const Divider(),
-                  const InfoRow(
-                    icon: Icons.person_outline,
-                    label: 'Employee',
-                    value: 'Aarav Mehta',
-                  ),
-                  const Divider(height: 1),
-                  const InfoRow(
-                    icon: Icons.schedule,
-                    label: 'Time',
-                    value: '09:48 AM',
-                  ),
-                  const Divider(height: 1),
                   InfoRow(
                     icon: Icons.location_on_outlined,
                     label: 'Location',
-                    value: result.assignedSite,
+                    value: result.assignedSite.isEmpty
+                        ? 'Not verified'
+                        : result.assignedSite,
+                    valueColor: result.locationVerified
+                        ? AppColors.success
+                        : AppColors.warning,
                   ),
                   const Divider(height: 1),
                   InfoRow(
                     icon: Icons.face,
                     label: 'Face Match',
                     value: '${(result.faceScore * 100).toStringAsFixed(1)}%',
-                    valueColor: AppColors.success,
+                    valueColor: result.faceVerified
+                        ? AppColors.success
+                        : AppColors.error,
+                  ),
+                  const Divider(height: 1),
+                  InfoRow(
+                    icon: Icons.monitor_heart_outlined,
+                    label: 'Liveness',
+                    value: livenessLabel,
+                    valueColor: result.livenessVerified
+                        ? AppColors.success
+                        : AppColors.error,
                   ),
                   const Divider(height: 1),
                   InfoRow(
@@ -394,6 +506,24 @@ class _SuccessView extends StatelessWidget {
                     value: '${result.gpsAccuracyMeters}m',
                     valueColor: AppColors.success,
                   ),
+                  if (!result.locationVerified &&
+                      result.failureReason != null) ...[
+                    const SizedBox(height: AppSpacing.sm),
+                    Container(
+                      padding: const EdgeInsets.all(AppSpacing.sm),
+                      decoration: BoxDecoration(
+                        color: AppColors.warningSurface,
+                        borderRadius: BorderRadius.circular(AppRadius.sm),
+                      ),
+                      child: Text(
+                        result.failureReason!,
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: AppColors.warning,
+                        ),
+                      ),
+                    ),
+                  ],
                   const SizedBox(height: AppSpacing.lg),
                   PrimaryActionButton(
                     label: 'Done',
@@ -414,9 +544,10 @@ class _SuccessView extends StatelessWidget {
 // ── Failed view ──
 
 class _FailedView extends StatelessWidget {
-  const _FailedView({required this.onRetry});
+  const _FailedView({required this.onRetry, this.reason});
 
   final VoidCallback onRetry;
+  final String? reason;
 
   @override
   Widget build(BuildContext context) {
@@ -448,16 +579,30 @@ class _FailedView extends StatelessWidget {
               const SizedBox(height: AppSpacing.md),
               const Text(
                 'Verification Failed',
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800, color: AppColors.onSurface),
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.w800,
+                  color: AppColors.onSurface,
+                ),
               ),
               const SizedBox(height: AppSpacing.xs),
-              const Text(
-                'Biometric verification could not be completed. Please ensure you are in good lighting and try again.',
+              Text(
+                reason ??
+                    'Biometric verification could not be completed. '
+                    'Please ensure you are in good lighting and try again.',
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 14, color: AppColors.onSurfaceVariant, height: 1.5),
+                style: const TextStyle(
+                  fontSize: 14,
+                  color: AppColors.onSurfaceVariant,
+                  height: 1.5,
+                ),
               ),
               const SizedBox(height: AppSpacing.xl),
-              PrimaryActionButton(label: 'Try Again', icon: Icons.refresh, onPressed: onRetry),
+              PrimaryActionButton(
+                label: 'Try Again',
+                icon: Icons.refresh,
+                onPressed: onRetry,
+              ),
               const SizedBox(height: AppSpacing.sm),
               OutlinedButton.icon(
                 onPressed: () => context.push('/help'),

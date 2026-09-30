@@ -1,7 +1,5 @@
 import 'package:dio/dio.dart';
-import '../../models/app_models.dart';
 import '../../repositories/app_repositories.dart';
-import 'remote_exceptions.dart';
 
 class RemoteAuthApi implements AuthApi {
   RemoteAuthApi(this._dio);

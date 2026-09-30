@@ -7,30 +7,125 @@ so the frontend works immediately after backend setup.
 Usage:
   cd backend
   python scripts/seed.py
+
+What this script creates:
+  - 1 organization (FaceVault Operations / FVOPS)
+  - Organization settings
+  - 6 roles (OWNER, ADMIN, HR, MANAGER, SUPERVISOR, EMPLOYEE) with permissions
+  - 4 departments
+  - 2 projects
+  - 3 locations
+  - 4 shifts
+  - 1 admin user
+  - 5 demo employee users (with Device + FaceEnrollment records)
+  - 5 assignments
+  - 12 help categories
 """
 import asyncio
 import sys
+import uuid
+from datetime import date, datetime, UTC
 from pathlib import Path
 
 # Add backend root to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+from sqlalchemy import select, text
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 
 from app.config import settings
 from app.core.security import hash_password
-from app.db.base import Base
 from app.db.models.assignment import Assignment
 from app.db.models.department import Department
+from app.db.models.device import Device
+from app.db.models.face_enrollment import FaceEnrollment
+from app.db.models.help_category import HelpCategory
 from app.db.models.location import Location
 from app.db.models.organization import Organization
 from app.db.models.organization_settings import OrganizationSettings
+from app.db.models.permission import Permission, RolePermission
 from app.db.models.project import Project
 from app.db.models.role import Role
 from app.db.models.shift import Shift
 from app.db.models.user import User
-from app.db.models.help_category import HelpCategory
-from datetime import date, datetime, UTC
+
+
+# ─── Permission definitions ────────────────────────────────────────────────────
+PERMISSIONS = [
+    # Attendance
+    ("attendance.view_own", "View own attendance records"),
+    ("attendance.view_team", "View team attendance records"),
+    ("attendance.view_org", "View all organization attendance"),
+    ("attendance.approve", "Approve attendance exceptions"),
+    ("attendance.override", "Manually override attendance status"),
+    # Employees
+    ("employees.view", "View employee list"),
+    ("employees.create", "Create new employees"),
+    ("employees.edit", "Edit employee details"),
+    ("employees.deactivate", "Deactivate employees"),
+    # Projects / Locations
+    ("projects.manage", "Create and edit projects"),
+    ("locations.manage", "Create and edit locations"),
+    ("shifts.manage", "Create and edit shifts"),
+    ("assignments.manage", "Manage user assignments"),
+    # Biometrics
+    ("biometrics.enroll", "Enroll employee biometrics"),
+    ("biometrics.view_status", "View enrollment status"),
+    # Reports
+    ("reports.view", "View reports"),
+    ("reports.export", "Export reports"),
+    # Announcements
+    ("announcements.create", "Create announcements"),
+    ("announcements.manage", "Manage all announcements"),
+    # Help desk
+    ("helpdesk.view", "View help requests"),
+    ("helpdesk.manage", "Manage help requests"),
+    # Settings
+    ("settings.view", "View organization settings"),
+    ("settings.manage", "Manage organization settings"),
+    # Devices
+    ("devices.manage", "Manage registered devices"),
+    # Audit
+    ("audit.view", "View audit logs"),
+]
+
+# Role → permission codes mapping
+ROLE_PERMISSIONS: dict[str, list[str]] = {
+    "OWNER": [p[0] for p in PERMISSIONS],  # all
+    "ADMIN": [p[0] for p in PERMISSIONS],  # all
+    "HR": [
+        "attendance.view_org", "attendance.approve",
+        "employees.view", "employees.create", "employees.edit", "employees.deactivate",
+        "biometrics.enroll", "biometrics.view_status",
+        "reports.view", "reports.export",
+        "announcements.create", "announcements.manage",
+        "helpdesk.view", "helpdesk.manage",
+        "shifts.manage", "assignments.manage",
+        "settings.view",
+    ],
+    "MANAGER": [
+        "attendance.view_team", "attendance.approve",
+        "employees.view",
+        "biometrics.view_status",
+        "reports.view",
+        "announcements.create",
+        "helpdesk.view",
+        "assignments.manage",
+        "settings.view",
+    ],
+    "SUPERVISOR": [
+        "attendance.view_team",
+        "employees.view",
+        "biometrics.view_status",
+        "reports.view",
+        "announcements.create",
+        "helpdesk.view",
+    ],
+    "EMPLOYEE": [
+        "attendance.view_own",
+        "helpdesk.view",
+    ],
+}
 
 
 async def seed():
@@ -40,7 +135,15 @@ async def seed():
     async with async_session() as session:
         print("🌱 Seeding FaceVault database...")
 
-        # ── Organization ─────────────────────────────────────────────────────
+        # ── Check if already seeded ───────────────────────────────────────────
+        existing = await session.execute(
+            select(Organization).where(Organization.code == "FVOPS")
+        )
+        if existing.scalar_one_or_none():
+            print("⚠️  Organization 'FVOPS' already exists — skipping seed.")
+            return
+
+        # ── Organization ──────────────────────────────────────────────────────
         org = Organization(
             id="org-facevault-demo",
             name="FaceVault Operations",
@@ -51,17 +154,49 @@ async def seed():
         )
         session.add(org)
         await session.flush()
+        print("  ✓ Organization created")
 
-        # ── Org Settings ─────────────────────────────────────────────────────
+        # ── Org Settings ──────────────────────────────────────────────────────
         session.add(OrganizationSettings(organization_id=org.id))
         await session.flush()
+        print("  ✓ Organization settings created")
+
+        # ── Permissions ───────────────────────────────────────────────────────
+        perm_map: dict[str, Permission] = {}
+        for code, description in PERMISSIONS:
+            perm = Permission(id=str(uuid.uuid4()), code=code, description=description)
+            session.add(perm)
+            perm_map[code] = perm
+        await session.flush()
+        print(f"  ✓ {len(perm_map)} permissions created")
 
         # ── Roles ─────────────────────────────────────────────────────────────
-        admin_role = Role(organization_id=org.id, name="ADMIN", display_name="Administrator")
-        emp_role = Role(organization_id=org.id, name="EMPLOYEE", display_name="Employee")
-        manager_role = Role(organization_id=org.id, name="MANAGER", display_name="Manager")
-        session.add_all([admin_role, emp_role, manager_role])
+        role_names = [
+            ("OWNER", "Owner"),
+            ("ADMIN", "Administrator"),
+            ("HR", "HR Manager"),
+            ("MANAGER", "Manager"),
+            ("SUPERVISOR", "Supervisor"),
+            ("EMPLOYEE", "Employee"),
+        ]
+        role_map: dict[str, Role] = {}
+        for name, display in role_names:
+            role = Role(organization_id=org.id, name=name, display_name=display)
+            session.add(role)
+            role_map[name] = role
         await session.flush()
+        print(f"  ✓ {len(role_map)} roles created")
+
+        # ── Role Permissions ──────────────────────────────────────────────────
+        rp_count = 0
+        for role_name, perm_codes in ROLE_PERMISSIONS.items():
+            role = role_map[role_name]
+            for code in perm_codes:
+                if code in perm_map:
+                    session.add(RolePermission(role_id=role.id, permission_id=perm_map[code].id))
+                    rp_count += 1
+        await session.flush()
+        print(f"  ✓ {rp_count} role-permission links created")
 
         # ── Departments ───────────────────────────────────────────────────────
         ops_dept = Department(organization_id=org.id, name="Operations", code="OPS")
@@ -70,12 +205,14 @@ async def seed():
         eng_dept = Department(organization_id=org.id, name="Engineering", code="ENG")
         session.add_all([ops_dept, safety_dept, logistics_dept, eng_dept])
         await session.flush()
+        print("  ✓ Departments created")
 
         # ── Projects ──────────────────────────────────────────────────────────
         metro = Project(organization_id=org.id, name="Metro Expansion", code="METRO", active=True)
         depot = Project(organization_id=org.id, name="Depot Upgrade", code="DEPOT", active=True)
         session.add_all([metro, depot])
         await session.flush()
+        print("  ✓ Projects created")
 
         # ── Locations ─────────────────────────────────────────────────────────
         sector17 = Location(
@@ -98,6 +235,7 @@ async def seed():
         )
         session.add_all([sector17, depot4, hq])
         await session.flush()
+        print("  ✓ Locations created")
 
         # ── Shifts ────────────────────────────────────────────────────────────
         shift_9_18 = Shift(organization_id=org.id, name="Morning Shift", start_time="09:00", end_time="18:00",
@@ -114,12 +252,13 @@ async def seed():
                             working_days=["Mon", "Tue", "Wed", "Thu", "Fri"])
         session.add_all([shift_9_18, shift_8_17, shift_7_16, shift_10_19])
         await session.flush()
+        print("  ✓ Shifts created")
 
         # ── Admin user ────────────────────────────────────────────────────────
         admin_user = User(
             id="user-admin-001",
             organization_id=org.id,
-            role_id=admin_role.id,
+            role_id=role_map["ADMIN"].id,
             employee_code="ADMIN-001",
             first_name="FaceVault",
             last_name="Admin",
@@ -130,8 +269,10 @@ async def seed():
             device_registered=False,
         )
         session.add(admin_user)
+        await session.flush()
+        print("  ✓ Admin user created")
 
-        # ── Demo employees (matching mock data) ───────────────────────────────
+        # ── Demo employees ────────────────────────────────────────────────────
         employees_data = [
             dict(id="emp-1042", code="EMP-1042", first="Aarav", last="Mehta",
                  email="aarav.mehta@facevault.io", dept=ops_dept, shift=shift_9_18,
@@ -151,10 +292,11 @@ async def seed():
         ]
 
         for d in employees_data:
+            # Create user (face_enrolled & device_registered will be set after records)
             user = User(
                 id=d["id"],
                 organization_id=org.id,
-                role_id=emp_role.id,
+                role_id=role_map["EMPLOYEE"].id,
                 department_id=d["dept"].id,
                 employee_code=d["code"],
                 first_name=d["first"],
@@ -162,14 +304,51 @@ async def seed():
                 email=d["email"],
                 password_hash=hash_password("Employee@1234"),
                 status="ACTIVE",
-                face_enrolled=True,
-                device_registered=True,
+                face_enrolled=False,   # will be updated below after enrollment record
+                device_registered=False,
                 join_date=datetime.strptime(d["join"], "%Y-%m-%d").replace(tzinfo=UTC),
             )
             session.add(user)
             await session.flush()
 
-            # Active assignment
+            # ── Device record (required before setting device_registered=True) ──
+            device = Device(
+                id=str(uuid.uuid4()),
+                user_id=user.id,
+                organization_id=org.id,
+                device_uuid=f"dev-seed-{d['id']}",
+                platform="android",
+                manufacturer="Samsung",
+                model="Galaxy A54",
+                os_version="14",
+                app_version="1.0.0",
+                status="REGISTERED",
+                registered_at=datetime.now(UTC),
+                last_seen_at=datetime.now(UTC),
+            )
+            session.add(device)
+            await session.flush()
+
+            # ── Face enrollment record (required before setting face_enrolled=True) ──
+            enrollment = FaceEnrollment(
+                user_id=user.id,
+                organization_id=org.id,
+                status="ENROLLED",
+                model_version="facenet-v1",
+                quality_score=0.92,
+                liveness_score=0.95,
+                enrolled_at=datetime.now(UTC),
+                last_updated_at=datetime.now(UTC),
+            )
+            session.add(enrollment)
+            await session.flush()
+
+            # ── Now update user flags to reflect actual records ────────────────
+            user.face_enrolled = True
+            user.device_registered = True
+            await session.flush()
+
+            # ── Active assignment ──────────────────────────────────────────────
             assignment = Assignment(
                 organization_id=org.id,
                 user_id=user.id,
@@ -180,6 +359,8 @@ async def seed():
                 is_active=True,
             )
             session.add(assignment)
+
+        print(f"  ✓ {len(employees_data)} employees with devices + enrollments created")
 
         # ── Help categories ───────────────────────────────────────────────────
         categories = [
@@ -193,12 +374,12 @@ async def seed():
 
         await session.commit()
 
-    print("✅ Seed complete!")
-    print("   Organization: FaceVault Operations (code: FVOPS)")
-    print("   Admin login: admin@facevault.io / Admin@1234")
-    print("   Employee login: EMP-1042 / Employee@1234")
-    print("   Employees: EMP-1042, EMP-1177, EMP-1320, EMP-1401, EMP-1528")
-    print("   Locations: Sector 17, Depot 4, HQ Office")
+    print("\n✅ Seed complete!")
+    print("   Organization : FaceVault Operations (code: FVOPS)")
+    print("   Admin login  : admin@facevault.io / Admin@1234")
+    print("   Employee     : EMP-1042 / Employee@1234  (and EMP-1177, EMP-1320, EMP-1401, EMP-1528)")
+    print("   Locations    : Sector 17, Depot 4, HQ Office")
+    print("   Note         : All employees have Device + FaceEnrollment records (status=ENROLLED)")
 
     await engine.dispose()
 

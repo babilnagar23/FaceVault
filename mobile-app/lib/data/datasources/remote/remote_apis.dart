@@ -11,8 +11,10 @@ library remote_apis;
 export 'remote_auth_api.dart';
 export 'remote_user_api.dart';
 export 'remote_attendance_api.dart';
-export 'remote_announcement_api.dart';
+// Hide duplicate RemoteNotificationApi defined in remote_announcement_api.dart
+export 'remote_announcement_api.dart' hide RemoteNotificationApi;
 export 'remote_notification_api.dart';
-export 'remote_help_api.dart';
+// Hide duplicate RemoteSyncApi and RemoteFaceEnrollmentApi defined in remote_help_api.dart
+export 'remote_help_api.dart' hide RemoteFaceEnrollmentApi, RemoteSyncApi;
 export 'remote_sync_api.dart';
 export 'remote_face_enrollment_api.dart';

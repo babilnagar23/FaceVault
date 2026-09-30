@@ -3,7 +3,9 @@ from sqlalchemy import String, Boolean, ForeignKey, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.db.base import Base, TimestampMixin
 
+# This file is kept for import symmetry.
+# The real HelpRequest class is defined in help_category.py alongside HelpCategory.
+# Re-export it here so existing code that imports from help_request still works.
+from app.db.models.help_category import HelpRequest  # noqa: F401
 
-class HelpRequest(Base, TimestampMixin):
-    """Stub for cross-model relationship import."""
-    pass  # Defined in help_category.py — this file kept for import symmetry
+__all__ = ["HelpRequest"]

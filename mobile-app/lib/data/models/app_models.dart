@@ -23,7 +23,7 @@ enum DeviceStatus { registered, pending, revoked, missing }
 
 enum PermissionStatus { notAsked, granted, denied, permanentlyDenied }
 
-enum LivenessStatus { checking, passed, failed, timeout, unsupported }
+enum LivenessStatus { checking, passed, failed, timeout, unsupported, error }
 
 enum TicketStatus { open, inProgress, urgent, resolved, rejected }
 
@@ -48,11 +48,14 @@ class LivenessResult {
     required this.passed,
     required this.score,
     this.reason,
+    this.status = LivenessStatus.checking,
   });
 
   final bool passed;
   final double score;
   final String? reason;
+  /// Machine-readable status for UI branching.
+  final LivenessStatus status;
 }
 
 class LocationVerificationResult {
@@ -88,6 +91,10 @@ class AttendanceVerificationResult {
     required this.timestamp,
     required this.attendanceStatus,
     required this.syncStatus,
+    this.latitude = 0.0,
+    this.longitude = 0.0,
+    this.livenessStatus = LivenessStatus.checking,
+    this.clientEventId,
     this.failureReason,
   });
 
@@ -102,6 +109,11 @@ class AttendanceVerificationResult {
   final DateTime timestamp;
   final AttendanceStatus attendanceStatus;
   final SyncState syncStatus;
+  final double latitude;
+  final double longitude;
+  final LivenessStatus livenessStatus;
+  /// Idempotency key for the outbox / server submission.
+  final String? clientEventId;
   final String? failureReason;
 }
 
