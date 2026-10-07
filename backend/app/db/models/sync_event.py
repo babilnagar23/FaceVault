@@ -1,3 +1,5 @@
+from __future__ import annotations
+from typing import Optional
 import uuid
 from datetime import datetime
 from sqlalchemy import String, DateTime, ForeignKey, JSON, Text, UniqueConstraint, Index
@@ -21,18 +23,18 @@ class SyncEvent(Base, TimestampMixin):
     client_event_id: Mapped[str] = mapped_column(String(100), unique=True, nullable=False, index=True)
     organization_id: Mapped[str] = mapped_column(String(36), ForeignKey("organizations.id"), nullable=False, index=True)
     user_id: Mapped[str] = mapped_column(String(36), ForeignKey("users.id"), nullable=False)
-    device_id: Mapped[str | None] = mapped_column(String(36), ForeignKey("devices.id"))
+    device_id: Mapped[Optional[str]] = mapped_column(String(36), ForeignKey("devices.id"))
 
     entity_type: Mapped[str] = mapped_column(String(50), nullable=False)  # attendance_attempt, help_request, etc.
     operation: Mapped[str] = mapped_column(String(20), nullable=False)     # create, update, delete
 
-    client_created_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    client_created_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True))
     server_received_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
-    server_processed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    server_processed_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True))
 
     # outcome: ACCEPTED, REJECTED, CONFLICT, ALREADY_PROCESSED
     status: Mapped[str] = mapped_column(String(30), default="PENDING", nullable=False, index=True)
-    rejection_reason: Mapped[str | None] = mapped_column(Text)
+    rejection_reason: Mapped[Optional[str]] = mapped_column(Text)
 
-    payload: Mapped[dict | None] = mapped_column(JSON)
-    result_entity_id: Mapped[str | None] = mapped_column(String(36))  # Created entity if accepted
+    payload: Mapped[Optional[dict]] = mapped_column(JSON)
+    result_entity_id: Mapped[Optional[str]] = mapped_column(String(36))  # Created entity if accepted

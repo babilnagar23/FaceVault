@@ -1,4 +1,7 @@
+from __future__ import annotations
+from typing import Optional
 """Device registration and heartbeat endpoints."""
+
 from datetime import datetime
 
 from fastapi import APIRouter
@@ -15,8 +18,8 @@ from app.utils.time import utcnow
 router = APIRouter()
 
 
-@router.get("/me", response_model=DeviceOut | None, summary="Current device metadata")
-async def get_device(user: CurrentUser, db: DbSession) -> DeviceOut | None:
+@router.get("/me", response_model=Optional[DeviceOut], summary="Current device metadata")
+async def get_device(user: CurrentUser, db: DbSession) -> Optional[DeviceOut]:
     """Flutter UserApi.deviceMetadata()."""
     result = await db.execute(
         select(Device).where(

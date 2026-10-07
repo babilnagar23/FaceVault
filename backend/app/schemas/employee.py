@@ -1,4 +1,7 @@
+from __future__ import annotations
+from typing import Optional
 """Employee schemas matching Flutter Employee model and admin domain.ts Employee type."""
+
 from datetime import datetime
 from pydantic import BaseModel, EmailStr
 from app.schemas.common import OrmModel
@@ -12,24 +15,24 @@ class EmployeeOut(OrmModel):
     last_name: str
     full_name: str
     email: str
-    department: str | None = None   # department name
-    role: str | None = None          # role name
-    project: str | None = None       # primary project name
-    location: str | None = None      # primary location name
-    shift: str | None = None         # primary shift display
+    department: Optional[str] = None   # department name
+    role: Optional[str] = None          # role name
+    project: Optional[str] = None       # primary project name
+    location: Optional[str] = None      # primary location name
+    shift: Optional[str] = None         # primary shift display
     face_enrolled: bool
     device_registered: bool
     status: str
-    site_code: str | None = None
-    avatar_url: str | None = None
-    join_date: datetime | None = None
-    last_login_at: datetime | None = None
+    site_code: Optional[str] = None
+    avatar_url: Optional[str] = None
+    join_date: Optional[datetime] = None
+    last_login_at: Optional[datetime] = None
 
 
 class EmployeeMe(EmployeeOut):
     """Full profile for the current authenticated employee."""
     organization_id: str
-    phone: str | None = None
+    phone: Optional[str] = None
 
 
 class EmployeeCreate(BaseModel):
@@ -37,28 +40,28 @@ class EmployeeCreate(BaseModel):
     first_name: str
     last_name: str
     email: EmailStr
-    phone: str | None = None
+    phone: Optional[str] = None
     password: str
-    department_id: str | None = None
-    role_id: str | None = None
-    join_date: datetime | None = None
+    department_id: Optional[str] = None
+    role_id: Optional[str] = None
+    join_date: Optional[datetime] = None
 
 
 class EmployeeUpdate(BaseModel):
-    first_name: str | None = None
-    last_name: str | None = None
-    email: EmailStr | None = None
-    phone: str | None = None
-    department_id: str | None = None
-    role_id: str | None = None
-    status: str | None = None
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None
+    email: Optional[EmailStr] = None
+    phone: Optional[str] = None
+    department_id: Optional[str] = None
+    role_id: Optional[str] = None
+    status: Optional[str] = None
 
 
 class EmployeeListFilters(BaseModel):
-    search: str | None = None
-    department_id: str | None = None
-    project_id: str | None = None
-    location_id: str | None = None
-    status: str | None = None
-    face_enrolled: bool | None = None
-    device_registered: bool | None = None
+    search: Optional[str] = None
+    department_id: Optional[str] = None
+    project_id: Optional[str] = None
+    location_id: Optional[str] = None
+    status: Optional[str] = None
+    face_enrolled: Optional[bool] = None
+    device_registered: Optional[bool] = None

@@ -1,4 +1,5 @@
 """Prefixed UUID generation for human-readable IDs (EMP-xxx, ATT-xxx, etc.)"""
+from __future__ import annotations
 import uuid
 
 

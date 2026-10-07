@@ -1,4 +1,5 @@
 """Verification queue — admin review of flagged attendance attempts."""
+from __future__ import annotations
 from fastapi import APIRouter
 from sqlalchemy import select
 

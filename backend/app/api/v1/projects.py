@@ -1,4 +1,5 @@
 """Projects and Shifts routers."""
+from __future__ import annotations
 from fastapi import APIRouter
 from sqlalchemy import select
 

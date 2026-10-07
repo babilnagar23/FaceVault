@@ -1,3 +1,5 @@
+from __future__ import annotations
+from typing import Optional
 import uuid
 from datetime import datetime
 from sqlalchemy import String, Boolean, DateTime, ForeignKey, UniqueConstraint
@@ -20,5 +22,5 @@ class Consent(Base, TimestampMixin):
     type: Mapped[str] = mapped_column(String(50), nullable=False)   # BIOMETRIC, LOCATION, NOTIFICATION
     version: Mapped[str] = mapped_column(String(20), nullable=False)
     accepted: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
-    accepted_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
-    ip_address: Mapped[str | None] = mapped_column(String(45))
+    accepted_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True))
+    ip_address: Mapped[Optional[str]] = mapped_column(String(45))

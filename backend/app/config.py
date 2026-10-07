@@ -3,6 +3,7 @@ FaceVault API — Application Configuration
 All settings are loaded from environment variables via Pydantic Settings.
 Never hardcode secrets here.
 """
+from __future__ import annotations
 from functools import lru_cache
 from typing import Literal
 
@@ -45,11 +46,11 @@ class Settings(BaseSettings):
     REFRESH_TOKEN_EXPIRE_DAYS: int = 30
 
     # ─── CORS ─────────────────────────────────────────────
-    CORS_ORIGINS: str = "http://localhost:3000"
+    CORS_ORIGINS: list[str] = ["http://localhost:3000"]
 
     @field_validator("CORS_ORIGINS", mode="before")
     @classmethod
-    def parse_cors_origins(cls, v: str) -> list[str]:
+    def parse_cors_origins(cls, v) -> list[str]:
         if isinstance(v, list):
             return v
         return [origin.strip() for origin in v.split(",") if origin.strip()]

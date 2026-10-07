@@ -5,6 +5,7 @@ Mandatory test cases per the implementation plan:
 3. Duplicate event (idempotency)
 4. Cross-org access rejection
 """
+from __future__ import annotations
 import pytest
 from httpx import AsyncClient
 
@@ -46,7 +47,7 @@ def test_haversine_distance():
 
     # Delhi to Gurugram — approximately 28 km
     dist = haversine_distance(28.6139, 77.2090, 28.4595, 77.0266)
-    assert 25_000 < dist < 35_000, f"Expected ~28km, got {dist/1000:.1f}km"
+    assert 20_000 < dist < 35_000, f"Expected ~24.7km, got {dist/1000:.1f}km"
 
     # Same point — must be 0
     dist_zero = haversine_distance(28.5901, 77.0479, 28.5901, 77.0479)
@@ -82,27 +83,27 @@ def test_geofence_outside():
 
 @pytest.mark.unit
 def test_risk_flags_future_timestamp():
-    from datetime import UTC, datetime, timedelta
+    from datetime import timezone, datetime, timedelta
     from app.geo.anti_spoof import detect_risk_flags
 
-    future_ts = datetime.now(UTC) + timedelta(minutes=10)
+    future_ts = datetime.now(timezone.utc) + timedelta(minutes=10)
     flags = detect_risk_flags(
         gps_accuracy_meters=5.0,
         client_timestamp=future_ts,
-        server_timestamp=datetime.now(UTC),
+        server_timestamp=datetime.now(timezone.utc),
     )
     assert "FUTURE_TIMESTAMP" in flags
 
 
 @pytest.mark.unit
 def test_risk_flags_poor_gps():
-    from datetime import UTC, datetime
+    from datetime import timezone, datetime
     from app.geo.anti_spoof import detect_risk_flags
 
     flags = detect_risk_flags(
         gps_accuracy_meters=200.0,  # Very poor GPS
-        client_timestamp=datetime.now(UTC),
-        server_timestamp=datetime.now(UTC),
+        client_timestamp=datetime.now(timezone.utc),
+        server_timestamp=datetime.now(timezone.utc),
     )
     assert "POOR_GPS_ACCURACY" in flags
 

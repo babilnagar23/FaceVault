@@ -1,3 +1,5 @@
+from __future__ import annotations
+from typing import Optional
 import uuid
 from datetime import datetime
 from sqlalchemy import String, Boolean, DateTime, ForeignKey, Text, JSON
@@ -23,9 +25,9 @@ class Announcement(Base, TimestampMixin):
 
     # Targeting: all, department, project, location, selected
     target_type: Mapped[str] = mapped_column(String(20), default="all")
-    target_ids: Mapped[list | None] = mapped_column(JSON)  # dept/project/loc IDs
+    target_ids: Mapped[Optional[list]] = mapped_column(JSON)  # dept/project/loc IDs
 
-    published_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), index=True)
-    scheduled_for: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    published_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True), index=True)
+    scheduled_for: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True))
 
     reads: Mapped[list["AnnouncementRead"]] = relationship(back_populates="announcement")

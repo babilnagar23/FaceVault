@@ -1,3 +1,5 @@
+from __future__ import annotations
+from typing import Optional
 import uuid
 from sqlalchemy import String, Integer, Float, Boolean, ForeignKey, JSON
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -36,9 +38,9 @@ class OrganizationSettings(Base, TimestampMixin):
     notify_on_late: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
     notify_on_absent: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
     notify_on_verification: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
-    notification_config: Mapped[dict | None] = mapped_column(JSON)
+    notification_config: Mapped[Optional[dict]] = mapped_column(JSON)
 
     # ── Extra JSON config ────────────────────────────────────────────────────
-    extra: Mapped[dict | None] = mapped_column(JSON)
+    extra: Mapped[Optional[dict]] = mapped_column(JSON)
 
     organization: Mapped["Organization"] = relationship(back_populates="settings")

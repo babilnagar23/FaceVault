@@ -1,3 +1,4 @@
+from __future__ import annotations
 import uuid
 from sqlalchemy import String, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship

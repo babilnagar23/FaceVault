@@ -1,7 +1,8 @@
 """
 FaceVault API — JWT Security Utilities
 """
-from datetime import UTC, datetime, timedelta
+from __future__ import annotations
+from datetime import timezone, datetime, timedelta
 from typing import Any
 
 from jose import JWTError, jwt
@@ -29,8 +30,8 @@ def _create_token(
     expire_delta: timedelta,
 ) -> str:
     payload = data.copy()
-    payload["exp"] = datetime.now(UTC) + expire_delta
-    payload["iat"] = datetime.now(UTC)
+    payload["exp"] = datetime.now(timezone.utc) + expire_delta
+    payload["iat"] = datetime.now(timezone.utc)
     return jwt.encode(payload, secret, algorithm=settings.JWT_ALGORITHM)
 
 

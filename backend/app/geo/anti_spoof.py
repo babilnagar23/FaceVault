@@ -3,8 +3,9 @@ FaceVault — Location fraud signal detection.
 These are RISK FLAGS, not guaranteed anti-spoofing.
 Suspicious cases are sent to the verification queue, not auto-rejected.
 """
+from __future__ import annotations
 from datetime import datetime
-from typing import TYPE_CHECKING
+from typing import Optional, TYPE_CHECKING
 
 from app.config import settings
 from app.core.constants import RiskFlag
@@ -13,15 +14,15 @@ from app.utils.time import clock_drift_seconds, is_future_timestamp
 
 def detect_risk_flags(
     *,
-    gps_accuracy_meters: float | None,
-    client_timestamp: datetime | None,
+    gps_accuracy_meters: Optional[float],
+    client_timestamp: Optional[datetime],
     server_timestamp: datetime,
-    battery_level: int | None = None,
-    previous_lat: float | None = None,
-    previous_lon: float | None = None,
-    previous_timestamp: datetime | None = None,
-    current_lat: float | None = None,
-    current_lon: float | None = None,
+    battery_level: Optional[int] = None,
+    previous_lat: Optional[float] = None,
+    previous_lon: Optional[float] = None,
+    previous_timestamp: Optional[datetime] = None,
+    current_lat: Optional[float] = None,
+    current_lon: Optional[float] = None,
 ) -> list[str]:
     """
     Returns a list of RiskFlag strings found for this attempt.

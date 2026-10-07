@@ -1,4 +1,5 @@
 """Organization settings — read and update."""
+from __future__ import annotations
 from fastapi import APIRouter
 from sqlalchemy import select
 

@@ -1,3 +1,5 @@
+from __future__ import annotations
+from typing import Optional
 import uuid
 from sqlalchemy import String, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -10,7 +12,7 @@ class Department(Base, TimestampMixin):
     id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     organization_id: Mapped[str] = mapped_column(String(36), ForeignKey("organizations.id"), nullable=False, index=True)
     name: Mapped[str] = mapped_column(String(100), nullable=False)
-    code: Mapped[str | None] = mapped_column(String(30))
+    code: Mapped[Optional[str]] = mapped_column(String(30))
 
     organization: Mapped["Organization"] = relationship(back_populates="departments")
     users: Mapped[list["User"]] = relationship(back_populates="department")

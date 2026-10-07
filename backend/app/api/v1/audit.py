@@ -1,4 +1,7 @@
+from __future__ import annotations
+from typing import Optional
 """Audit log read-only endpoint."""
+
 from fastapi import APIRouter, Query
 from sqlalchemy import desc, select
 
@@ -15,8 +18,8 @@ async def list_audit_logs(
     db: DbSession,
     limit: int = Query(default=50, ge=1, le=200),
     offset: int = Query(default=0, ge=0),
-    action: str | None = Query(default=None),
-    actor_id: str | None = Query(default=None),
+    action: Optional[str] = Query(default=None),
+    actor_id: Optional[str] = Query(default=None),
 ) -> list[AuditLogOut]:
     """Admin auditApi.list()."""
     stmt = select(AuditLog).where(AuditLog.organization_id == user.organization_id)

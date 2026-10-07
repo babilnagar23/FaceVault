@@ -1,4 +1,5 @@
 """Announcements — mobile read/acknowledge + admin CRUD."""
+from __future__ import annotations
 from fastapi import APIRouter, Query
 from sqlalchemy import and_, select
 

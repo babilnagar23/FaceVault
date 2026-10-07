@@ -1,3 +1,5 @@
+from __future__ import annotations
+from typing import Optional
 import uuid
 from datetime import date
 from sqlalchemy import String, Boolean, Date, ForeignKey, Index
@@ -22,7 +24,7 @@ class Assignment(Base, TimestampMixin):
     shift_id: Mapped[str] = mapped_column(String(36), ForeignKey("shifts.id"), nullable=False)
 
     effective_from: Mapped[date] = mapped_column(Date, nullable=False)
-    effective_to: Mapped[date | None] = mapped_column(Date)
+    effective_to: Mapped[Optional[date]] = mapped_column(Date)
     is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
 
     # Relationships

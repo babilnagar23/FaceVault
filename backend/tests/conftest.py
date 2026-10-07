@@ -9,6 +9,7 @@ Run API tests (SQLite): pytest -m api
 Run integration tests:  pytest -m integration
 Run all:                pytest
 """
+from __future__ import annotations
 import asyncio
 import os
 import pytest
@@ -30,21 +31,10 @@ POSTGRES_TEST_URL = os.getenv(
     "postgresql+asyncpg://facevault:facevault_dev@localhost:5432/facevault_test",
 )
 
-
-# ─────────────────────────────────────────────────────────────────────────────
-# Event loop (session-scoped so async fixtures work across tests)
-# ─────────────────────────────────────────────────────────────────────────────
-@pytest.fixture(scope="session")
-def event_loop():
-    loop = asyncio.new_event_loop()
-    yield loop
-    loop.close()
-
-
 # ─────────────────────────────────────────────────────────────────────────────
 # SQLite engine + session (for unit and API tests)
 # ─────────────────────────────────────────────────────────────────────────────
-@pytest.fixture(scope="session")
+@pytest.fixture
 async def test_engine():
     engine = create_async_engine(
         TEST_DB_URL,
@@ -72,9 +62,11 @@ async def client(db_session):
         yield db_session
 
     app.dependency_overrides[get_db] = override_get_db
-    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as c:
-        yield c
-    app.dependency_overrides.clear()
+    try:
+        async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as c:
+            yield c
+    finally:
+        app.dependency_overrides.clear()
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -105,30 +97,38 @@ async def seeded_org(db_session) -> dict:
         status="ACTIVE",
     )
     db_session.add(user)
-    await db_session.commit()
+    await db_session.flush()
+    db_session.expunge_all()
     return {"org_id": org.id, "user_id": user.id, "employee_code": "TEST-001", "password": "Test@1234"}
-
 
 # ─────────────────────────────────────────────────────────────────────────────
 # PostgreSQL engine + session (integration tests only)
 # ─────────────────────────────────────────────────────────────────────────────
-@pytest.fixture(scope="session")
+@pytest.fixture
 async def pg_engine():
-    """Session-scoped PostgreSQL engine for integration tests."""
+    """Function-scoped PostgreSQL engine for true isolation."""
     engine = create_async_engine(POSTGRES_TEST_URL, echo=False)
-    # Run migrations via Alembic instead of create_all, but for integration
-    # test setup we use run_sync to ensure a clean state.
     async with engine.begin() as conn:
-        # Enable PostGIS before creating tables
         await conn.execute(
             __import__("sqlalchemy", fromlist=["text"]).text(
                 "CREATE EXTENSION IF NOT EXISTS postgis"
             )
         )
         await conn.run_sync(Base.metadata.drop_all)
-        await conn.run_sync(Base.metadata.create_all)
+        # Drop alembic_version table just in case drop_all misses it
+        await conn.execute(
+            __import__("sqlalchemy", fromlist=["text"]).text(
+                "DROP TABLE IF EXISTS alembic_version"
+            )
+        )
+
+    # Run migrations via Alembic so all raw SQL constraints from 002 are applied
+    import subprocess
+    env = os.environ.copy()
+    env["DATABASE_URL"] = POSTGRES_TEST_URL
+    subprocess.run(["alembic", "upgrade", "head"], env=env, check=True)
+
     yield engine
-    # Cleanup after all integration tests complete
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.drop_all)
     await engine.dispose()
@@ -139,9 +139,7 @@ async def pg_session(pg_engine):
     """Transaction-isolated PostgreSQL session per test."""
     Session = async_sessionmaker(pg_engine, class_=AsyncSession, expire_on_commit=False)
     async with Session() as session:
-        async with session.begin():
-            yield session
-            await session.rollback()
+        yield session
 
 
 @pytest.fixture
@@ -171,5 +169,6 @@ async def pg_seeded_org(pg_session) -> dict:
         status="ACTIVE",
     )
     pg_session.add(user)
-    await pg_session.flush()
+    await pg_session.commit()
+    pg_session.expunge_all()
     return {"org_id": org.id, "user_id": user.id, "employee_code": "PG-001", "password": "Test@1234"}

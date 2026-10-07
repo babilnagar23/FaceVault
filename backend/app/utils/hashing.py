@@ -1,4 +1,5 @@
 """Hashing utilities for refresh-token identifiers."""
+from __future__ import annotations
 import hashlib
 import secrets
 

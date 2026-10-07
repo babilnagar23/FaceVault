@@ -1,3 +1,5 @@
+from __future__ import annotations
+from typing import Optional
 import uuid
 from datetime import datetime
 from sqlalchemy import String, Float, DateTime, Boolean, ForeignKey, LargeBinary
@@ -16,11 +18,11 @@ class FaceTemplate(Base, TimestampMixin):
     id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     enrollment_id: Mapped[str] = mapped_column(String(36), ForeignKey("face_enrollments.id"), nullable=False, index=True)
     model_version: Mapped[str] = mapped_column(String(30), nullable=False)
-    quality_score: Mapped[float | None] = mapped_column(Float)
+    quality_score: Mapped[Optional[float]] = mapped_column(Float)
     is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
-    created_at_device: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    created_at_device: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True))
 
     # Encrypted embedding storage — optional, for server-side re-verification
-    # encrypted_embedding: Mapped[bytes | None] = mapped_column(LargeBinary)
+    # encrypted_embedding: Mapped[Optional[bytes]] = mapped_column(LargeBinary)
 
     enrollment: Mapped["FaceEnrollment"] = relationship(back_populates="templates")

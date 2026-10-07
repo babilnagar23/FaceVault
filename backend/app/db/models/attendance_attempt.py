@@ -1,3 +1,5 @@
+from __future__ import annotations
+from typing import Optional
 import uuid
 from datetime import datetime
 from sqlalchemy import String, Float, Integer, Boolean, DateTime, ForeignKey, JSON, Text, Index, UniqueConstraint
@@ -30,56 +32,56 @@ class AttendanceAttempt(Base, TimestampMixin):
 
     organization_id: Mapped[str] = mapped_column(String(36), ForeignKey("organizations.id", ondelete="CASCADE"), nullable=False, index=True)
     user_id: Mapped[str] = mapped_column(String(36), ForeignKey("users.id", ondelete="SET NULL"), nullable=False, index=True)
-    device_id: Mapped[str | None] = mapped_column(String(36), ForeignKey("devices.id", ondelete="SET NULL"))
-    assignment_id: Mapped[str | None] = mapped_column(String(36), ForeignKey("assignments.id", ondelete="SET NULL"))
-    project_id: Mapped[str | None] = mapped_column(String(36), ForeignKey("projects.id", ondelete="SET NULL"))
-    location_id: Mapped[str | None] = mapped_column(String(36), ForeignKey("locations.id", ondelete="SET NULL"))
-    shift_id: Mapped[str | None] = mapped_column(String(36), ForeignKey("shifts.id", ondelete="SET NULL"))
+    device_id: Mapped[Optional[str]] = mapped_column(String(36), ForeignKey("devices.id", ondelete="SET NULL"))
+    assignment_id: Mapped[Optional[str]] = mapped_column(String(36), ForeignKey("assignments.id", ondelete="SET NULL"))
+    project_id: Mapped[Optional[str]] = mapped_column(String(36), ForeignKey("projects.id", ondelete="SET NULL"))
+    location_id: Mapped[Optional[str]] = mapped_column(String(36), ForeignKey("locations.id", ondelete="SET NULL"))
+    shift_id: Mapped[Optional[str]] = mapped_column(String(36), ForeignKey("shifts.id", ondelete="SET NULL"))
 
     # Event metadata
     event_type: Mapped[str] = mapped_column(String(20), default="CHECK_IN", nullable=False)  # CHECK_IN | CHECK_OUT
     attempt_number: Mapped[int] = mapped_column(Integer, default=1, nullable=False)
 
     # Timestamps
-    client_timestamp: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    client_timestamp: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True))
     server_received_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
-    device_clock_offset_seconds: Mapped[float | None] = mapped_column(Float)
+    device_clock_offset_seconds: Mapped[Optional[float]] = mapped_column(Float)
 
     # GPS
-    latitude: Mapped[float | None] = mapped_column(Float)
-    longitude: Mapped[float | None] = mapped_column(Float)
-    gps_accuracy_meters: Mapped[float | None] = mapped_column(Float)
-    distance_from_site_meters: Mapped[float | None] = mapped_column(Float)  # server-calculated
+    latitude: Mapped[Optional[float]] = mapped_column(Float)
+    longitude: Mapped[Optional[float]] = mapped_column(Float)
+    gps_accuracy_meters: Mapped[Optional[float]] = mapped_column(Float)
+    distance_from_site_meters: Mapped[Optional[float]] = mapped_column(Float)  # server-calculated
 
     # Biometric results (from mobile)
     face_verified: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
-    face_score: Mapped[float | None] = mapped_column(Float)
+    face_score: Mapped[Optional[float]] = mapped_column(Float)
     liveness_verified: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
-    liveness_score: Mapped[float | None] = mapped_column(Float)
+    liveness_score: Mapped[Optional[float]] = mapped_column(Float)
 
     # Location verdict (server-calculated)
     location_verified: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
 
     # Offline metadata
     offline_created: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
-    network_type: Mapped[str | None] = mapped_column(String(20))
-    battery_level: Mapped[int | None] = mapped_column(Integer)
+    network_type: Mapped[Optional[str]] = mapped_column(String(20))
+    battery_level: Mapped[Optional[int]] = mapped_column(Integer)
 
     # Result
     # Statuses: VERIFIED, FACE_FAILED, LIVENESS_FAILED, LOCATION_FAILED,
     #           GPS_FAILED, DEVICE_INVALID, PENDING_REVIEW
     status: Mapped[str] = mapped_column(String(30), nullable=False, index=True)
-    failure_reason: Mapped[str | None] = mapped_column(Text)
+    failure_reason: Mapped[Optional[str]] = mapped_column(Text)
 
     # Fraud signals
-    risk_flags: Mapped[list | None] = mapped_column(JSON)
+    risk_flags: Mapped[Optional[list]] = mapped_column(JSON)
 
     # Cryptographic event signature
-    event_signature: Mapped[str | None] = mapped_column(Text)
-    signature_algorithm: Mapped[str | None] = mapped_column(String(30))
+    event_signature: Mapped[Optional[str]] = mapped_column(Text)
+    signature_algorithm: Mapped[Optional[str]] = mapped_column(String(30))
 
     # Arbitrary metadata
-    metadata_: Mapped[dict | None] = mapped_column("metadata", JSON)
+    metadata_: Mapped[Optional[dict]] = mapped_column("metadata", JSON)
 
     # Relationships
     user: Mapped["User"] = relationship(back_populates="attendance_attempts")

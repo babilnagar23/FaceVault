@@ -6,8 +6,9 @@ Set POSTGRES_TEST_URL env var or use the default (matches docker-compose).
 
 Run: pytest -m integration
 """
+from __future__ import annotations
 import uuid
-from datetime import UTC, datetime, date
+from datetime import timezone, datetime, date
 import pytest
 
 pytestmark = pytest.mark.integration
@@ -93,7 +94,7 @@ async def test_attendance_attempt_idempotency_constraint(pg_seeded_org, pg_sessi
         organization_id=pg_seeded_org["org_id"],
         user_id=pg_seeded_org["user_id"],
         event_type="CHECK_IN",
-        server_received_at=datetime.now(UTC),
+        server_received_at=datetime.now(timezone.utc),
         status="VERIFIED",
     )
     attempt2 = AttendanceAttempt(
@@ -101,7 +102,7 @@ async def test_attendance_attempt_idempotency_constraint(pg_seeded_org, pg_sessi
         organization_id=pg_seeded_org["org_id"],
         user_id=pg_seeded_org["user_id"],
         event_type="CHECK_IN",
-        server_received_at=datetime.now(UTC),
+        server_received_at=datetime.now(timezone.utc),
         status="VERIFIED",
     )
     pg_session.add(attempt1)
@@ -123,7 +124,7 @@ async def test_attendance_record_daily_unique_constraint(pg_seeded_org, pg_sessi
         organization_id=pg_seeded_org["org_id"],
         user_id=pg_seeded_org["user_id"],
         event_type="CHECK_IN",
-        server_received_at=datetime.now(UTC),
+        server_received_at=datetime.now(timezone.utc),
         status="VERIFIED",
     )
     pg_session.add(check_in)
@@ -166,7 +167,7 @@ async def test_device_uuid_unique_constraint(pg_seeded_org, pg_session):
         device_uuid=dev_uuid,
         platform="android",
         status="REGISTERED",
-        registered_at=datetime.now(UTC),
+        registered_at=datetime.now(timezone.utc),
     )
     d2 = Device(
         user_id=pg_seeded_org["user_id"],
@@ -174,7 +175,7 @@ async def test_device_uuid_unique_constraint(pg_seeded_org, pg_session):
         device_uuid=dev_uuid,  # duplicate
         platform="ios",
         status="REGISTERED",
-        registered_at=datetime.now(UTC),
+        registered_at=datetime.now(timezone.utc),
     )
     pg_session.add(d1)
     await pg_session.flush()
@@ -190,9 +191,9 @@ async def test_consent_user_type_unique_constraint(pg_seeded_org, pg_session):
     from app.db.models.consent import Consent
 
     c1 = Consent(user_id=pg_seeded_org["user_id"], type="BIOMETRIC", version="1.0", accepted=True,
-                 accepted_at=datetime.now(UTC))
+                 accepted_at=datetime.now(timezone.utc))
     c2 = Consent(user_id=pg_seeded_org["user_id"], type="BIOMETRIC", version="1.0", accepted=True,
-                 accepted_at=datetime.now(UTC))
+                 accepted_at=datetime.now(timezone.utc))
     pg_session.add(c1)
     await pg_session.flush()
     pg_session.add(c2)
@@ -226,7 +227,7 @@ async def test_sync_event_idempotency_constraint(pg_seeded_org, pg_session):
         user_id=pg_seeded_org["user_id"],
         entity_type="attendance_attempt",
         operation="create",
-        server_received_at=datetime.now(UTC),
+        server_received_at=datetime.now(timezone.utc),
         status="PENDING",
     )
     s2 = SyncEvent(
@@ -235,7 +236,7 @@ async def test_sync_event_idempotency_constraint(pg_seeded_org, pg_session):
         user_id=pg_seeded_org["user_id"],
         entity_type="attendance_attempt",
         operation="create",
-        server_received_at=datetime.now(UTC),
+        server_received_at=datetime.now(timezone.utc),
         status="PENDING",
     )
     pg_session.add(s1)
@@ -305,13 +306,13 @@ async def test_face_enrollment_one_per_user(pg_seeded_org, pg_session):
         user_id=pg_seeded_org["user_id"],
         organization_id=pg_seeded_org["org_id"],
         status="ENROLLED",
-        enrolled_at=datetime.now(UTC),
+        enrolled_at=datetime.now(timezone.utc),
     )
     e2 = FaceEnrollment(
         user_id=pg_seeded_org["user_id"],  # duplicate
         organization_id=pg_seeded_org["org_id"],
         status="ENROLLED",
-        enrolled_at=datetime.now(UTC),
+        enrolled_at=datetime.now(timezone.utc),
     )
     pg_session.add(e1)
     await pg_session.flush()

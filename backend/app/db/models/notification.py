@@ -1,3 +1,5 @@
+from __future__ import annotations
+from typing import Optional
 import uuid
 from sqlalchemy import String, Boolean, ForeignKey, Text, JSON, Index
 from sqlalchemy.orm import Mapped, mapped_column
@@ -22,8 +24,8 @@ class Notification(Base, TimestampMixin):
     read: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False, index=True)
 
     # Optional entity reference
-    entity_type: Mapped[str | None] = mapped_column(String(50))
-    entity_id: Mapped[str | None] = mapped_column(String(36))
+    entity_type: Mapped[Optional[str]] = mapped_column(String(50))
+    entity_id: Mapped[Optional[str]] = mapped_column(String(36))
 
     # Optional push payload (FCM data)
-    payload: Mapped[dict | None] = mapped_column(JSON)
+    payload: Mapped[Optional[dict]] = mapped_column(JSON)

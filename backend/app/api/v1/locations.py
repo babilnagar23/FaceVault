@@ -1,4 +1,5 @@
 """Locations — mobile read + admin CRUD."""
+from __future__ import annotations
 from fastapi import APIRouter
 from sqlalchemy import func, select
 

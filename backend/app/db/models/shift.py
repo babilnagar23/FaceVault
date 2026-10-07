@@ -1,3 +1,5 @@
+from __future__ import annotations
+from typing import Optional
 import uuid
 from sqlalchemy import String, Boolean, Integer, ForeignKey, JSON
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -15,7 +17,7 @@ class Shift(Base, TimestampMixin):
     grace_period_minutes: Mapped[int] = mapped_column(Integer, default=15)
     late_threshold_minutes: Mapped[int] = mapped_column(Integer, default=30)
     # JSON array of working day names: ["Mon", "Tue", "Wed", "Thu", "Fri"]
-    working_days: Mapped[list | None] = mapped_column(JSON)
+    working_days: Mapped[Optional[list]] = mapped_column(JSON)
     active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
 
     assignments: Mapped[list["Assignment"]] = relationship(back_populates="shift")

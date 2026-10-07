@@ -1,4 +1,7 @@
+from __future__ import annotations
+from typing import Optional
 """Help desk — mobile ticket creation + admin management."""
+
 from fastapi import APIRouter
 from sqlalchemy import select
 
@@ -126,8 +129,8 @@ async def add_note(ticket_id: str, body: HelpCommentCreate, user: CurrentUser, d
 
 def _to_ticket_out(
     ticket: HelpRequest,
-    employee_name: str | None = None,
-    employee_id: str | None = None,
+    employee_name: Optional[str] = None,
+    employee_id: Optional[str] = None,
 ) -> HelpTicketOut:
     return HelpTicketOut(
         id=ticket.id,

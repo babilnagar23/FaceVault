@@ -1,4 +1,7 @@
+from __future__ import annotations
+from typing import Optional
 """Employee endpoints — mobile current user + admin CRUD."""
+
 from fastapi import APIRouter, Query
 from sqlalchemy import desc, select
 
@@ -52,9 +55,9 @@ async def get_me(user: CurrentUser, db: DbSession) -> EmployeeMe:
 async def list_employees(
     user: CurrentUser,
     db: DbSession,
-    search: str | None = Query(default=None),
-    status: str | None = Query(default=None),
-    department_id: str | None = Query(default=None),
+    search: Optional[str] = Query(default=None),
+    status: Optional[str] = Query(default=None),
+    department_id: Optional[str] = Query(default=None),
     limit: int = Query(default=50, ge=1, le=200),
     offset: int = Query(default=0, ge=0),
 ) -> list[EmployeeOut]:

@@ -1,4 +1,7 @@
+from __future__ import annotations
+from typing import Optional
 """Sync schemas matching Flutter SyncApi.flush() / SyncItem model."""
+
 from datetime import datetime
 from pydantic import BaseModel
 
@@ -8,7 +11,7 @@ class SyncEventPayload(BaseModel):
     client_event_id: str
     entity_type: str   # attendance_attempt, help_request, etc.
     operation: str     # create, update, delete
-    client_created_at: datetime | None = None
+    client_created_at: Optional[datetime] = None
     payload: dict = {}
 
 
@@ -21,9 +24,9 @@ class SyncPushRequest(BaseModel):
 class SyncConflictOut(BaseModel):
     client_event_id: str
     reason: str
-    server_record_id: str | None = None
-    server_state: dict | None = None
-    resolution: str | None = None
+    server_record_id: Optional[str] = None
+    server_state: Optional[dict] = None
+    resolution: Optional[str] = None
 
 
 class SyncPushResponse(BaseModel):
@@ -38,5 +41,5 @@ class SyncPushResponse(BaseModel):
 class SyncStatusOut(BaseModel):
     """Response for GET /api/v1/sync/pull — tells mobile what to sync."""
     pending_count: int
-    last_sync_at: datetime | None
+    last_sync_at: Optional[datetime]
     server_time: datetime

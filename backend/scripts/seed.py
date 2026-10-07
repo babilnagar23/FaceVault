@@ -1,3 +1,4 @@
+from __future__ import annotations
 #!/usr/bin/env python3
 """
 FaceVault — Database Seeder
@@ -306,7 +307,7 @@ async def seed():
                 status="ACTIVE",
                 face_enrolled=False,   # will be updated below after enrollment record
                 device_registered=False,
-                join_date=datetime.strptime(d["join"], "%Y-%m-%d").replace(tzinfo=UTC),
+                join_date=datetime.strptime(d["join"], "%Y-%m-%d").replace(tzinfo=timezone.utc),
             )
             session.add(user)
             await session.flush()
@@ -323,8 +324,8 @@ async def seed():
                 os_version="14",
                 app_version="1.0.0",
                 status="REGISTERED",
-                registered_at=datetime.now(UTC),
-                last_seen_at=datetime.now(UTC),
+                registered_at=datetime.now(timezone.utc),
+                last_seen_at=datetime.now(timezone.utc),
             )
             session.add(device)
             await session.flush()
@@ -337,8 +338,8 @@ async def seed():
                 model_version="facenet-v1",
                 quality_score=0.92,
                 liveness_score=0.95,
-                enrolled_at=datetime.now(UTC),
-                last_updated_at=datetime.now(UTC),
+                enrolled_at=datetime.now(timezone.utc),
+                last_updated_at=datetime.now(timezone.utc),
             )
             session.add(enrollment)
             await session.flush()

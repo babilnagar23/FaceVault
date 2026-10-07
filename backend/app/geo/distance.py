@@ -2,6 +2,7 @@
 FaceVault — Geospatial distance calculation.
 Uses the Haversine formula — no Google Maps required.
 """
+from __future__ import annotations
 import math
 
 

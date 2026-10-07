@@ -1,4 +1,5 @@
 """Biometric enrollment endpoints — no raw embeddings exposed."""
+from __future__ import annotations
 from fastapi import APIRouter
 from sqlalchemy import select
 

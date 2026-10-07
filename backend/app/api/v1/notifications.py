@@ -1,4 +1,5 @@
 """Notifications — read and mark-read endpoints."""
+from __future__ import annotations
 from fastapi import APIRouter
 from sqlalchemy import select, update
 

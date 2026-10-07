@@ -1,7 +1,10 @@
+from __future__ import annotations
+from typing import Optional
 """
 Sync endpoint — receives batched offline events from mobile.
 Idempotency via UNIQUE(client_event_id) — duplicate pushes are completely safe.
 """
+
 from fastapi import APIRouter
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
@@ -74,7 +77,7 @@ async def sync_push(
             continue
 
         # ── Validate the event ─────────────────────────────────────────────
-        rejection_reason: str | None = None
+        rejection_reason: Optional[str] = None
 
         if event_payload.entity_type == "attendance_attempt":
             # Delegate to attendance processing

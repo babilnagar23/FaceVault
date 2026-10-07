@@ -1,4 +1,5 @@
 """Onboarding bootstrap — everything the mobile app needs for offline operation."""
+from __future__ import annotations
 from fastapi import APIRouter
 from sqlalchemy import desc, select
 

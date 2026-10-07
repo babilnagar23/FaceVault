@@ -1,4 +1,5 @@
 """Import all models so Alembic can discover them."""
+from __future__ import annotations
 # ── Core ─────────────────────────────────────────────────────────────────────
 from app.db.models.organization import Organization  # noqa: F401
 from app.db.models.organization_settings import OrganizationSettings  # noqa: F401

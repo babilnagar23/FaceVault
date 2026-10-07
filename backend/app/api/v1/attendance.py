@@ -1,7 +1,10 @@
+from __future__ import annotations
+from typing import Optional
 """
 Attendance endpoints — attempt submission, history, detail.
 The server ALWAYS recalculates GPS distance server-side.
 """
+
 from datetime import date
 
 from fastapi import APIRouter, Query
@@ -33,7 +36,7 @@ from app.utils.time import clock_drift_seconds, utcnow
 router = APIRouter()
 
 
-def _attempt_status_to_record_status(attempt: AttendanceAttempt, shift: Shift | None) -> str:
+def _attempt_status_to_record_status(attempt: AttendanceAttempt, shift: Optional[Shift]) -> str:
     """Map attempt result to official attendance status."""
     if attempt.status not in (AttemptStatus.VERIFIED, AttemptStatus.PENDING_REVIEW):
         return AttendanceRecordStatus.ABSENT
@@ -93,8 +96,8 @@ async def submit_attempt(
     )
     assignment = assignment_result.scalar_one_or_none()
 
-    location: Location | None = None
-    shift: Shift | None = None
+    location: Optional[Location] = None
+    shift: Optional[Shift] = None
     if assignment:
         loc_result = await db.execute(select(Location).where(Location.id == assignment.location_id))
         location = loc_result.scalar_one_or_none()
@@ -103,7 +106,7 @@ async def submit_attempt(
 
     # ── Server-side GPS validation ────────────────────────────────────────────
     location_verified = False
-    distance_meters: float | None = None
+    distance_meters: Optional[float] = None
 
     if location and body.latitude is not None and body.longitude is not None:
         geo = validate_geofence(
@@ -183,7 +186,7 @@ async def submit_attempt(
     db.add(attempt)
     await db.flush()  # get attempt.id
 
-    attendance_record_id: str | None = None
+    attendance_record_id: Optional[str] = None
 
     # ── Create/update AttendanceRecord for successful attempts ─────────────────
     if status in (AttemptStatus.VERIFIED, AttemptStatus.PENDING_REVIEW):
@@ -264,8 +267,8 @@ async def attendance_history(
     return [_to_record_out(r) for r in records]
 
 
-@router.get("/attendance/today", response_model=AttendanceRecordOut | None, summary="Today's attendance")
-async def today_attendance(user: CurrentUser, db: DbSession) -> AttendanceRecordOut | None:
+@router.get("/attendance/today", response_model=Optional[AttendanceRecordOut], summary="Today's attendance")
+async def today_attendance(user: CurrentUser, db: DbSession) -> Optional[AttendanceRecordOut]:
     today = utcnow().date()
     result = await db.execute(
         select(AttendanceRecord).where(
@@ -294,7 +297,7 @@ async def attendance_detail(record_id: str, user: CurrentUser, db: DbSession) ->
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
-def _to_attempt_out(attempt: AttendanceAttempt, attendance_record_id: str | None = None) -> AttendanceAttemptOut:
+def _to_attempt_out(attempt: AttendanceAttempt, attendance_record_id: Optional[str] = None) -> AttendanceAttemptOut:
     return AttendanceAttemptOut(
         id=attempt.id,
         client_event_id=attempt.client_event_id,

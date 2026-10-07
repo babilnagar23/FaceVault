@@ -1,4 +1,7 @@
+from __future__ import annotations
+from typing import Optional
 """Auth request/response schemas."""
+
 from pydantic import BaseModel, EmailStr, field_validator
 
 
@@ -47,8 +50,8 @@ class LoginResponse(BaseModel):
 
 
 class ForgotPasswordRequest(BaseModel):
-    employee_id: str | None = None
-    email: EmailStr | None = None
+    employee_id: Optional[str] = None
+    email: Optional[EmailStr] = None
 
 
 class ResetPasswordRequest(BaseModel):

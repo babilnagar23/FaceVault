@@ -1,4 +1,7 @@
+from __future__ import annotations
+from typing import Optional
 """Attendance schemas matching Flutter AttendanceApi and AttendanceRecord model."""
+
 from datetime import datetime
 from pydantic import BaseModel, Field, field_validator
 from app.schemas.common import OrmModel
@@ -12,27 +15,27 @@ class AttendanceAttemptCreate(BaseModel):
     event_type: str = Field(default="CHECK_IN", pattern="^(CHECK_IN|CHECK_OUT)$")
 
     # Timestamps
-    client_timestamp: datetime | None = None
+    client_timestamp: Optional[datetime] = None
 
     # GPS — may be None if offline and GPS unavailable
-    latitude: float | None = Field(default=None, ge=-90, le=90)
-    longitude: float | None = Field(default=None, ge=-180, le=180)
-    gps_accuracy_meters: float | None = Field(default=None, ge=0)
+    latitude: Optional[float] = Field(default=None, ge=-90, le=90)
+    longitude: Optional[float] = Field(default=None, ge=-180, le=180)
+    gps_accuracy_meters: Optional[float] = Field(default=None, ge=0)
 
     # Biometric results from on-device processing
     face_verified: bool = False
-    face_score: float | None = Field(default=None, ge=0, le=1)
+    face_score: Optional[float] = Field(default=None, ge=0, le=1)
     liveness_verified: bool = False
-    liveness_score: float | None = Field(default=None, ge=0, le=1)
+    liveness_score: Optional[float] = Field(default=None, ge=0, le=1)
 
     # Offline metadata
     offline_created: bool = False
-    network_type: str | None = None
-    battery_level: int | None = Field(default=None, ge=0, le=100)
+    network_type: Optional[str] = None
+    battery_level: Optional[int] = Field(default=None, ge=0, le=100)
 
     # Optional cryptographic signature (future)
-    event_signature: str | None = None
-    signature_algorithm: str | None = None
+    event_signature: Optional[str] = None
+    signature_algorithm: Optional[str] = None
 
 
 # ─── Attempt Response ─────────────────────────────────────────────────────────
@@ -44,16 +47,16 @@ class AttendanceAttemptOut(OrmModel):
     status: str
     event_type: str
     face_verified: bool
-    face_score: float | None
+    face_score: Optional[float]
     liveness_verified: bool
-    liveness_score: float | None
+    liveness_score: Optional[float]
     location_verified: bool
-    distance_from_site_meters: float | None
-    gps_accuracy_meters: float | None
-    failure_reason: str | None
+    distance_from_site_meters: Optional[float]
+    gps_accuracy_meters: Optional[float]
+    failure_reason: Optional[str]
     risk_flags: list[str] | None
     server_received_at: datetime
-    attendance_record_id: str | None = None
+    attendance_record_id: Optional[str] = None
 
 
 # ─── Attendance Record Response ───────────────────────────────────────────────
@@ -63,29 +66,29 @@ class AttendanceRecordOut(OrmModel):
     id: str
     attendance_date: str           # ISO date string
     status: str
-    check_in_time: datetime | None
-    check_out_time: datetime | None
-    assigned_site: str | None = None
-    distance_meters: int | None = None
+    check_in_time: Optional[datetime]
+    check_out_time: Optional[datetime]
+    assigned_site: Optional[str] = None
+    distance_meters: Optional[int] = None
     face_status: str
     liveness_status: str
     location_status: str
     sync_status: str = "SYNCED"
-    remarks: str | None = None
-    face_score: float | None
-    liveness_score: float | None
-    gps_accuracy: int | None = None
-    work_duration_minutes: float | None = None
+    remarks: Optional[str] = None
+    face_score: Optional[float]
+    liveness_score: Optional[float]
+    gps_accuracy: Optional[int] = None
+    work_duration_minutes: Optional[float] = None
 
 
 # ─── Admin Filters ────────────────────────────────────────────────────────────
 
 class AttendanceAdminFilters(BaseModel):
-    date_from: str | None = None
-    date_to: str | None = None
-    employee_id: str | None = None
-    department_id: str | None = None
-    project_id: str | None = None
-    location_id: str | None = None
-    shift_id: str | None = None
-    status: str | None = None
+    date_from: Optional[str] = None
+    date_to: Optional[str] = None
+    employee_id: Optional[str] = None
+    department_id: Optional[str] = None
+    project_id: Optional[str] = None
+    location_id: Optional[str] = None
+    shift_id: Optional[str] = None
+    status: Optional[str] = None

@@ -1,3 +1,5 @@
+from __future__ import annotations
+from typing import Optional
 import uuid
 from datetime import datetime
 from sqlalchemy import String, Boolean, DateTime, ForeignKey, UniqueConstraint
@@ -14,7 +16,7 @@ class AnnouncementRead(Base):
     user_id: Mapped[str] = mapped_column(String(36), ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True)
     read: Mapped[bool] = mapped_column(Boolean, default=True)
     acknowledged: Mapped[bool] = mapped_column(Boolean, default=False)
-    read_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
-    acknowledged_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    read_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True))
+    acknowledged_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True))
 
     announcement: Mapped["Announcement"] = relationship(back_populates="reads")

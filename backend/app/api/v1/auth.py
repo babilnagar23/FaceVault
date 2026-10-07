@@ -1,7 +1,8 @@
 """
 Authentication endpoints — employee login, admin login, refresh, logout, me.
 """
-from datetime import UTC, datetime, timedelta
+from __future__ import annotations
+from datetime import timezone, datetime, timedelta
 
 from fastapi import APIRouter, Request
 from sqlalchemy import select, update
@@ -94,8 +95,11 @@ async def employee_login(
     Flutter AuthApi.login() — employee logs in with employee_id + password.
     Returns access token, refresh token, and user profile.
     """
+    from sqlalchemy.orm import joinedload
     result = await db.execute(
-        select(User).where(
+        select(User)
+        .options(joinedload(User.role))
+        .where(
             User.employee_code == body.employee_id,
             User.status == "ACTIVE",
         )
@@ -127,7 +131,9 @@ async def admin_login(
         raise AuthenticationError(message="Organization not found.")
 
     result = await db.execute(
-        select(User).where(
+        select(User)
+        .options(joinedload(User.role))
+        .where(
             User.organization_id == org.id,
             User.email == body.email,
             User.status == "ACTIVE",
@@ -161,7 +167,11 @@ async def refresh_token(body: RefreshRequest, db: DbSession) -> TokenResponse:
     if not verify_token_hash(body.refresh_token.split(".")[-1], session.refresh_token_hash):
         pass  # Simplified — production would do full hash check
 
-    user_result = await db.execute(select(User).where(User.id == user_id, User.status == "ACTIVE"))
+    user_result = await db.execute(
+        select(User)
+        .options(joinedload(User.role))
+        .where(User.id == user_id, User.status == "ACTIVE")
+    )
     user = user_result.scalar_one_or_none()
     if not user:
         raise InvalidTokenError()

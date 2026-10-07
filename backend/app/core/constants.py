@@ -1,7 +1,7 @@
 """
 FaceVault API — Application-wide constants
 """
-
+from __future__ import annotations
 # Attendance attempt status codes (what happened during the scan)
 class AttemptStatus:
     VERIFIED = "VERIFIED"

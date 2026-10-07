@@ -1,3 +1,5 @@
+from __future__ import annotations
+from typing import Optional
 import uuid
 from sqlalchemy import String, Boolean, Float, Integer, Text, ForeignKey, Index
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -12,10 +14,10 @@ class Location(Base, TimestampMixin):
 
     id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     organization_id: Mapped[str] = mapped_column(String(36), ForeignKey("organizations.id", ondelete="CASCADE"), nullable=False, index=True)
-    project_id: Mapped[str | None] = mapped_column(String(36), ForeignKey("projects.id", ondelete="SET NULL"))
+    project_id: Mapped[Optional[str]] = mapped_column(String(36), ForeignKey("projects.id", ondelete="SET NULL"))
     name: Mapped[str] = mapped_column(String(255), nullable=False)
-    site_code: Mapped[str | None] = mapped_column(String(50))
-    address: Mapped[str | None] = mapped_column(Text)
+    site_code: Mapped[Optional[str]] = mapped_column(String(50))
+    address: Mapped[Optional[str]] = mapped_column(Text)
     active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
 
     # GPS coordinates stored as plain floats (always available, frontend-compatible)
@@ -25,8 +27,8 @@ class Location(Base, TimestampMixin):
     radius_meters: Mapped[int] = mapped_column(Integer, default=150, nullable=False)
 
     # Working hours (optional — used for shift validation)
-    working_hours_start: Mapped[str | None] = mapped_column(String(5))  # "08:00"
-    working_hours_end: Mapped[str | None] = mapped_column(String(5))    # "18:00"
+    working_hours_start: Mapped[Optional[str]] = mapped_column(String(5))  # "08:00"
+    working_hours_end: Mapped[Optional[str]] = mapped_column(String(5))    # "18:00"
 
     organization: Mapped["Organization"] = relationship(back_populates="locations")
     project: Mapped["Project"] = relationship(back_populates="locations")

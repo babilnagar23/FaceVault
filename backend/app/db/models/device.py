@@ -1,3 +1,5 @@
+from __future__ import annotations
+from typing import Optional
 import uuid
 from datetime import datetime
 from sqlalchemy import String, DateTime, ForeignKey, Text, Index
@@ -18,17 +20,17 @@ class Device(Base, TimestampMixin):
 
     device_uuid: Mapped[str] = mapped_column(String(100), nullable=False, unique=True)
     platform: Mapped[str] = mapped_column(String(20), nullable=False)        # android, ios
-    manufacturer: Mapped[str | None] = mapped_column(String(100))
-    model: Mapped[str | None] = mapped_column(String(100))
-    os_version: Mapped[str | None] = mapped_column(String(50))
-    app_version: Mapped[str | None] = mapped_column(String(20))
+    manufacturer: Mapped[Optional[str]] = mapped_column(String(100))
+    model: Mapped[Optional[str]] = mapped_column(String(100))
+    os_version: Mapped[Optional[str]] = mapped_column(String(50))
+    app_version: Mapped[Optional[str]] = mapped_column(String(20))
     status: Mapped[str] = mapped_column(String(20), default="REGISTERED", nullable=False, index=True)
 
     # For future cryptographic offline-event signing
-    public_key: Mapped[str | None] = mapped_column(Text)
+    public_key: Mapped[Optional[str]] = mapped_column(Text)
 
     registered_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
-    last_seen_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
-    last_sync_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    last_seen_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True))
+    last_sync_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True))
 
     user: Mapped["User"] = relationship(back_populates="devices")

@@ -1,3 +1,5 @@
+from __future__ import annotations
+from typing import Optional
 import uuid
 from datetime import datetime
 from sqlalchemy import String, Float, DateTime, ForeignKey
@@ -13,11 +15,11 @@ class FaceEnrollment(Base, TimestampMixin):
     organization_id: Mapped[str] = mapped_column(String(36), ForeignKey("organizations.id"), nullable=False)
 
     status: Mapped[str] = mapped_column(String(30), default="NOT_ENROLLED", nullable=False)
-    model_version: Mapped[str | None] = mapped_column(String(30))
-    quality_score: Mapped[float | None] = mapped_column(Float)
-    liveness_score: Mapped[float | None] = mapped_column(Float)
-    enrolled_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
-    last_updated_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    model_version: Mapped[Optional[str]] = mapped_column(String(30))
+    quality_score: Mapped[Optional[float]] = mapped_column(Float)
+    liveness_score: Mapped[Optional[float]] = mapped_column(Float)
+    enrolled_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True))
+    last_updated_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True))
 
     user: Mapped["User"] = relationship(back_populates="face_enrollment")
     templates: Mapped[list["FaceTemplate"]] = relationship(back_populates="enrollment", cascade="all, delete-orphan")

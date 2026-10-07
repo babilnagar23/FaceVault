@@ -3,6 +3,7 @@ FaceVault — Server-side geofence validation.
 The server ALWAYS recalculates distance independently.
 It NEVER trusts location_verified: true from the mobile app.
 """
+from __future__ import annotations
 from app.geo.distance import haversine_distance
 
 

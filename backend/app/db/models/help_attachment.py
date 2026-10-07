@@ -1,3 +1,5 @@
+from __future__ import annotations
+from typing import Optional
 import uuid
 from sqlalchemy import String, Integer, ForeignKey, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -15,6 +17,6 @@ class HelpAttachment(Base, TimestampMixin):
     storage_key: Mapped[str] = mapped_column(String(500), nullable=False)
     original_filename: Mapped[str] = mapped_column(String(255), nullable=False)
     content_type: Mapped[str] = mapped_column(String(100), nullable=False)
-    size_bytes: Mapped[int | None] = mapped_column(Integer)
+    size_bytes: Mapped[Optional[int]] = mapped_column(Integer)
 
     request: Mapped["HelpRequest"] = relationship(back_populates="attachments")

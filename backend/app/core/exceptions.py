@@ -3,7 +3,8 @@ FaceVault API — Core Exception Classes
 All exceptions derive from FaceVaultException so the global handler
 can produce a consistent error envelope.
 """
-from typing import Any
+from __future__ import annotations
+from typing import Optional, Any
 
 
 class FaceVaultException(Exception):
@@ -15,7 +16,7 @@ class FaceVaultException(Exception):
 
     def __init__(
         self,
-        message: str | None = None,
+        message: Optional[str] = None,
         details: dict[str, Any] | None = None,
     ) -> None:
         self.message = message or self.__class__.message

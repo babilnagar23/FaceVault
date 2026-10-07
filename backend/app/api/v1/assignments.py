@@ -1,4 +1,7 @@
+from __future__ import annotations
+from typing import Optional
 """Assignments router."""
+
 from fastapi import APIRouter
 from sqlalchemy import select
 
@@ -10,8 +13,8 @@ from app.schemas.domain import AssignmentCreate, AssignmentOut
 router = APIRouter()
 
 
-@router.get("/assignments/me", response_model=AssignmentOut | None, summary="My current assignment")
-async def my_assignment(user: CurrentUser, db: DbSession) -> AssignmentOut | None:
+@router.get("/assignments/me", response_model=Optional[AssignmentOut], summary="My current assignment")
+async def my_assignment(user: CurrentUser, db: DbSession) -> Optional[AssignmentOut]:
     result = await db.execute(
         select(Assignment).where(Assignment.user_id == user.id, Assignment.is_active == True)
         .order_by(Assignment.created_at.desc()).limit(1)

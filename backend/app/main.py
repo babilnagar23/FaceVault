@@ -1,6 +1,7 @@
 """
 FaceVault API — Application Entry Point
 """
+from __future__ import annotations
 import sentry_sdk
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware

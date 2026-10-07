@@ -1,4 +1,5 @@
 """Main API router — includes all v1 sub-routers."""
+from __future__ import annotations
 from fastapi import APIRouter
 
 from app.api.v1 import (

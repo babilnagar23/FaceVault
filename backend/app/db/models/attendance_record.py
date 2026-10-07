@@ -1,3 +1,5 @@
+from __future__ import annotations
+from typing import Optional
 import uuid
 from datetime import date, datetime
 from sqlalchemy import String, Float, Integer, Date, DateTime, ForeignKey, Text, UniqueConstraint, Index
@@ -25,35 +27,35 @@ class AttendanceRecord(Base, TimestampMixin):
     id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     organization_id: Mapped[str] = mapped_column(String(36), ForeignKey("organizations.id", ondelete="CASCADE"), nullable=False, index=True)
     user_id: Mapped[str] = mapped_column(String(36), ForeignKey("users.id", ondelete="SET NULL"), nullable=False, index=True)
-    assignment_id: Mapped[str | None] = mapped_column(String(36), ForeignKey("assignments.id", ondelete="SET NULL"))
-    project_id: Mapped[str | None] = mapped_column(String(36), ForeignKey("projects.id", ondelete="SET NULL"))
-    location_id: Mapped[str | None] = mapped_column(String(36), ForeignKey("locations.id", ondelete="SET NULL"))
-    shift_id: Mapped[str | None] = mapped_column(String(36), ForeignKey("shifts.id", ondelete="SET NULL"))
+    assignment_id: Mapped[Optional[str]] = mapped_column(String(36), ForeignKey("assignments.id", ondelete="SET NULL"))
+    project_id: Mapped[Optional[str]] = mapped_column(String(36), ForeignKey("projects.id", ondelete="SET NULL"))
+    location_id: Mapped[Optional[str]] = mapped_column(String(36), ForeignKey("locations.id", ondelete="SET NULL"))
+    shift_id: Mapped[Optional[str]] = mapped_column(String(36), ForeignKey("shifts.id", ondelete="SET NULL"))
 
     attendance_date: Mapped[date] = mapped_column(Date, nullable=False, index=True)
 
     # Linked attempts
-    check_in_attempt_id: Mapped[str | None] = mapped_column(String(36), ForeignKey("attendance_attempts.id", ondelete="SET NULL"))
-    check_out_attempt_id: Mapped[str | None] = mapped_column(String(36), ForeignKey("attendance_attempts.id", ondelete="SET NULL"))
+    check_in_attempt_id: Mapped[Optional[str]] = mapped_column(String(36), ForeignKey("attendance_attempts.id", ondelete="SET NULL"))
+    check_out_attempt_id: Mapped[Optional[str]] = mapped_column(String(36), ForeignKey("attendance_attempts.id", ondelete="SET NULL"))
 
-    check_in_time: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
-    check_out_time: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    check_in_time: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True))
+    check_out_time: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True))
 
     # Official status: PRESENT, ABSENT, LATE, LEAVE, PENDING_REVIEW, APPROVED_EXCEPTION, REJECTED
     status: Mapped[str] = mapped_column(String(30), nullable=False, index=True)
 
     source: Mapped[str] = mapped_column(String(20), default="MOBILE", nullable=False)  # MOBILE, ADMIN, SYSTEM
-    work_duration_minutes: Mapped[float | None] = mapped_column(Float)
+    work_duration_minutes: Mapped[Optional[float]] = mapped_column(Float)
 
     # Scores from the verified check-in attempt
-    face_score: Mapped[float | None] = mapped_column(Float)
-    liveness_score: Mapped[float | None] = mapped_column(Float)
-    location_distance_meters: Mapped[float | None] = mapped_column(Float)
+    face_score: Mapped[Optional[float]] = mapped_column(Float)
+    liveness_score: Mapped[Optional[float]] = mapped_column(Float)
+    location_distance_meters: Mapped[Optional[float]] = mapped_column(Float)
 
     # Admin review
-    approved_by_id: Mapped[str | None] = mapped_column(String(36), ForeignKey("users.id", ondelete="SET NULL"))
-    approved_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
-    remarks: Mapped[str | None] = mapped_column(Text)
+    approved_by_id: Mapped[Optional[str]] = mapped_column(String(36), ForeignKey("users.id", ondelete="SET NULL"))
+    approved_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True))
+    remarks: Mapped[Optional[str]] = mapped_column(Text)
 
     # Relationships
     user: Mapped["User"] = relationship(back_populates="attendance_records", foreign_keys=[user_id])

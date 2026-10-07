@@ -1,4 +1,5 @@
 """Reports — attendance analytics for admin dashboard."""
+from __future__ import annotations
 from fastapi import APIRouter, Query
 from sqlalchemy import func, select
 

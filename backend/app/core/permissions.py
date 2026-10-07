@@ -1,10 +1,11 @@
 """
 FaceVault API — RBAC Permission Constants and Role Definitions
 """
-from enum import StrEnum
+from __future__ import annotations
+from enum import Enum
 
 
-class Role(StrEnum):
+class Role(str, Enum):
     OWNER = "OWNER"
     ADMIN = "ADMIN"
     HR = "HR"
@@ -13,7 +14,7 @@ class Role(StrEnum):
     EMPLOYEE = "EMPLOYEE"
 
 
-class Permission(StrEnum):
+class Permission(str, Enum):
     # Employee management
     EMPLOYEE_READ = "EMPLOYEE_READ"
     EMPLOYEE_CREATE = "EMPLOYEE_CREATE"

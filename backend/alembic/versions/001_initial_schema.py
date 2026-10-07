@@ -43,7 +43,7 @@ def upgrade() -> None:
         sa.Column("domain", sa.String(255), nullable=True),
         sa.Column("logo_url", sa.Text, nullable=True),
         sa.Column("active", sa.Boolean, nullable=False, server_default=sa.true()),
-        sa.Column("timezone", sa.String(64), nullable=False, server_default="UTC"),
+        sa.Column("timezone", sa.String(64), nullable=False, server_default="timezone.utc"),
         sa.Column("created_at", sa.DateTime(timezone=True), nullable=False, server_default=sa.func.now()),
         sa.Column("updated_at", sa.DateTime(timezone=True), nullable=False, server_default=sa.func.now()),
     )

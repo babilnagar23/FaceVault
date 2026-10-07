@@ -1,3 +1,5 @@
+from __future__ import annotations
+from typing import Optional
 import uuid
 from sqlalchemy import String, Boolean, Float, ForeignKey, Text, JSON, Index
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -25,8 +27,8 @@ class HelpRequest(Base, TimestampMixin):
     id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     organization_id: Mapped[str] = mapped_column(String(36), ForeignKey("organizations.id", ondelete="CASCADE"), nullable=False, index=True)
     user_id: Mapped[str] = mapped_column(String(36), ForeignKey("users.id", ondelete="SET NULL"), nullable=False, index=True)
-    category_id: Mapped[str | None] = mapped_column(String(36), ForeignKey("help_categories.id", ondelete="SET NULL"))
-    assigned_to_id: Mapped[str | None] = mapped_column(String(36), ForeignKey("users.id", ondelete="SET NULL"))
+    category_id: Mapped[Optional[str]] = mapped_column(String(36), ForeignKey("help_categories.id", ondelete="SET NULL"))
+    assigned_to_id: Mapped[Optional[str]] = mapped_column(String(36), ForeignKey("users.id", ondelete="SET NULL"))
 
     subject: Mapped[str] = mapped_column(String(255), nullable=False)
     description: Mapped[str] = mapped_column(Text, nullable=False)
@@ -36,17 +38,17 @@ class HelpRequest(Base, TimestampMixin):
     priority: Mapped[str] = mapped_column(String(20), default="NORMAL", nullable=False)
 
     # Linked attendance attempt (optional context)
-    attendance_attempt_id: Mapped[str | None] = mapped_column(String(36), ForeignKey("attendance_attempts.id", ondelete="SET NULL"))
+    attendance_attempt_id: Mapped[Optional[str]] = mapped_column(String(36), ForeignKey("attendance_attempts.id", ondelete="SET NULL"))
 
     # Device context at time of ticket
-    device_id: Mapped[str | None] = mapped_column(String(36), ForeignKey("devices.id", ondelete="SET NULL"))
-    app_version: Mapped[str | None] = mapped_column(String(30))
+    device_id: Mapped[Optional[str]] = mapped_column(String(36), ForeignKey("devices.id", ondelete="SET NULL"))
+    app_version: Mapped[Optional[str]] = mapped_column(String(30))
 
     # User location at time of submission
-    latitude: Mapped[float | None] = mapped_column(Float)
-    longitude: Mapped[float | None] = mapped_column(Float)
+    latitude: Mapped[Optional[float]] = mapped_column(Float)
+    longitude: Mapped[Optional[float]] = mapped_column(Float)
 
-    resolution: Mapped[str | None] = mapped_column(Text)
+    resolution: Mapped[Optional[str]] = mapped_column(Text)
 
     category: Mapped["HelpCategory"] = relationship(back_populates="requests")
     comments: Mapped[list["HelpComment"]] = relationship(back_populates="request", cascade="all, delete-orphan")

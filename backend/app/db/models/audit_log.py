@@ -1,3 +1,5 @@
+from __future__ import annotations
+from typing import Optional
 import uuid
 from sqlalchemy import String, ForeignKey, JSON, Text, Index
 from sqlalchemy.orm import Mapped, mapped_column
@@ -18,17 +20,17 @@ class AuditLog(Base, TimestampMixin):
 
     id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     organization_id: Mapped[str] = mapped_column(String(36), ForeignKey("organizations.id"), nullable=False, index=True)
-    actor_id: Mapped[str | None] = mapped_column(String(36), ForeignKey("users.id"))  # None = system
-    actor_label: Mapped[str | None] = mapped_column(String(255))  # Display name snapshot
+    actor_id: Mapped[Optional[str]] = mapped_column(String(36), ForeignKey("users.id"))  # None = system
+    actor_label: Mapped[Optional[str]] = mapped_column(String(255))  # Display name snapshot
 
     action: Mapped[str] = mapped_column(String(100), nullable=False, index=True)
-    entity_type: Mapped[str | None] = mapped_column(String(50))
-    entity_id: Mapped[str | None] = mapped_column(String(36))
+    entity_type: Mapped[Optional[str]] = mapped_column(String(50))
+    entity_id: Mapped[Optional[str]] = mapped_column(String(36))
 
-    before_data: Mapped[dict | None] = mapped_column(JSON)
-    after_data: Mapped[dict | None] = mapped_column(JSON)
+    before_data: Mapped[Optional[dict]] = mapped_column(JSON)
+    after_data: Mapped[Optional[dict]] = mapped_column(JSON)
 
-    ip_address: Mapped[str | None] = mapped_column(String(45))
-    user_agent: Mapped[str | None] = mapped_column(Text)
-    device_id: Mapped[str | None] = mapped_column(String(36))
-    details: Mapped[str | None] = mapped_column(Text)
+    ip_address: Mapped[Optional[str]] = mapped_column(String(45))
+    user_agent: Mapped[Optional[str]] = mapped_column(Text)
+    device_id: Mapped[Optional[str]] = mapped_column(String(36))
+    details: Mapped[Optional[str]] = mapped_column(Text)

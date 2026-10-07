@@ -1,9 +1,12 @@
+from __future__ import annotations
+from typing import Optional
 """
 FaceVault — Celery tasks.
 All DB access uses synchronous SQLAlchemy sessions (Celery workers are sync).
 """
+
 import asyncio
-from datetime import UTC, datetime, timedelta
+from datetime import timezone, datetime, timedelta
 
 from app.workers.celery_app import celery_app
 
@@ -33,7 +36,7 @@ def reconcile_absent_employees(self):
 
     session = _get_sync_session()
     try:
-        today = datetime.now(UTC).date()
+        today = datetime.now(timezone.utc).date()
         active_users = session.query(User).filter(User.status == "ACTIVE").all()
         created = 0
         for user in active_users:
@@ -75,7 +78,7 @@ def cleanup_old_sync_events(self):
 
     session = _get_sync_session()
     try:
-        cutoff = datetime.now(UTC) - timedelta(days=30)
+        cutoff = datetime.now(timezone.utc) - timedelta(days=30)
         deleted = session.query(SyncEvent).filter(SyncEvent.created_at < cutoff).delete()
         session.commit()
         return {"deleted": deleted}
@@ -93,7 +96,7 @@ def publish_scheduled_announcements(self):
 
     session = _get_sync_session()
     try:
-        now = datetime.now(UTC)
+        now = datetime.now(timezone.utc)
         due = session.query(Announcement).filter(
             Announcement.status == "SCHEDULED",
             Announcement.scheduled_for <= now,
@@ -179,7 +182,7 @@ def export_attendance_report(self, org_id: str, date_from: str, date_to: str, fo
 
 
 @celery_app.task(name="app.workers.tasks.send_push_notification")
-def send_push_notification(user_id: str, title: str, body: str, data: dict | None = None):
+def send_push_notification(user_id: str, title: str, body: str, data: Optional[dict] = None):
     """Send FCM push notification to a user's device (stub — extend with actual FCM call)."""
     from app.config import settings
     if not settings.FCM_PROJECT_ID:
