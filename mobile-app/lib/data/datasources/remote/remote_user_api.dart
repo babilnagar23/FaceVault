@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import '../../../core/services/device/device_info_service.dart';
 import '../../models/app_models.dart';
 import '../../repositories/app_repositories.dart';
 
@@ -28,10 +29,11 @@ class RemoteUserApi implements UserApi {
   @override
   Future<DeviceMetadata> registerDevice() async {
     // Gather real device info
+    final info = await DeviceInfoService().getDeviceInfo();
     final res = await _dio.post('/devices/register', data: {
-      'device_uuid': await _getDeviceUuid(),
-      'platform': _getPlatform(),
-      'app_version': '1.0.0',
+      'device_uuid': info['installation_id'],
+      'platform': info['platform'],
+      'app_version': info['app_version'],
     });
     return _parseDevice(res.data as Map<String, dynamic>);
   }
@@ -57,14 +59,6 @@ class RemoteUserApi implements UserApi {
         appVersion: d['app_version'] as String? ?? '1.0.0',
         registered: d['status'] == 'REGISTERED',
       );
-
-  Future<String> _getDeviceUuid() async {
-    // In production: use device_info_plus to get real device ID
-    return 'device-${DateTime.now().millisecondsSinceEpoch}';
-  }
-
-  String _getPlatform() {
-    // In production: Platform.isAndroid ? 'android' : 'ios'
-    return 'android';
-  }
 }
+
+

@@ -4,6 +4,8 @@ import 'dart:typed_data';
 import 'package:camera/camera.dart';
 import 'package:dio/dio.dart';
 
+import '../camera/camera_frame_bus.dart';
+
 import '../face_enrollment_service.dart';
 
 import '../ml/face_aligner.dart';
@@ -40,6 +42,7 @@ class RealFaceEnrollmentService implements FaceEnrollmentService {
     required FaceAligner aligner,
     required FaceQualityChecker qualityChecker,
     required BiometricTemplateStore templateStore,
+    required CameraFrameBus frameBus,
     required Dio dio,
   })  : _embeddingGenerator = embeddingGenerator,
         _antiSpoofRunner = antiSpoofRunner,
@@ -47,6 +50,7 @@ class RealFaceEnrollmentService implements FaceEnrollmentService {
         _aligner = aligner,
         _qualityChecker = qualityChecker,
         _templateStore = templateStore,
+        _frameBus = frameBus,
         _dio = dio;
 
   final EmbeddingGenerator _embeddingGenerator;
@@ -55,6 +59,7 @@ class RealFaceEnrollmentService implements FaceEnrollmentService {
   final FaceAligner _aligner;
   final FaceQualityChecker _qualityChecker;
   final BiometricTemplateStore _templateStore;
+  final CameraFrameBus _frameBus;
   final Dio _dio;
 
   String? _employeeId;
@@ -62,21 +67,7 @@ class RealFaceEnrollmentService implements FaceEnrollmentService {
   final List<double> _qualityScores = [];
   final List<double> _livenessScores = [];
 
-  CameraController? _camera;
-  CameraImage? _lastFrame;
 
-  // ── Camera attachment ─────────────────────────────────────────────────────
-
-  void attachCamera(CameraController controller) {
-    _camera = controller;
-    controller.startImageStream((image) => _lastFrame = image);
-  }
-
-  void detachCamera() {
-    _camera?.stopImageStream().catchError((_) {});
-    _camera = null;
-    _lastFrame = null;
-  }
 
   // ── FaceEnrollmentService implementation ──────────────────────────────────
 
@@ -92,7 +83,7 @@ class RealFaceEnrollmentService implements FaceEnrollmentService {
   Future<EnrollmentSampleResult> captureEnrollmentSample(
     EnrollmentPose pose,
   ) async {
-    final frame = _lastFrame;
+    final frame = _frameBus.latestFrame;
     if (frame == null) {
       return EnrollmentSampleResult(
         captured: false,

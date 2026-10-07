@@ -18,6 +18,7 @@ import '../../features/onboarding/presentation/permissions_screen.dart';
 import '../../features/onboarding/presentation/registration_success_screen.dart';
 import '../../features/profile/presentation/profile_screen.dart';
 import '../../features/settings/presentation/settings_screen.dart';
+import '../../features/settings/presentation/diagnostic_screen.dart';
 import '../../shared/widgets/facevault_shell.dart';
 
 final appRouter = GoRouter(
@@ -126,6 +127,10 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/settings',
       builder: (context, state) => const SettingsScreen(),
+    ),
+    GoRoute(
+      path: '/diagnostics',
+      builder: (context, state) => const DiagnosticScreen(),
     ),
   ],
 );

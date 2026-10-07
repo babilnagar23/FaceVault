@@ -22,6 +22,8 @@ import '../services/real/real_location_verification_service.dart';
 import '../services/storage/biometric_template_store.dart';
 import '../services/storage/site_assignment_cache.dart';
 import '../services/sync/attendance_outbox.dart';
+import '../services/camera/camera_frame_bus.dart';
+import '../services/camera/camera_session_controller.dart';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // FEATURE FLAGS
@@ -52,6 +54,23 @@ final secureStorageProvider = Provider<FlutterSecureStorage>((ref) {
   return const FlutterSecureStorage(
     aOptions: AndroidOptions(encryptedSharedPreferences: true),
   );
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CAMERA PROVIDERS
+// ─────────────────────────────────────────────────────────────────────────────
+
+final cameraFrameBusProvider = Provider<CameraFrameBus>((ref) {
+  final bus = CameraFrameBus();
+  ref.onDispose(() => bus.dispose());
+  return bus;
+});
+
+final cameraSessionProvider = Provider<CameraSessionController>((ref) {
+  final bus = ref.watch(cameraFrameBusProvider);
+  final controller = CameraSessionController(bus);
+  ref.onDispose(() => controller.dispose());
+  return controller;
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -131,6 +150,7 @@ final faceRecognitionServiceProvider = Provider<FaceRecognitionService>((ref) {
     aligner: ref.watch(faceAlignerProvider),
     qualityChecker: ref.watch(faceQualityCheckerProvider),
     templateStore: ref.watch(biometricTemplateStoreProvider),
+    frameBus: ref.watch(cameraFrameBusProvider),
     employeeId: ref.watch(currentEmployeeIdProvider),
   );
 });
@@ -175,6 +195,7 @@ final faceEnrollmentServiceProvider = Provider<FaceEnrollmentService>((ref) {
     aligner: ref.watch(faceAlignerProvider),
     qualityChecker: ref.watch(faceQualityCheckerProvider),
     templateStore: ref.watch(biometricTemplateStoreProvider),
+    frameBus: ref.watch(cameraFrameBusProvider),
     dio: ref.watch(dioProvider),
   );
 });

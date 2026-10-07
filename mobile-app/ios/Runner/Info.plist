@@ -4,6 +4,10 @@
 <dict>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>FaceVault needs camera access to enroll your face and verify attendance.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>FaceVault needs location access to verify you are at the correct work site.</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>

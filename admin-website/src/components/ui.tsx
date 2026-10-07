@@ -68,33 +68,45 @@ export const StatusChip = Badge;
 // FORM CONTROLS
 // ─────────────────────────────────────────
 
-export function Input(props: React.InputHTMLAttributes<HTMLInputElement>) {
-  return (
-    <input
-      className="h-10 w-full rounded border border-border-subtle bg-white px-3 text-sm text-on-surface outline-none placeholder:text-on-surface-variant focus:border-secondary focus:ring-2 focus:ring-blue-100 disabled:bg-surface-container-low"
-      {...props}
-    />
-  );
-}
+export const Input = React.forwardRef<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>(
+  (props, ref) => {
+    return (
+      <input
+        ref={ref}
+        className="h-10 w-full rounded border border-border-subtle bg-white px-3 text-sm text-on-surface outline-none placeholder:text-on-surface-variant focus:border-secondary focus:ring-2 focus:ring-blue-100 disabled:bg-surface-container-low"
+        {...props}
+      />
+    );
+  }
+);
+Input.displayName = 'Input';
 
-export function Textarea(props: React.TextareaHTMLAttributes<HTMLTextAreaElement>) {
-  return (
-    <textarea
-      className="w-full rounded border border-border-subtle bg-white px-3 py-2 text-sm text-on-surface outline-none placeholder:text-on-surface-variant focus:border-secondary focus:ring-2 focus:ring-blue-100"
-      rows={4}
-      {...props}
-    />
-  );
-}
+export const Textarea = React.forwardRef<HTMLTextAreaElement, React.TextareaHTMLAttributes<HTMLTextAreaElement>>(
+  (props, ref) => {
+    return (
+      <textarea
+        ref={ref}
+        className="w-full rounded border border-border-subtle bg-white px-3 py-2 text-sm text-on-surface outline-none placeholder:text-on-surface-variant focus:border-secondary focus:ring-2 focus:ring-blue-100"
+        rows={4}
+        {...props}
+      />
+    );
+  }
+);
+Textarea.displayName = 'Textarea';
 
-export function Select(props: React.SelectHTMLAttributes<HTMLSelectElement>) {
-  return (
-    <select
-      className="h-10 w-full rounded border border-border-subtle bg-white px-3 text-sm outline-none focus:border-secondary focus:ring-2 focus:ring-blue-100"
-      {...props}
-    />
-  );
-}
+export const Select = React.forwardRef<HTMLSelectElement, React.SelectHTMLAttributes<HTMLSelectElement>>(
+  (props, ref) => {
+    return (
+      <select
+        ref={ref}
+        className="h-10 w-full rounded border border-border-subtle bg-white px-3 text-sm outline-none focus:border-secondary focus:ring-2 focus:ring-blue-100"
+        {...props}
+      />
+    );
+  }
+);
+Select.displayName = 'Select';
 
 export function FormField({
   label,

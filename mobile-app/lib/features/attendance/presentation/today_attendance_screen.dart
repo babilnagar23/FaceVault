@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -22,6 +23,12 @@ class _TodayAttendanceScreenState extends ConsumerState<TodayAttendanceScreen> {
   AttendanceVerificationResult? _result;
   String? _errorMessage;
 
+  @override
+  void dispose() {
+    Future.microtask(() => ref.read(cameraSessionProvider).dispose());
+    super.dispose();
+  }
+
   Future<void> _startScan() async {
     setState(() {
       _state = _ScanState.stepFace;
@@ -29,6 +36,14 @@ class _TodayAttendanceScreenState extends ConsumerState<TodayAttendanceScreen> {
     });
 
     try {
+      final cameraSession = ref.read(cameraSessionProvider);
+      if (!cameraSession.isInitialized) {
+        await cameraSession.initialize();
+      }
+      if (!cameraSession.isStreaming) {
+        await cameraSession.startImageStream();
+      }
+
       // The coordinator sequences face → liveness → location → sync
       // with real service results — no hardcoded scores.
       final coordinator = ref.read(attendancePipelineProvider);
@@ -49,9 +64,8 @@ class _TodayAttendanceScreenState extends ConsumerState<TodayAttendanceScreen> {
 
       if (!mounted) return;
 
-      // Consider verification successful if face + liveness passed,
-      // even if location check failed (location error shown in result).
-      final overallSuccess = result.faceVerified && result.livenessVerified;
+      // Consider verification successful if face + liveness + location passed
+      final overallSuccess = result.faceVerified && result.livenessVerified && result.locationVerified;
 
       setState(() {
         _result = result;
@@ -167,13 +181,17 @@ class _TodayAttendanceScreenState extends ConsumerState<TodayAttendanceScreen> {
                           : AppColors.surfaceContainerLow,
                       shape: BoxShape.circle,
                     ),
-                    child: Icon(
-                      Icons.fingerprint,
-                      size: 46,
-                      color: isScanning
-                          ? AppColors.primary
-                          : AppColors.onSurfaceVariant,
-                    ),
+                    child: ref.watch(cameraSessionProvider).isInitialized
+                        ? ClipOval(
+                            child: CameraPreview(ref.watch(cameraSessionProvider).controller!),
+                          )
+                        : Icon(
+                            Icons.fingerprint,
+                            size: 46,
+                            color: isScanning
+                                ? AppColors.primary
+                                : AppColors.onSurfaceVariant,
+                          ),
                   ),
                   const SizedBox(height: AppSpacing.md),
                   Text(

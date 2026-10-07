@@ -3,6 +3,8 @@ import 'dart:typed_data';
 
 import 'package:camera/camera.dart';
 
+import '../camera/camera_frame_bus.dart';
+
 import '../../../data/models/app_models.dart';
 import '../face_recognition_service.dart';
 import '../ml/face_aligner.dart';
@@ -38,12 +40,14 @@ class RealFaceRecognitionService implements FaceRecognitionService {
     required FaceAligner aligner,
     required FaceQualityChecker qualityChecker,
     required BiometricTemplateStore templateStore,
+    required CameraFrameBus frameBus,
     required String employeeId,
   })  : _embeddingGenerator = embeddingGenerator,
         _faceDetector = faceDetector,
         _aligner = aligner,
         _qualityChecker = qualityChecker,
         _templateStore = templateStore,
+        _frameBus = frameBus,
         _employeeId = employeeId;
 
   final EmbeddingGenerator _embeddingGenerator;
@@ -51,41 +55,17 @@ class RealFaceRecognitionService implements FaceRecognitionService {
   final FaceAligner _aligner;
   final FaceQualityChecker _qualityChecker;
   final BiometricTemplateStore _templateStore;
+  final CameraFrameBus _frameBus;
   final String _employeeId;
 
-  // The camera session is set by the presentation layer before calling
-  // [verifyLiveFace].
-  CameraController? _camera;
-  CameraImage? _lastFrame;
 
-  // ── Session management ────────────────────────────────────────────────────
-
-  /// Set the active [CameraController] and register a frame listener.
-  ///
-  /// Call this when the camera preview becomes active.
-  void attachCamera(CameraController controller) {
-    _camera = controller;
-    controller.startImageStream(_onFrame);
-  }
-
-  /// Detach the camera and stop frame streaming.
-  void detachCamera() {
-    _camera?.stopImageStream().catchError((_) {});
-    _camera = null;
-    _lastFrame = null;
-  }
-
-  void _onFrame(CameraImage image) {
-    // Only keep the most recent frame — no queue build-up.
-    _lastFrame = image;
-  }
 
   // ── FaceRecognitionService implementation ─────────────────────────────────
 
   @override
   Future<FaceVerificationResult> verifyLiveFace() async {
     // 1. Capture a fresh frame
-    final frame = _lastFrame;
+    final frame = _frameBus.latestFrame;
     if (frame == null) {
       return const FaceVerificationResult(
         verified: false,

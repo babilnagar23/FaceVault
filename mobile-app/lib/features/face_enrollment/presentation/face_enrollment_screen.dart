@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -58,12 +59,32 @@ class _FaceEnrollmentScreenState extends ConsumerState<FaceEnrollmentScreen>
     _pulseAnim = Tween<double>(begin: 0.95, end: 1.05).animate(
       CurvedAnimation(parent: _pulseCtrl, curve: Curves.easeInOut),
     );
-    _startSession();
+    _initCameraAndSession();
+  }
+
+  Future<void> _initCameraAndSession() async {
+    try {
+      final cameraSession = ref.read(cameraSessionProvider);
+      await cameraSession.initialize();
+      await cameraSession.startImageStream();
+      if (mounted) setState(() {});
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _state = _EnrollmentState.failed;
+          _errorMessage = 'Camera initialization failed: $e';
+        });
+      }
+      return;
+    }
+    await _startSession();
   }
 
   @override
   void dispose() {
     _pulseCtrl.dispose();
+    // Use Future.microtask to avoid modifying provider state during build
+    Future.microtask(() => ref.read(cameraSessionProvider).dispose());
     super.dispose();
   }
 
@@ -233,10 +254,15 @@ class _FaceEnrollmentScreenState extends ConsumerState<FaceEnrollmentScreen>
                                       : _state == _EnrollmentState.failed
                                           ? const Icon(Icons.error_outline,
                                               color: AppColors.error, size: 72)
-                                          : Icon(Icons.face,
-                                              color:
-                                                  AppColors.primary.withValues(alpha: 0.3),
-                                              size: 72),
+                                          : ref.watch(cameraSessionProvider).isInitialized
+                                              ? ClipRRect(
+                                                  borderRadius: const BorderRadius.all(Radius.elliptical(110, 140)),
+                                                  child: CameraPreview(ref.watch(cameraSessionProvider).controller!),
+                                                )
+                                              : Icon(Icons.face,
+                                                  color:
+                                                      AppColors.primary.withValues(alpha: 0.3),
+                                                  size: 72),
                                 ),
                                 if (_quality > 0)
                                   Positioned(
@@ -290,10 +316,11 @@ class _FaceEnrollmentScreenState extends ConsumerState<FaceEnrollmentScreen>
                 await ref
                     .read(faceEnrollmentServiceProvider)
                     .cancelEnrollmentSession();
+                await ref.read(cameraSessionProvider).dispose();
                 if (context.mounted) context.go('/login');
               },
               onRetry: () async {
-                await _startSession();
+                await _initCameraAndSession();
                 if (mounted) {
                   setState(() {
                     _state = _EnrollmentState.ready;
